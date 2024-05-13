@@ -411,6 +411,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1385360644}
   - component: {fileID: 1385360643}
+  - component: {fileID: 1385360645}
   m_Layer: 0
   m_Name: GeneralTest
   m_TagString: Untagged
@@ -445,6 +446,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1385360645
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1385360642}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0e5354ba12750d4693633b57e6dc9c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  noteText: Simple script for any tests. All it does is reset the scene when you
+    press 'r'.
+  noteType: 0
 --- !u!1 &1869798838
 GameObject:
   m_ObjectHideFlags: 0
@@ -458,6 +474,7 @@ GameObject:
   - component: {fileID: 1869798840}
   - component: {fileID: 1869798839}
   - component: {fileID: 1869798843}
+  - component: {fileID: 1869798844}
   m_Layer: 8
   m_Name: MainCamera
   m_TagString: Untagged
@@ -687,6 +704,43 @@ MonoBehaviour:
   maxPlayerDistance: 30
   minCamDistance: 20
   maxCamDistance: 30
+  extraX: 0
+--- !u!114 &1869798844
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1869798838}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0e5354ba12750d4693633b57e6dc9c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  noteText: 'The script in charge of moving the camera. It basically tries to get
+    all cameras in the same view, unless the first and last players are too far apart,
+    in which case it will follow the first player.
+
+
+    Some clarification:
+
+    -
+    Min/max player distance: This is basically the range of the distance between
+    the first and last player. If that distance is less than the minimum, the camera
+    will simply be at a set z value. If it''s between the minimum and the maximum,
+    the camera''s z-position will be dependent on that distance. If it''s above the
+    maximum, the camera will follow the first player.
+
+
+    - Min/max cam distance:
+    These are the z values of the camera''s position. The camera won''t ever be less
+    than 20 or more than 30.
+
+
+    - Extra x: This value is added to the camera''s
+    x-position. This ensures that the first player will be able to see what''s in
+    front of their character.'
+  noteType: 0
 --- !u!1 &1981849127
 GameObject:
   m_ObjectHideFlags: 0

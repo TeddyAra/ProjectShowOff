@@ -19,9 +19,6 @@ public class CameraTestScript : MonoBehaviour {
     [Tooltip("The maximum z-position the camera should have")]
     [SerializeField] private float maxCamDistance;
 
-    [Tooltip("The y-position of the camera")]
-    [SerializeField] private float camY;
-
     [Tooltip("The extra distance given to the camera's x-position to move it right")]
     [SerializeField] private float extraX;
 
