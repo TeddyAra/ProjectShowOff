@@ -15,19 +15,47 @@ public class PlayerControllerTestScript : MonoBehaviour {
     [Tooltip("The maximum speed the player can reach")]
     [SerializeField] private float maxSpeed;
 
+    [Tooltip("The amount of time in seconds the player is allowed to jump, despite not being grounded")]
+    [SerializeField] private float coyoteTime;
+
     [Tooltip("Whether you're using the keyboard or not")]
     [SerializeField] private bool usingKeyboard;
 
+    [Tooltip("The point where the ground should be checked")]
+    [SerializeField] private Transform checkPoint;
+
+    [Tooltip("The size of the ground check")]
+    [SerializeField] private float groundCheckSize;
+
+    [Tooltip("The name of the ground mask layer")]
+    [SerializeField] private string groundMask;
+
     private Rigidbody rb;
     private Vector3 velocity;
+    private bool grounded;
+    private int groundMaskInt;
+    private float coyoteTimer;
 
     private void Start() {
         rb = GetComponent<Rigidbody>();
+        groundMaskInt = LayerMask.GetMask(groundMask);
     }
 
     private void Update() {
         // Get the rigid body's velocity
         velocity = rb.velocity;
+
+        // Check if the player is grounded or not
+        if (Physics.CheckSphere(checkPoint.position, groundCheckSize, groundMaskInt)) {
+            grounded = true;
+        } else {
+            if (grounded)
+                coyoteTimer = coyoteTime;
+
+            grounded = false;
+        }
+
+        coyoteTimer -= Time.deltaTime;
 
         if (usingKeyboard) {
             // Get input
@@ -50,9 +78,13 @@ public class PlayerControllerTestScript : MonoBehaviour {
                     else velocity.x -= moveDrag;
                 }
             }
-            
+
             // Make player jump
-            if (jump) rb.AddForce(Vector3.up * jumpForce);
+            if (jump && (grounded || coyoteTimer >= 0)) 
+                rb.AddForce(Vector3.up * jumpForce);
+
+            if (jump)
+                Debug.Log(coyoteTimer);
         }
 
         // Make sure players aren't going too fast

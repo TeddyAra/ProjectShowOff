@@ -22,6 +22,9 @@ public class CameraTestScript : MonoBehaviour {
     [Tooltip("The y-position of the camera")]
     [SerializeField] private float camY;
 
+    [Tooltip("The extra distance given to the camera's x-position to move it right")]
+    [SerializeField] private float extraX;
+
     private Transform firstPlayer;  // The player in first place
     private Transform lastPlayer;   // The player in last place
 
@@ -62,6 +65,7 @@ public class CameraTestScript : MonoBehaviour {
 
         averagePosition.z = (minPlayerDistance + delta * (maxPlayerDistance - minPlayerDistance)) * -1;
         averagePosition.y = (firstPlayer.position.y + lastPlayer.position.y) / 2;
+        averagePosition.x += extraX;
         transform.position = averagePosition;
     }
 }
