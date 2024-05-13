@@ -3,10 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerControllerTestScript : MonoBehaviour {
+    [Tooltip("The force that should be applied to the player when they move")]
     [SerializeField] private float moveForce;
+
+    [Tooltip("The force that should be applied to the player when they stop moving")]
     [SerializeField] private float moveDrag;
+
+    [Tooltip("The force that should be applied to the player when they jump")]
     [SerializeField] private float jumpForce;
+
+    [Tooltip("The maximum speed the player can reach")]
     [SerializeField] private float maxSpeed;
+
+    [Tooltip("Whether you're using the keyboard or not")]
     [SerializeField] private bool usingKeyboard;
 
     private Rigidbody rb;
@@ -17,6 +26,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
     }
 
     private void Update() {
+        // Get the rigid body's velocity
         velocity = rb.velocity;
 
         if (usingKeyboard) {
@@ -50,6 +60,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
         if (movementVelocity.magnitude > maxSpeed) movementVelocity = velocity.normalized * maxSpeed;
         velocity.x = movementVelocity.x;
 
+        // Apply the velocity
         rb.velocity = velocity;
     }
 }
