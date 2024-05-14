@@ -3,11 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerControllerTestScript : MonoBehaviour {
+    [Header("Movement")]
+
     [Tooltip("The force that should be applied to the player when they move")]
     [SerializeField] private float moveForce;
 
     [Tooltip("The force that should be applied to the player when they stop moving")]
     [SerializeField] private float moveDrag;
+
+    [Tooltip("The maximum speed the player can reach")]
+    [SerializeField] private float maxSpeed;
+
+    [Header("Jumping")]
 
     [Tooltip("The force that should be applied to the player when they jump")]
     [SerializeField] private float jumpForce;
@@ -18,14 +25,18 @@ public class PlayerControllerTestScript : MonoBehaviour {
     [Tooltip("The maximum amount of time the player can hold the jump button to jump higher")]
     [SerializeField] private float jumpTime;
 
-    [Tooltip("The maximum speed the player can reach")]
-    [SerializeField] private float maxSpeed;
-
     [Tooltip("The amount of time in seconds the player is allowed to jump, despite not being grounded")]
     [SerializeField] private float coyoteTime;
 
+    [Header("Input")]
+
     [Tooltip("Whether you're using the keyboard or not")]
     [SerializeField] private bool usingKeyboard;
+
+    [Tooltip("The deadzone of the controller")]
+    [SerializeField] private float deadzone;
+
+    [Header("Ground checking")]
 
     [Tooltip("The point where the ground should be checked")]
     [SerializeField] private Transform checkPoint;
@@ -43,12 +54,37 @@ public class PlayerControllerTestScript : MonoBehaviour {
     private float coyoteTimer;
     private float jumpTimer;
 
+    private bool ignoreJumpPress;
+    private bool lastJump;
+
+    private bool left;
+    private bool right;
+    private bool jump;
+    private bool holdingJump;
+
     private void Start() {
         rb = GetComponent<Rigidbody>();
         groundMaskInt = LayerMask.GetMask(groundMask);
     }
 
     private void Update() {
+        // Input
+        if (usingKeyboard) {
+            left = Input.GetKey(KeyCode.A);
+            right = Input.GetKey(KeyCode.D);
+            holdingJump = Input.GetKey(KeyCode.Space);
+            if (Input.GetKeyDown(KeyCode.Space)) jump = true;
+        } else {
+            left = Input.GetAxis("Horizontal") < -deadzone ? true : false;
+            right = Input.GetAxis("Horizontal") > deadzone ? true : false;
+            holdingJump = Input.GetButton("Fire1");
+            if (Input.GetButtonDown("Fire1")) jump = true;
+        }
+    }
+
+    private void FixedUpdate() {
+        if (jump) Debug.Log("RA");
+
         // Get the rigid body's velocity
         velocity = rb.velocity;
 
@@ -57,57 +93,49 @@ public class PlayerControllerTestScript : MonoBehaviour {
             grounded = true;
         } else {
             if (grounded)
-                coyoteTimer = coyoteTime;
+                coyoteTimer = coyoteTime * 60;
 
             grounded = false;
         }
 
         // Update timers
-        coyoteTimer -= Time.deltaTime;
-        jumpTimer -= Time.deltaTime;
+        coyoteTimer--;
+        jumpTimer--;
 
-        if (usingKeyboard) {
-            // Get input
-            bool left = Input.GetKey(KeyCode.A);
-            bool right = Input.GetKey(KeyCode.D);
-            bool jump = Input.GetKeyDown(KeyCode.Space);
-            bool holdingJump = Input.GetKey(KeyCode.Space);
+        // Apply input
+        if (grounded && (left || right)) {
+            RaycastHit hit;
+            if (Physics.Raycast(checkPoint.position, Vector3.down, out hit, groundCheckSize, groundMaskInt)) {
+                Vector3 normal = hit.normal;
+                Vector3 acc = right ? new Vector3(normal.y, -normal.x, 0) : new Vector3(-normal.y, normal.x, 0);
 
-            // Apply input
-            if (grounded && (left || right)) {
-                RaycastHit hit;
-                if (Physics.Raycast(checkPoint.position, Vector3.down, out hit, groundCheckSize * 100, groundMaskInt)) {
-                    Vector3 normal = hit.normal;
-                    Vector3 acc = right ? new Vector3(normal.y, -normal.x, 0) : new Vector3(-normal.y, normal.x, 0);
-                    Debug.Log(acc);
-
-                    velocity += acc * moveForce;
-                }
+                velocity += acc * moveForce;
             }
+        }
 
-            // If there's no input and we're still moving
-            if (!left && !right && velocity.x != 0 && grounded) {
-                // Check which direction the player is going
-                if (velocity.x < 0) {
-                    // Snap velocity to 0 if needed, otherwise add drag
-                    if (velocity.x + moveDrag > 0) velocity.x = 0;
-                    else velocity.x += moveDrag;
-                } else if (velocity.x > 0) {
-                    if (velocity.x - moveDrag < 0) velocity.x = 0;
-                    else velocity.x -= moveDrag;
-                }
+        // If there's no input and we're still moving
+        if (!left && !right && velocity.x != 0 && grounded) {
+            // Check which direction the player is going
+            if (velocity.x < 0) {
+                // Snap velocity to 0 if needed, otherwise add drag
+                if (velocity.x + moveDrag > 0) velocity.x = 0;
+                else velocity.x += moveDrag;
             }
+            else if (velocity.x > 0) {
+                if (velocity.x - moveDrag < 0) velocity.x = 0;
+                else velocity.x -= moveDrag;
+            }
+        }
 
-            // Make player jump
-            if (jump && (grounded || coyoteTimer >= 0)) {
-                jumpTimer = jumpTime;
-                rb.AddForce(Vector3.up * jumpForce);
-            }
+        // Make player jump
+        if (jump && (grounded || coyoteTimer >= 0)) {
+            jumpTimer = jumpTime * 60;
+            rb.AddForce(Vector3.up * jumpForce);
+        }
 
-            // Give the player a boost if they're holding the button
-            if (holdingJump && jumpTimer > 0) {
-                rb.AddForce(Vector3.up * jumpBoost);
-            }
+        // Give the player a boost if they're holding the button
+        if (holdingJump && jumpTimer > 0) {
+            rb.AddForce(Vector3.up * jumpBoost);
         }
 
         // Make sure players aren't going too fast
@@ -115,5 +143,8 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
         // Apply the velocity
         rb.velocity = velocity;
+
+        // Reset jump bool
+        jump = false;
     }
 }
