@@ -62,7 +62,9 @@ public class PlayerControllerTestScript : MonoBehaviour {
             grounded = false;
         }
 
+        // Update timers
         coyoteTimer -= Time.deltaTime;
+        jumpTimer -= Time.deltaTime;
 
         if (usingKeyboard) {
             // Get input
@@ -102,7 +104,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
                 rb.AddForce(Vector3.up * jumpForce);
             }
 
-            jumpTimer -= Time.deltaTime;
+            // Give the player a boost if they're holding the button
             if (holdingJump && jumpTimer > 0) {
                 rb.AddForce(Vector3.up * jumpBoost);
             }
