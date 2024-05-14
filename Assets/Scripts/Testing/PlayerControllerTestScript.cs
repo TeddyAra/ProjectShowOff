@@ -12,6 +12,12 @@ public class PlayerControllerTestScript : MonoBehaviour {
     [Tooltip("The force that should be applied to the player when they jump")]
     [SerializeField] private float jumpForce;
 
+    [Tooltip("The extra force given every frame for holding the button")]
+    [SerializeField] private float jumpBoost;
+
+    [Tooltip("The maximum amount of time the player can hold the jump button to jump higher")]
+    [SerializeField] private float jumpTime;
+
     [Tooltip("The maximum speed the player can reach")]
     [SerializeField] private float maxSpeed;
 
@@ -35,6 +41,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
     private bool grounded;
     private int groundMaskInt;
     private float coyoteTimer;
+    private float jumpTimer;
 
     private void Start() {
         rb = GetComponent<Rigidbody>();
@@ -62,12 +69,22 @@ public class PlayerControllerTestScript : MonoBehaviour {
             bool left = Input.GetKey(KeyCode.A);
             bool right = Input.GetKey(KeyCode.D);
             bool jump = Input.GetKeyDown(KeyCode.Space);
+            bool holdingJump = Input.GetKey(KeyCode.Space);
 
             // Apply input
-            velocity.x += right ? moveForce : (left ? -moveForce : 0);
+            if (grounded && (left || right)) {
+                RaycastHit hit;
+                if (Physics.Raycast(checkPoint.position, Vector3.down, out hit, groundCheckSize * 100, groundMaskInt)) {
+                    Vector3 normal = hit.normal;
+                    Vector3 acc = right ? new Vector3(normal.y, -normal.x, 0) : new Vector3(-normal.y, normal.x, 0);
+                    Debug.Log(acc);
+
+                    velocity += acc * moveForce;
+                }
+            }
 
             // If there's no input and we're still moving
-            if (!left && !right && velocity.x != 0) {
+            if (!left && !right && velocity.x != 0 && grounded) {
                 // Check which direction the player is going
                 if (velocity.x < 0) {
                     // Snap velocity to 0 if needed, otherwise add drag
@@ -80,17 +97,19 @@ public class PlayerControllerTestScript : MonoBehaviour {
             }
 
             // Make player jump
-            if (jump && (grounded || coyoteTimer >= 0)) 
+            if (jump && (grounded || coyoteTimer >= 0)) {
+                jumpTimer = jumpTime;
                 rb.AddForce(Vector3.up * jumpForce);
+            }
 
-            if (jump)
-                Debug.Log(coyoteTimer);
+            jumpTimer -= Time.deltaTime;
+            if (holdingJump && jumpTimer > 0) {
+                rb.AddForce(Vector3.up * jumpBoost);
+            }
         }
 
         // Make sure players aren't going too fast
-        Vector3 movementVelocity = new Vector3(velocity.x, 0, 0);
-        if (movementVelocity.magnitude > maxSpeed) movementVelocity = velocity.normalized * maxSpeed;
-        velocity.x = movementVelocity.x;
+        velocity = Mathf.Clamp(velocity.magnitude, 0, maxSpeed) * velocity.normalized;
 
         // Apply the velocity
         rb.velocity = velocity;
