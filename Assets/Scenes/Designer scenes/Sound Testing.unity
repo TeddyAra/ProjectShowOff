@@ -774,6 +774,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 3899d9a251539b041bcd5ccd747bb7b4, type: 3}
   - {fileID: 8300000, guid: 4c21f2d2d5f663349a602f25fc2021c6, type: 3}
   - {fileID: 8300000, guid: f2c303a07df557a4591ba72fec049a75, type: 3}
+  timeBetweenSteps: 0.2
   timeBetweenSteps: 0.3
 --- !u!82 &472315258
 AudioSource:
@@ -787,6 +788,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
+  m_Volume: 1
   m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
@@ -1173,6 +1175,7 @@ GameObject:
   - component: {fileID: 1310938994}
   - component: {fileID: 1310938993}
   - component: {fileID: 1310938997}
+  - component: {fileID: 1310938996}
   - component: {fileID: 1310938998}
   m_Layer: 0
   m_Name: Main Camera
@@ -1255,6 +1258,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1310938996
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1310938992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 201d95fc462a1264b8e8cbbcdbe8f3ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 472315255}
+  offset: {x: 0, y: 6, z: -20}
+  lookAt: 1
+  yPosition: 6
 --- !u!114 &1310938997
 MonoBehaviour:
   m_ObjectHideFlags: 0
