@@ -61,7 +61,13 @@ public class CameraTestScript : MonoBehaviour {
         } 
 
         averagePosition.z = (minPlayerDistance + delta * (maxPlayerDistance - minPlayerDistance)) * -1;
-        averagePosition.y = (firstPlayer.position.y + lastPlayer.position.y) / 2;
+        averagePosition.y = 0;
+
+        foreach (Transform player in players)
+            averagePosition.y += player.position.y;
+
+        averagePosition.y /= players.Count;
+
         averagePosition.x += extraX;
         transform.position = averagePosition;
     }

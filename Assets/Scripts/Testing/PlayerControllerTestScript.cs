@@ -52,17 +52,14 @@ public class PlayerControllerTestScript : MonoBehaviour {
     private bool holdingJump;
 
     private Gamepad gamepad;
+    [SerializeField] private int gamepadNum;
 
     private void Start() {
         rb = GetComponent<Rigidbody>();
         groundMaskInt = LayerMask.GetMask(groundMask);
-
-        gamepad = Gamepad.current;
     }
 
     private void Update() {
-        gamepad = Gamepad.current;
-
         // Controller input
         if (gamepad != null) {
             move = gamepad.leftStick.ReadValue();
@@ -142,5 +139,9 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
         // Reset jump bool
         jump = false;
+    }
+
+    public void ChangeGamepad(Gamepad gamepad) {
+        this.gamepad = gamepad;
     }
 }
