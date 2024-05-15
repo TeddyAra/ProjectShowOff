@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerControllerTestScript : MonoBehaviour {
     [Header("Movement")]
@@ -28,14 +29,6 @@ public class PlayerControllerTestScript : MonoBehaviour {
     [Tooltip("The amount of time in seconds the player is allowed to jump, despite not being grounded")]
     [SerializeField] private float coyoteTime;
 
-    [Header("Input")]
-
-    [Tooltip("Whether you're using the keyboard or not")]
-    [SerializeField] private bool usingKeyboard;
-
-    [Tooltip("The deadzone of the controller")]
-    [SerializeField] private float deadzone;
-
     [Header("Ground checking")]
 
     [Tooltip("The point where the ground should be checked")]
@@ -54,37 +47,40 @@ public class PlayerControllerTestScript : MonoBehaviour {
     private float coyoteTimer;
     private float jumpTimer;
 
-    private bool ignoreJumpPress;
-    private bool lastJump;
-
-    private bool left;
-    private bool right;
+    private Vector2 move;
     private bool jump;
     private bool holdingJump;
+
+    private Gamepad gamepad;
 
     private void Start() {
         rb = GetComponent<Rigidbody>();
         groundMaskInt = LayerMask.GetMask(groundMask);
+
+        gamepad = Gamepad.current;
     }
 
     private void Update() {
-        // Input
-        if (usingKeyboard) {
-            left = Input.GetKey(KeyCode.A);
-            right = Input.GetKey(KeyCode.D);
+        gamepad = Gamepad.current;
+
+        // Controller input
+        if (gamepad != null) {
+            move = gamepad.leftStick.ReadValue();
+            holdingJump = gamepad.buttonSouth.isPressed;
+            if (gamepad.buttonSouth.wasPressedThisFrame) jump = true;
+
+        // Keyboard input
+        } else {
+            bool left = Input.GetKey(KeyCode.A);
+            bool right = Input.GetKey(KeyCode.D);
+            move = left && !right ? Vector2.left : !left && right ? Vector2.right : Vector2.zero;
+
             holdingJump = Input.GetKey(KeyCode.Space);
             if (Input.GetKeyDown(KeyCode.Space)) jump = true;
-        } else {
-            left = Input.GetAxis("Horizontal") < -deadzone ? true : false;
-            right = Input.GetAxis("Horizontal") > deadzone ? true : false;
-            holdingJump = Input.GetButton("Fire1");
-            if (Input.GetButtonDown("Fire1")) jump = true;
         }
     }
 
     private void FixedUpdate() {
-        if (jump) Debug.Log("RA");
-
         // Get the rigid body's velocity
         velocity = rb.velocity;
 
@@ -103,18 +99,18 @@ public class PlayerControllerTestScript : MonoBehaviour {
         jumpTimer--;
 
         // Apply input
-        if (grounded && (left || right)) {
+        if (grounded && move != Vector2.zero) {
             RaycastHit hit;
             if (Physics.Raycast(checkPoint.position, Vector3.down, out hit, groundCheckSize, groundMaskInt)) {
                 Vector3 normal = hit.normal;
-                Vector3 acc = right ? new Vector3(normal.y, -normal.x, 0) : new Vector3(-normal.y, normal.x, 0);
+                Vector3 acc = move.x > 0 ? new Vector3(normal.y, -normal.x, 0) : new Vector3(-normal.y, normal.x, 0);
 
                 velocity += acc * moveForce;
             }
         }
 
         // If there's no input and we're still moving
-        if (!left && !right && velocity.x != 0 && grounded) {
+        if (move == Vector2.zero && velocity.x != 0 && grounded) {
             // Check which direction the player is going
             if (velocity.x < 0) {
                 // Snap velocity to 0 if needed, otherwise add drag

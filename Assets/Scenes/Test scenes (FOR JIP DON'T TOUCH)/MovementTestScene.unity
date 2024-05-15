@@ -243,7 +243,6 @@ GameObject:
   - component: {fileID: 472315250}
   - component: {fileID: 472315251}
   - component: {fileID: 472315256}
-  - component: {fileID: 472315257}
   m_Layer: 0
   m_Name: Player1
   m_TagString: Untagged
@@ -290,14 +289,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2c1c5fc2695e054bb6356dbacf88592, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveForce: 0.1
-  moveDrag: 0.5
+  moveForce: 0.5
+  moveDrag: 2.5
+  maxSpeed: 25
   jumpForce: 400
   jumpBoost: 1.5
   jumpTime: 0.5
-  maxSpeed: 25
   coyoteTime: 0.1
-  usingKeyboard: 1
   checkPoint: {fileID: 1925036341}
   groundCheckSize: 0.2
   groundMask: Ground
@@ -418,31 +416,6 @@ MonoBehaviour:
     of that sphere. If there''s a collider part of the ground layer in that sphere,
     the player is grounded.'
   noteType: 0
---- !u!114 &472315257
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 472315249}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a0e5354ba12750d4693633b57e6dc9c7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  noteText: 'The movement itself might not be framerate independent! This means that
-    the player''s speed could be different, depending on the fps you have.
-
-
-    Adding
-    the force to the rigid body, like with jumping, should work fine, but changing
-    the velocity directly, like with movement, maybe needs to be multiplied with
-    Time.deltaTime.
-
-
-    I (Jip) will do some further testing to see if it''s framerate
-    independent or not.'
-  noteType: 1
 --- !u!1 &501455361
 GameObject:
   m_ObjectHideFlags: 0
