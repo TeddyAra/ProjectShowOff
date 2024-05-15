@@ -42,7 +42,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
     private Rigidbody rb;
     private Vector3 velocity;
-    private bool grounded;
+    public bool grounded;
     private int groundMaskInt;
     private float coyoteTimer;
     private float jumpTimer;
