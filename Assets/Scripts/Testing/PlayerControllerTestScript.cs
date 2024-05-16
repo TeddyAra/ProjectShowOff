@@ -15,6 +15,10 @@ public class PlayerControllerTestScript : MonoBehaviour {
     [Tooltip("The maximum speed the player can reach")]
     [SerializeField] private float maxSpeed;
 
+    [Tooltip("Whether the player should listen to input or not")]
+    [SerializeField] private bool ignoreInput;
+
+    // ----------------------------------------------------------------------------------
     [Header("Jumping")]
 
     [Tooltip("The force that should be applied to the player when they jump")]
@@ -29,6 +33,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
     [Tooltip("The amount of time in seconds the player is allowed to jump, despite not being grounded")]
     [SerializeField] private float coyoteTime;
 
+    // ----------------------------------------------------------------------------------
     [Header("Ground checking")]
 
     [Tooltip("The point where the ground should be checked")]
@@ -40,26 +45,53 @@ public class PlayerControllerTestScript : MonoBehaviour {
     [Tooltip("The name of the ground mask layer")]
     [SerializeField] private string groundMask;
 
+    // ----------------------------------------------------------------------------------
+    [Header("Extra")]
+
+    [Tooltip("The amount of time the player is invincible after they're respawned")]
+    [SerializeField] private float invincibilityTime;
+
+    [Tooltip("The layer mask of the players")]
+    [SerializeField] private LayerMask playerLayer;
+
+    // Movement variables
     private Rigidbody rb;
     private Vector3 velocity;
     private bool grounded;
     private int groundMaskInt;
-    private float coyoteTimer;
-    private float jumpTimer;
 
+    // Input variables
     private Vector2 move;
     private bool jump;
     private bool holdingJump;
-
+    private float coyoteTimer;
+    private float jumpTimer;
     private Gamepad gamepad;
-    [SerializeField] private int gamepadNum;
+
+    // Death variables
+    private bool frozen;
+    private CapsuleCollider col;
+    private float invincibilityTimer;
+    private bool invincible;
+
+    // When a player reaches a checkpoint
+    public delegate void OnCheckpoint();
+    public static event OnCheckpoint onCheckpoint;
+
+    // When a player needs the position of the next checkpoint
+    public delegate Vector3 GetCheckpoint();
+    public static event GetCheckpoint getCheckpoint;
 
     private void Start() {
         rb = GetComponent<Rigidbody>();
         groundMaskInt = LayerMask.GetMask(groundMask);
+
+        col = GetComponent<CapsuleCollider>();
     }
 
     private void Update() {
+        if (frozen || ignoreInput) return;
+
         // Controller input
         if (gamepad != null) {
             move = gamepad.leftStick.ReadValue();
@@ -78,6 +110,20 @@ public class PlayerControllerTestScript : MonoBehaviour {
     }
 
     private void FixedUpdate() {
+        // Update timers
+        coyoteTimer--;
+        jumpTimer--;
+
+        if (invincible) {
+            invincibilityTimer--;
+            if (invincibilityTimer <= 0) {
+                invincible = false;
+                col.excludeLayers = LayerMask.GetMask("Nothing");
+            }
+        }
+
+        if (ignoreInput) return;
+
         // Get the rigid body's velocity
         velocity = rb.velocity;
 
@@ -90,10 +136,6 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
             grounded = false;
         }
-
-        // Update timers
-        coyoteTimer--;
-        jumpTimer--;
 
         // Apply input
         if (grounded && move != Vector2.zero) {
@@ -143,5 +185,42 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
     public void ChangeGamepad(Gamepad gamepad) {
         this.gamepad = gamepad;
+    }
+
+    private void OnTriggerEnter(Collider other) {
+        if (frozen) return;
+
+        switch (other.tag) {
+            case "Death":
+                frozen = true;
+                transform.position = (Vector3)getCheckpoint?.Invoke();
+                tag = "Untagged";
+                rb.velocity = Vector3.zero;
+                col.excludeLayers = playerLayer;
+                rb.useGravity = false;
+                break;
+
+            case "Checkpoint":
+                onCheckpoint?.Invoke();
+                break;
+        }
+    }
+
+    private void OnUnfreeze() {
+        if (frozen) {
+            frozen = false;
+            tag = "Player";
+            invincibilityTimer = invincibilityTime * 60;
+            rb.useGravity = true;
+            invincible = true;
+        }
+    }
+
+    private void OnEnable() {
+        GameManager.onUnfreeze += OnUnfreeze;
+    }
+
+    private void OnDisable() {
+        GameManager.onUnfreeze -= OnUnfreeze;
     }
 }

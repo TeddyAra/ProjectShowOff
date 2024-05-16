@@ -8,7 +8,7 @@ public class GeneralTestScript : MonoBehaviour {
     private Gamepad gamepad;
 
     private void Update() {
-        gamepad = Gamepad.all[0];
+        if (Gamepad.all.Count != 0) gamepad = Gamepad.current;
 
         if (Input.GetKeyDown(KeyCode.R)) 
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
