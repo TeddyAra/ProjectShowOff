@@ -1,5 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -54,6 +57,18 @@ public class PlayerControllerTestScript : MonoBehaviour {
     [Tooltip("The layer mask of the players")]
     [SerializeField] private LayerMask playerLayer;
 
+    // ----------------------------------------------------------------------------------
+    [Header("Powerups")]
+
+    [Tooltip("The speed of a speed boost")]
+    [SerializeField] private float speedboostSpeed;
+
+    [Tooltip("For how long the speed boost should last")]
+    [SerializeField] private float speedboostTime;
+
+    [Tooltip("How long does it take for the player to slow down again")]
+    [SerializeField] private float slowDownTime;
+
     // Movement variables
     private Rigidbody rb;
     private Vector3 velocity;
@@ -67,6 +82,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
     private float coyoteTimer;
     private float jumpTimer;
     private Gamepad gamepad;
+    private bool powerup;
 
     // Death variables
     private bool frozen;
@@ -82,11 +98,24 @@ public class PlayerControllerTestScript : MonoBehaviour {
     public delegate Vector3 GetCheckpoint();
     public static event GetCheckpoint getCheckpoint;
 
+    private enum Powerup { 
+        None,
+        Speedboost
+    }
+
+    private List<Powerup> powerups;
+    private Powerup currentPowerup;
+
+    private float playerSpeed;
+
     private void Start() {
         rb = GetComponent<Rigidbody>();
         groundMaskInt = LayerMask.GetMask(groundMask);
 
         col = GetComponent<CapsuleCollider>();
+        playerSpeed = maxSpeed;
+
+        powerups = Enum.GetValues(typeof(Powerup)).Cast<Powerup>().ToList();
     }
 
     private void Update() {
@@ -97,6 +126,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
             move = gamepad.leftStick.ReadValue();
             holdingJump = gamepad.buttonSouth.isPressed;
             if (gamepad.buttonSouth.wasPressedThisFrame) jump = true;
+            if (gamepad.buttonWest.wasPressedThisFrame) powerup = true;
 
         // Keyboard input
         } else {
@@ -106,6 +136,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
             holdingJump = Input.GetKey(KeyCode.Space);
             if (Input.GetKeyDown(KeyCode.Space)) jump = true;
+            if (Input.GetKeyDown(KeyCode.E)) powerup = true;
         }
     }
 
@@ -122,7 +153,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
             }
         }
 
-        if (ignoreInput) return;
+        if (ignoreInput || frozen) return;
 
         // Get the rigid body's velocity
         velocity = rb.velocity;
@@ -138,14 +169,17 @@ public class PlayerControllerTestScript : MonoBehaviour {
         }
 
         // Apply input
-        if (grounded && move != Vector2.zero) {
+        if (move != Vector2.zero) {
             RaycastHit hit;
-            if (Physics.Raycast(checkPoint.position, Vector3.down, out hit, groundCheckSize, groundMaskInt)) {
-                Vector3 normal = hit.normal;
-                Vector3 acc = move.x > 0 ? new Vector3(normal.y, -normal.x, 0) : new Vector3(-normal.y, normal.x, 0);
+            Vector3 normal = Vector3.up;
 
-                velocity += acc * moveForce;
+            if (Physics.Raycast(checkPoint.position, Vector3.down, out hit, groundCheckSize, groundMaskInt)) {
+                normal = hit.normal;
             }
+
+            Vector3 acc = move.x > 0 ? new Vector3(normal.y, -normal.x, 0) : new Vector3(-normal.y, normal.x, 0);
+
+            velocity += acc * moveForce;
         }
 
         // If there's no input and we're still moving
@@ -174,13 +208,37 @@ public class PlayerControllerTestScript : MonoBehaviour {
         }
 
         // Make sure players aren't going too fast
-        velocity = Mathf.Clamp(velocity.magnitude, 0, maxSpeed) * velocity.normalized;
+        velocity = Mathf.Clamp(velocity.magnitude, 0, playerSpeed) * velocity.normalized;
+
+        if (powerup && currentPowerup != Powerup.None) {
+            switch (currentPowerup) {
+                case Powerup.Speedboost:
+                    StartCoroutine(SpeedUp());
+                    break;
+            }
+
+            currentPowerup = Powerup.None;
+        }
 
         // Apply the velocity
         rb.velocity = velocity;
 
-        // Reset jump bool
+        // Reset input variables
         jump = false;
+        powerup = false;
+    }
+
+    private IEnumerator SpeedUp() {
+        playerSpeed = speedboostSpeed;
+        yield return new WaitForSeconds(speedboostTime);
+        currentPowerup = Powerup.None;
+
+        float timer = slowDownTime;
+        while (timer > 0) { 
+            timer -= Time.deltaTime;
+            playerSpeed = maxSpeed + (speedboostSpeed - maxSpeed) * (timer / slowDownTime);
+            yield return null;
+        }
     }
 
     public void ChangeGamepad(Gamepad gamepad) {
@@ -203,7 +261,17 @@ public class PlayerControllerTestScript : MonoBehaviour {
             case "Checkpoint":
                 onCheckpoint?.Invoke();
                 break;
+
+            case "Powerup":
+                Powerup power = GetRandomPowerup();
+                currentPowerup = power;
+                break;
         }
+    }
+
+    private Powerup GetRandomPowerup() { 
+        int num = UnityEngine.Random.Range(1, powerups.Count);
+        return powerups[num];
     }
 
     private void OnUnfreeze() {

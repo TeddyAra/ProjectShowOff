@@ -4,9 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraTestScript : MonoBehaviour {
-    [Tooltip("All players in the game")]
-    [SerializeField] private List<Transform> players;
-
     [Tooltip("The distance between the first and last player when the camera should start zooming out")]
     [SerializeField] private float minPlayerDistance;
 
@@ -34,13 +31,25 @@ public class CameraTestScript : MonoBehaviour {
     private float moveTimer;
     private Vector3 oldPosition;
 
+    private List<Transform> players;
+
+    private void Start() {
+        players = new List<Transform>();
+
+        GameObject[] playerObjects = GameObject.FindGameObjectsWithTag("Player");
+        foreach (GameObject player in playerObjects) {
+            players.Add(player.transform);
+        }
+
+        transform.position = GetAveragePosition();
+    }
+
     private void Update() {
         if (!transitioning) {
             Vector3 averagePosition = GetAveragePosition();
             Vector3 displacement = averagePosition - transform.position;
 
-            if (displacement.magnitude > maxSnapDistance &&
-                displacement.x > 0) {
+            if (displacement.magnitude > maxSnapDistance) {
                 transitioning = true;
                 moveTimer = 0;
                 oldPosition = transform.position;
