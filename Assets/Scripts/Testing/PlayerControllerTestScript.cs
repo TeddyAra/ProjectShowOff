@@ -98,6 +98,10 @@ public class PlayerControllerTestScript : MonoBehaviour {
     public delegate Vector3 GetCheckpoint();
     public static event GetCheckpoint getCheckpoint;
 
+    // When a player wins
+    public delegate void OnFinish();
+    public static event OnFinish onFinish;
+
     private enum Powerup { 
         None,
         Speedboost
@@ -229,10 +233,12 @@ public class PlayerControllerTestScript : MonoBehaviour {
     }
 
     private IEnumerator SpeedUp() {
+        // Speed the player up
         playerSpeed = speedboostSpeed;
-        yield return new WaitForSeconds(speedboostTime);
         currentPowerup = Powerup.None;
+        yield return new WaitForSeconds(speedboostTime);
 
+        // Slowly make the player slow down again
         float timer = slowDownTime;
         while (timer > 0) { 
             timer -= Time.deltaTime;
@@ -249,6 +255,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
         if (frozen) return;
 
         switch (other.tag) {
+            // The player went too far left
             case "Death":
                 frozen = true;
                 transform.position = (Vector3)getCheckpoint?.Invoke();
@@ -258,13 +265,20 @@ public class PlayerControllerTestScript : MonoBehaviour {
                 rb.useGravity = false;
                 break;
 
+            // The player reached a checkpoint
             case "Checkpoint":
                 onCheckpoint?.Invoke();
                 break;
 
+            // The player got a powerup
             case "Powerup":
                 Powerup power = GetRandomPowerup();
                 currentPowerup = power;
+                break;
+
+            // The player reached the finish line
+            case "Finish":
+                onFinish?.Invoke();
                 break;
         }
     }
@@ -274,21 +288,41 @@ public class PlayerControllerTestScript : MonoBehaviour {
         return powerups[num];
     }
 
+    private void OnFreeze() {
+        if (!frozen) {
+            // Freeze the player
+            frozen = true;
+            rb.velocity = Vector3.zero;
+            rb.useGravity = false;
+
+            // Make sure the player is excluded from collisions
+            tag = "Untagged";
+            col.excludeLayers = playerLayer;
+        }
+    }
+
     private void OnUnfreeze() {
         if (frozen) {
+            // Unfreeze the player
             frozen = false;
-            tag = "Player";
-            invincibilityTimer = invincibilityTime * 60;
             rb.useGravity = true;
+
+            // Include the player again
+            tag = "Player";
+
+            // Make the player invincible
+            invincibilityTimer = invincibilityTime * 60;
             invincible = true;
         }
     }
 
     private void OnEnable() {
+        GameManager.onFreeze += OnFreeze;
         GameManager.onUnfreeze += OnUnfreeze;
     }
 
     private void OnDisable() {
+        GameManager.onFreeze -= OnFreeze;
         GameManager.onUnfreeze -= OnUnfreeze;
     }
 }
