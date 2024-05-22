@@ -170,7 +170,11 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
             Vector3 acc = move.x > 0 ? new Vector3(normal.y, -normal.x, 0) : new Vector3(-normal.y, normal.x, 0);
 
-            velocity += acc * moveForce;
+            if (velocity.x < 0 && acc.x > 0 || velocity.x > 0 && acc.x < 0) {
+                velocity += acc * moveDrag;
+            } else {
+                velocity += acc * moveForce;
+            }
         }
 
         // If there's no input and we're still moving
