@@ -115,7 +115,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
         powerupScript = GetComponent<PowerupTestScript>();
         powerupScript.ApplyVariables(maxSpeed);
-    }
+    }*/
 
     private void Update() {
         if (frozen || ignoreInput) return;
@@ -183,7 +183,11 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
             Vector3 acc = move.x > 0 ? new Vector3(normal.y, -normal.x, 0) : new Vector3(-normal.y, normal.x, 0);
 
-            velocity += acc * moveForce;
+            if (velocity.x < 0 && acc.x > 0 || velocity.x > 0 && acc.x < 0) {
+                velocity += acc * moveDrag;
+            } else {
+                velocity += acc * moveForce;
+            }
         }
 
         // If there's no input and we're still moving
@@ -281,6 +285,9 @@ public class PlayerControllerTestScript : MonoBehaviour {
         if (!frozen) {
             // Freeze the player
             frozen = true;
+
+            if (!rb) rb = GetComponent<Rigidbody>();
+
             rb.velocity = Vector3.zero;
             rb.useGravity = false;
 
@@ -308,6 +315,15 @@ public class PlayerControllerTestScript : MonoBehaviour {
     private void OnEnable() {
         GameManager.onFreeze += OnFreeze;
         GameManager.onUnfreeze += OnUnfreeze;
+
+        rb = GetComponent<Rigidbody>();
+        groundMaskInt = LayerMask.GetMask(groundMask);
+
+        col = GetComponent<CapsuleCollider>();
+        playerSpeed = maxSpeed;
+
+        powerupScript = GetComponent<PowerupTestScript>();
+        powerupScript.ApplyVariables(maxSpeed);
     }
 
     private void OnDisable() {
