@@ -202,7 +202,6 @@ public class PlayerControllerTestScript : MonoBehaviour {
         velocity = Mathf.Clamp(velocity.magnitude, 0, playerSpeed) * velocity.normalized;
 
         if (powerup) {
-            Debug.Log("Powerup!");
             powerupScript.UsePowerup();
         }
 
@@ -227,10 +226,10 @@ public class PlayerControllerTestScript : MonoBehaviour {
     }
 
     public IEnumerator StunCoroutine(float stunTime) {
-        Debug.Log("Stunned for " + stunTime);
+        Debug.Log($"{gameObject.name} stunned for " + stunTime);
         ignoreInput = true;
         yield return new WaitForSeconds(stunTime);
-        Debug.Log("No longer stunned");
+        Debug.Log($"{gameObject.name} no longer stunned");
         ignoreInput = false;
     }
 

@@ -15,23 +15,20 @@ public class SleepBombTestScript : MonoBehaviour {
     }
 
     private void OnCollisionEnter(Collision collision) {
-        Debug.Log("Collider!");
-
         Explode();
     }
 
     private void OnTriggerEnter(Collider other) {
-        Debug.Log("Trigger!");
-
         if (other.tag == "PlayerTrigger") 
             Explode();
     }
 
     private void Explode() {
+        Destroy(gameObject);
+
         if (explosionRange == 0) return;
 
         PlayerControllerTestScript[] players = FindObjectsOfType<PlayerControllerTestScript>();
-        Debug.Log("Explosion!");
 
         foreach (PlayerControllerTestScript player in players) {
             float distance = (player.transform.position - transform.position).magnitude;
@@ -40,7 +37,5 @@ public class SleepBombTestScript : MonoBehaviour {
                 player.Stun(stunTime);
             }
         }
-
-        Destroy(gameObject);
     }
 }

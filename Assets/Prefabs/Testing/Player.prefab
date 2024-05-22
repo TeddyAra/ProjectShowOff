@@ -376,7 +376,7 @@ GameObject:
   - component: {fileID: 4016261502956531572}
   - component: {fileID: 3914476006596948917}
   - component: {fileID: 7209833520829395916}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: PlayerTrigger
   m_TagString: PlayerTrigger
   m_Icon: {fileID: 0}
@@ -393,7 +393,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.1, y: 0.55, z: 1.1}
+  m_LocalScale: {x: 1.4, y: 0.6, z: 1.4}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 852988118346177373}

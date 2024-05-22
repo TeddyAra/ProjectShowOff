@@ -68,9 +68,7 @@ public class PowerupTestScript : MonoBehaviour {
     }
 
     public void UsePowerup() {
-        Debug.Log("Use!");
-        SpawnSleepBomb();
-        /*switch (currentPowerup) {
+        switch (currentPowerup) {
             case Powerup.None:
                 break;
 
@@ -83,11 +81,10 @@ public class PowerupTestScript : MonoBehaviour {
                 break;
         }
 
-        currentPowerup = Powerup.None;*/
+        currentPowerup = Powerup.None;
     }
 
     private void SpawnSleepBomb() {
-        Debug.Log($"Spawn at {sleepBombSpawnPoint.position}!");
         Rigidbody bomb = Instantiate(sleepBombPrefab, sleepBombSpawnPoint.position, Quaternion.identity).GetComponent<Rigidbody>();
         bomb.AddForce(new Vector3(throwDirection.x, throwDirection.y, 0) * throwForce);
         bomb.GetComponent<SleepBombTestScript>().ApplyVariables(explosionRange, minStun, maxStun);
