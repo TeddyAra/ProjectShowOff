@@ -98,7 +98,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
     private float playerSpeed;
 
-    private void Start() {
+    /*private void Start() {
         rb = GetComponent<Rigidbody>();
         groundMaskInt = LayerMask.GetMask(groundMask);
 
@@ -107,7 +107,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
         powerupScript = GetComponent<PowerupTestScript>();
         powerupScript.ApplyVariables(maxSpeed);
-    }
+    }*/
 
     private void Update() {
         if (frozen || ignoreInput) return;
@@ -272,6 +272,9 @@ public class PlayerControllerTestScript : MonoBehaviour {
         if (!frozen) {
             // Freeze the player
             frozen = true;
+
+            if (!rb) rb = GetComponent<Rigidbody>();
+
             rb.velocity = Vector3.zero;
             rb.useGravity = false;
 
@@ -299,6 +302,15 @@ public class PlayerControllerTestScript : MonoBehaviour {
     private void OnEnable() {
         GameManager.onFreeze += OnFreeze;
         GameManager.onUnfreeze += OnUnfreeze;
+
+        rb = GetComponent<Rigidbody>();
+        groundMaskInt = LayerMask.GetMask(groundMask);
+
+        col = GetComponent<CapsuleCollider>();
+        playerSpeed = maxSpeed;
+
+        powerupScript = GetComponent<PowerupTestScript>();
+        powerupScript.ApplyVariables(maxSpeed);
     }
 
     private void OnDisable() {
