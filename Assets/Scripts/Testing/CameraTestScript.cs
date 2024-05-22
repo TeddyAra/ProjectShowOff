@@ -25,13 +25,14 @@ public class CameraTestScript : MonoBehaviour {
     [Tooltip("The amount of distance that is too much for the camera to snap to")]
     [SerializeField] private float maxSnapDistance;
 
-    private Transform firstPlayer;  // The player in first place
-    private Transform lastPlayer;   // The player in last place
+    private Transform firstPlayer;
+    private Transform lastPlayer;
     private bool transitioning;
     private float moveTimer;
     private Vector3 oldPosition;
 
     private List<Transform> players;
+    private bool starting = true;
 
     private void Start() {
         players = new List<Transform>();
@@ -42,9 +43,17 @@ public class CameraTestScript : MonoBehaviour {
         }
 
         transform.position = GetAveragePosition();
+        StartCoroutine(StartRace());
+    }
+
+    IEnumerator StartRace() {
+        yield return new WaitForSeconds(3.05f);
+        starting = false;
     }
 
     private void Update() {
+        if (starting) return;
+
         if (!transitioning) {
             Vector3 averagePosition = GetAveragePosition();
             Vector3 displacement = averagePosition - transform.position;

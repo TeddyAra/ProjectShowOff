@@ -70,7 +70,7 @@ public class GamepadManagerTestScript : MonoBehaviour {
         }
     }
 
-    private void Test(InputDevice device, InputDeviceChange change) {
+    private void OnDeviceChange(InputDevice device, InputDeviceChange change) {
         if (change == InputDeviceChange.Added) {
             if (gamepads.Where(x => x.GetDescription() == device.description).Count() > 0) {
                 if (missingPlayers.Count == 0) return;
@@ -111,10 +111,10 @@ public class GamepadManagerTestScript : MonoBehaviour {
     }
 
     private void OnEnable() {
-        InputSystem.onDeviceChange += Test;
+        InputSystem.onDeviceChange += OnDeviceChange;
     }
 
     private void OnDisable() {
-        InputSystem.onDeviceChange -= Test;
+        InputSystem.onDeviceChange -= OnDeviceChange;
     }
 }

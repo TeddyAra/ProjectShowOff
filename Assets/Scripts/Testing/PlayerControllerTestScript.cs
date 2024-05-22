@@ -6,6 +6,7 @@ using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(PowerupTestScript))]
 public class PlayerControllerTestScript : MonoBehaviour {
     [Header("Movement")]
 
@@ -58,16 +59,6 @@ public class PlayerControllerTestScript : MonoBehaviour {
     [SerializeField] private LayerMask playerLayer;
 
     // ----------------------------------------------------------------------------------
-    [Header("Powerups")]
-
-    [Tooltip("The speed of a speed boost")]
-    [SerializeField] private float speedboostSpeed;
-
-    [Tooltip("For how long the speed boost should last")]
-    [SerializeField] private float speedboostTime;
-
-    [Tooltip("How long does it take for the player to slow down again")]
-    [SerializeField] private float slowDownTime;
 
     // Movement variables
     private Rigidbody rb;
@@ -90,6 +81,9 @@ public class PlayerControllerTestScript : MonoBehaviour {
     private float invincibilityTimer;
     private bool invincible;
 
+    // Powerup script
+    private PowerupTestScript powerupScript;
+
     // When a player reaches a checkpoint
     public delegate void OnCheckpoint();
     public static event OnCheckpoint onCheckpoint;
@@ -102,14 +96,6 @@ public class PlayerControllerTestScript : MonoBehaviour {
     public delegate void OnFinish();
     public static event OnFinish onFinish;
 
-    private enum Powerup { 
-        None,
-        Speedboost
-    }
-
-    private List<Powerup> powerups;
-    private Powerup currentPowerup;
-
     private float playerSpeed;
 
     private void Start() {
@@ -119,7 +105,8 @@ public class PlayerControllerTestScript : MonoBehaviour {
         col = GetComponent<CapsuleCollider>();
         playerSpeed = maxSpeed;
 
-        powerups = Enum.GetValues(typeof(Powerup)).Cast<Powerup>().ToList();
+        powerupScript = GetComponent<PowerupTestScript>();
+        powerupScript.ApplyVariables(maxSpeed);
     }
 
     private void Update() {
@@ -214,14 +201,9 @@ public class PlayerControllerTestScript : MonoBehaviour {
         // Make sure players aren't going too fast
         velocity = Mathf.Clamp(velocity.magnitude, 0, playerSpeed) * velocity.normalized;
 
-        if (powerup && currentPowerup != Powerup.None) {
-            switch (currentPowerup) {
-                case Powerup.Speedboost:
-                    StartCoroutine(SpeedUp());
-                    break;
-            }
-
-            currentPowerup = Powerup.None;
+        if (powerup) {
+            Debug.Log("Powerup!");
+            powerupScript.UsePowerup();
         }
 
         // Apply the velocity
@@ -232,23 +214,24 @@ public class PlayerControllerTestScript : MonoBehaviour {
         powerup = false;
     }
 
-    private IEnumerator SpeedUp() {
-        // Speed the player up
-        playerSpeed = speedboostSpeed;
-        currentPowerup = Powerup.None;
-        yield return new WaitForSeconds(speedboostTime);
-
-        // Slowly make the player slow down again
-        float timer = slowDownTime;
-        while (timer > 0) { 
-            timer -= Time.deltaTime;
-            playerSpeed = maxSpeed + (speedboostSpeed - maxSpeed) * (timer / slowDownTime);
-            yield return null;
-        }
+    public void ChangePlayerSpeed(float speed) {
+        playerSpeed = speed;
     }
 
     public void ChangeGamepad(Gamepad gamepad) {
         this.gamepad = gamepad;
+    }
+
+    public void Stun(float stunTime) {
+        StartCoroutine(StunCoroutine(stunTime));
+    }
+
+    public IEnumerator StunCoroutine(float stunTime) {
+        Debug.Log("Stunned for " + stunTime);
+        ignoreInput = true;
+        yield return new WaitForSeconds(stunTime);
+        Debug.Log("No longer stunned");
+        ignoreInput = false;
     }
 
     private void OnTriggerEnter(Collider other) {
@@ -272,8 +255,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
             // The player got a powerup
             case "Powerup":
-                Powerup power = GetRandomPowerup();
-                currentPowerup = power;
+                powerupScript.GetRandomPowerup();
                 break;
 
             // The player reached the finish line
@@ -281,11 +263,6 @@ public class PlayerControllerTestScript : MonoBehaviour {
                 onFinish?.Invoke();
                 break;
         }
-    }
-
-    private Powerup GetRandomPowerup() { 
-        int num = UnityEngine.Random.Range(1, powerups.Count);
-        return powerups[num];
     }
 
     private void OnFreeze() {
