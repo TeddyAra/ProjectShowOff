@@ -63,7 +63,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
     // Movement variables
     private Rigidbody rb;
     private Vector3 velocity;
-    private bool grounded;
+    public bool grounded;
     private int groundMaskInt;
 
     // Input variables
@@ -98,7 +98,15 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
     private float playerSpeed;
 
+
+    // Sound stuff
+
+    AudioSource audioSource;
+    [SerializeField] private AudioClip jumpLanding; 
+
+    
     private void Start() {
+        audioSource = GetComponent<AudioSource>();
         rb = GetComponent<Rigidbody>();
         groundMaskInt = LayerMask.GetMask(groundMask);
 
@@ -107,7 +115,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
         powerupScript = GetComponent<PowerupTestScript>();
         powerupScript.ApplyVariables(maxSpeed);
-    }
+    }*/
 
     private void Update() {
         if (frozen || ignoreInput) return;
@@ -151,6 +159,11 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
         // Check if the player is grounded or not
         if (Physics.CheckSphere(checkPoint.position, groundCheckSize, groundMaskInt)) {
+
+            if (grounded == false)
+            {
+                audioSource.PlayOneShot(jumpLanding); 
+            }
             grounded = true;
         } else {
             if (grounded)
@@ -272,6 +285,9 @@ public class PlayerControllerTestScript : MonoBehaviour {
         if (!frozen) {
             // Freeze the player
             frozen = true;
+
+            if (!rb) rb = GetComponent<Rigidbody>();
+
             rb.velocity = Vector3.zero;
             rb.useGravity = false;
 
@@ -299,6 +315,15 @@ public class PlayerControllerTestScript : MonoBehaviour {
     private void OnEnable() {
         GameManager.onFreeze += OnFreeze;
         GameManager.onUnfreeze += OnUnfreeze;
+
+        rb = GetComponent<Rigidbody>();
+        groundMaskInt = LayerMask.GetMask(groundMask);
+
+        col = GetComponent<CapsuleCollider>();
+        playerSpeed = maxSpeed;
+
+        powerupScript = GetComponent<PowerupTestScript>();
+        powerupScript.ApplyVariables(maxSpeed);
     }
 
     private void OnDisable() {
