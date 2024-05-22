@@ -115,7 +115,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
         powerupScript = GetComponent<PowerupTestScript>();
         powerupScript.ApplyVariables(maxSpeed);
-    }*/
+    }
 
     private void Update() {
         if (frozen || ignoreInput) return;
