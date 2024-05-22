@@ -8,6 +8,7 @@ TagManager:
   - Checkpoint
   - GameManager
   - CheckpointPosition
+  - Powerup
   layers:
   - Default
   - TransparentFX
@@ -18,7 +19,7 @@ TagManager:
   - 
   - 
   - Ground
-  - 
+  - Player
   - 
   - 
   - 
