@@ -9,6 +9,8 @@ TagManager:
   - GameManager
   - CheckpointPosition
   - Powerup
+  - Bomb
+  - PlayerTrigger
   layers:
   - Default
   - TransparentFX
