@@ -56,9 +56,21 @@ public class PowerupTestScript : MonoBehaviour {
 
     private PlayerControllerTestScript playerControllerScript;
 
+    // Audio Stuff
+
+    AudioSource audioSource;  
+    [SerializeField] AudioClip speedBoostSound;
+    [SerializeField] AudioClip throwSound;
+
+
+    [SerializeField] private TrailRenderer trailRenderer; 
+
+
     private void Start() {
         powerups = Enum.GetValues(typeof(Powerup)).Cast<Powerup>().ToList();
         playerControllerScript = GetComponent<PlayerControllerTestScript>();
+
+        audioSource = GetComponent<AudioSource>();  
 
         throwDirection.Normalize();
     }
@@ -85,15 +97,25 @@ public class PowerupTestScript : MonoBehaviour {
     }
 
     private void SpawnSleepBomb() {
+
+        audioSource.PlayOneShot(throwSound);
+
         Rigidbody bomb = Instantiate(sleepBombPrefab, sleepBombSpawnPoint.position, Quaternion.identity).GetComponent<Rigidbody>();
         bomb.AddForce(new Vector3(throwDirection.x, throwDirection.y, 0) * throwForce);
-        bomb.GetComponent<SleepBombTestScript>().ApplyVariables(explosionRange, minStun, maxStun);
+        SleepBombTestScript bombScript = bomb.GetComponent<SleepBombTestScript>();
+        bombScript.ApplyVariables(explosionRange, minStun, maxStun); 
+        bombScript.audioSource = audioSource;
+        
     }
 
     private IEnumerator SpeedUp() {
+        audioSource.PlayOneShot(speedBoostSound); 
+        trailRenderer.emitting = true;
+
         // Speed the player up
         playerControllerScript.ChangePlayerSpeed(speedboostSpeed);
         yield return new WaitForSeconds(speedboostTime);
+        trailRenderer.emitting = false; 
 
         // Slowly make the player slow down again
         float timer = slowDownTime;

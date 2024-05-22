@@ -63,7 +63,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
     // Movement variables
     private Rigidbody rb;
     private Vector3 velocity;
-    private bool grounded;
+    public bool grounded;
     private int groundMaskInt;
 
     // Input variables
@@ -98,7 +98,15 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
     private float playerSpeed;
 
+
+    // Sound stuff
+
+    AudioSource audioSource;
+    [SerializeField] private AudioClip jumpLanding; 
+
+    
     private void Start() {
+        audioSource = GetComponent<AudioSource>();
         rb = GetComponent<Rigidbody>();
         groundMaskInt = LayerMask.GetMask(groundMask);
 
@@ -151,6 +159,11 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
         // Check if the player is grounded or not
         if (Physics.CheckSphere(checkPoint.position, groundCheckSize, groundMaskInt)) {
+
+            if (grounded == false)
+            {
+                audioSource.PlayOneShot(jumpLanding); 
+            }
             grounded = true;
         } else {
             if (grounded)
