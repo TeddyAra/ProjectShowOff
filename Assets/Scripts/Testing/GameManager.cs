@@ -25,7 +25,6 @@ public class GameManager : MonoBehaviour {
     public delegate void OnStart();
     public static event OnStart onStart;
 
-    private bool isReady;
     private int readyNum;
 
     private void Start() {
