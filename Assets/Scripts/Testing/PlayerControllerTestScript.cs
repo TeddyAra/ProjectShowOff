@@ -304,6 +304,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
             case "Powerup":
                 string powerup = powerupScript.GetRandomPowerup();
                 onPowerup?.Invoke(this, powerup);
+                Destroy(other.gameObject);
                 break;
 
             // The player reached the finish line
