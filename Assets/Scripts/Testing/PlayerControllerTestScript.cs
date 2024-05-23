@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -111,6 +112,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
     private bool isColliding;
 
     [SerializeField] private Image readyImage;
+    [SerializeField] private TMP_Text readyText;
     private bool isStarting;
 
     // Sound stuff
@@ -154,16 +156,23 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
     private void FixedUpdate() {
         if (!isStarting) {
+            if (jump) {
+                rb.AddForce(Vector3.up * jumpForce);
+            }
+
             if (holdingJump) {
                 if (!isReady) {
                     isReady = true;
                     onReady?.Invoke(this);
+                    readyText.text = "Ready!";
                 }
 
                 readyImage.color = Color.white;
             } else {
                 readyImage.color = new Color(1.0f, 1.0f, 1.0f, 0.25f);
             }
+
+            jump = false;
         }
 
         if (!isReady || !isStarting) return;
@@ -346,7 +355,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
     private void OnStart() {
         isStarting = true;
-        readyImage.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
+        readyImage.transform.parent.gameObject.SetActive(false);
     }
 
     private void OnEnable() {
