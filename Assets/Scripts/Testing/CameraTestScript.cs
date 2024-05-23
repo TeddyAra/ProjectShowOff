@@ -42,8 +42,8 @@ public class CameraTestScript : MonoBehaviour {
             players.Add(player.transform);
         }
 
-        transform.position = GetAveragePosition();
-        StartCoroutine(StartRace());
+        //transform.position = GetAveragePosition();
+        //StartCoroutine(StartRace());
     }
 
     IEnumerator StartRace() {
@@ -133,5 +133,17 @@ public class CameraTestScript : MonoBehaviour {
         averagePosition += displacement;
 
         return averagePosition;
+    }
+
+    private void OnStart() {
+        StartCoroutine(StartRace());
+    }
+
+    private void OnEnable() {
+        GameManager.onStart += OnStart;
+    }
+
+    private void OnDisable() {
+        GameManager.onStart -= OnStart;
     }
 }

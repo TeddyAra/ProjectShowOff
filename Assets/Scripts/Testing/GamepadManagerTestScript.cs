@@ -58,12 +58,15 @@ public class GamepadManagerTestScript : MonoBehaviour {
         // Add all players to missing players
         for (int num = 0; num < players.Count; num++) {
             missingPlayers.Add(num);
+            Debug.Log("Added player " + num);
         }
 
         // Go through all current controllers
         for (int i = 0; i < Gamepad.all.Count; i++) {
             // Don't continue if all players have a controller assigned to them
             if (missingPlayers.Count == 0) return;
+
+            Debug.Log("Added controller " + i);
 
             // Make the GamepadPlayer
             GamepadPlayer gamepadPlayer = new GamepadPlayer(Gamepad.all[i].description, 
@@ -76,8 +79,6 @@ public class GamepadManagerTestScript : MonoBehaviour {
             // Remove the player from the missing players
             missingPlayers.Remove(missingPlayers.First());
             gamepadPlayer.EnablePlayer();
-
-            Debug.Log("Added device");
         }
     }
 
