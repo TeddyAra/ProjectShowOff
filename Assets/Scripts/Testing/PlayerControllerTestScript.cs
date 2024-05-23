@@ -39,6 +39,9 @@ public class PlayerControllerTestScript : MonoBehaviour {
     [Tooltip("The amount of time in seconds the player is allowed to jump, despite not being grounded")]
     [SerializeField] private float coyoteTime;
 
+    [Tooltip("Gravity")]
+    [SerializeField] private float gravity;
+
     // ----------------------------------------------------------------------------------
     [Header("Ground checking")]
 
@@ -156,6 +159,10 @@ public class PlayerControllerTestScript : MonoBehaviour {
     }
 
     private void FixedUpdate() {
+        if (!grounded) {
+            rb.AddForce(Vector3.down * gravity);
+        }
+
         if (!isStarting) {
             if (holdingJump) {
                 if (!isReady) {
