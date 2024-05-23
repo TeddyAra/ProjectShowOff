@@ -5,6 +5,7 @@ using System.Linq;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(PowerupTestScript))]
 public class PlayerControllerTestScript : MonoBehaviour {
@@ -76,6 +77,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
     private float jumpTimer;
     private Gamepad gamepad;
     private bool powerup;
+    private bool isReady;
 
     // Death variables
     private bool frozen;
@@ -98,8 +100,18 @@ public class PlayerControllerTestScript : MonoBehaviour {
     public delegate void OnFinish();
     public static event OnFinish onFinish;
 
+    // When a player gets or uses a powerup
+    public delegate void OnPowerup(PlayerControllerTestScript player, string powerup);
+    public static event OnPowerup onPowerup;
+
+    public delegate void OnReady(PlayerControllerTestScript player);
+    public static event OnReady onReady;
+
     private float playerSpeed;
     private bool isColliding;
+
+    [SerializeField] private Image readyImage;
+    private bool isStarting;
 
     // Sound stuff
     private AudioSource audioSource;
@@ -117,7 +129,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
     }
 
     private void Update() {
-        if (frozen || ignoreInput) return;
+        if ((frozen || ignoreInput) && isStarting) return;
 
         // Controller input
         if (gamepad != null) {
@@ -141,6 +153,21 @@ public class PlayerControllerTestScript : MonoBehaviour {
     }
 
     private void FixedUpdate() {
+        if (!isStarting) {
+            if (holdingJump) {
+                if (!isReady) {
+                    isReady = true;
+                    onReady?.Invoke(this);
+                }
+
+                readyImage.color = Color.white;
+            } else {
+                readyImage.color = new Color(1.0f, 1.0f, 1.0f, 0.25f);
+            }
+        }
+
+        if (!isReady || !isStarting) return;
+
         // Update timers
         coyoteTimer--;
         jumpTimer--;
@@ -161,8 +188,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
         // Check if the player is grounded or not
         if (Physics.CheckSphere(checkPoint.position, groundCheckSize, groundMaskInt)) {
 
-            if (grounded == false)
-            {
+            if (grounded == false) {
                 audioSource.PlayOneShot(jumpLanding); 
             }
             grounded = true;
@@ -221,6 +247,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
         if (powerup) {
             powerupScript.UsePowerup();
+            onPowerup?.Invoke(this, "");
         }
 
         // Apply the velocity
@@ -275,7 +302,8 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
             // The player got a powerup
             case "Powerup":
-                powerupScript.GetRandomPowerup();
+                string powerup = powerupScript.GetRandomPowerup();
+                onPowerup?.Invoke(this, powerup);
                 break;
 
             // The player reached the finish line
@@ -316,9 +344,15 @@ public class PlayerControllerTestScript : MonoBehaviour {
         }
     }
 
+    private void OnStart() {
+        isStarting = true;
+        readyImage.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
+    }
+
     private void OnEnable() {
         GameManager.onFreeze += OnFreeze;
         GameManager.onUnfreeze += OnUnfreeze;
+        GameManager.onStart += OnStart;
 
         rb = GetComponent<Rigidbody>();
         groundMaskInt = LayerMask.GetMask(groundMask);
@@ -333,5 +367,6 @@ public class PlayerControllerTestScript : MonoBehaviour {
     private void OnDisable() {
         GameManager.onFreeze -= OnFreeze;
         GameManager.onUnfreeze -= OnUnfreeze;
+        GameManager.onStart -= OnStart;
     }
 }

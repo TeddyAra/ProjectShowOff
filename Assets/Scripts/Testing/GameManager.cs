@@ -4,11 +4,13 @@ using System.Linq;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
+using static PlayerControllerTestScript;
 
 public class GameManager : MonoBehaviour {
     [SerializeField] private Transform checkpoint;
     [SerializeField] private float spawnDistance;
     [SerializeField] private TMP_Text countdown;
+    [SerializeField] private int playerNumber;
 
     private List<Vector3> checkpoints;
     private int currentCheckpoint;
@@ -19,6 +21,12 @@ public class GameManager : MonoBehaviour {
 
     public delegate void OnUnfreeze();
     public static event OnUnfreeze onUnfreeze;
+
+    public delegate void OnStart();
+    public static event OnStart onStart;
+
+    private bool isReady;
+    private int readyNum;
 
     private void Start() {
         // Get all checkpoints
@@ -38,6 +46,12 @@ public class GameManager : MonoBehaviour {
 
     IEnumerator Countdown() {
         onFreeze?.Invoke();
+
+        countdown.text = "Get ready...";
+
+        while (readyNum < playerNumber) yield return null;
+
+        onStart?.Invoke();
 
         countdown.text = "3";
         yield return new WaitForSeconds(1);
@@ -87,15 +101,21 @@ public class GameManager : MonoBehaviour {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
+    private void OnReady(PlayerControllerTestScript player) {
+        readyNum++;
+    }
+
     private void OnEnable() {
         PlayerControllerTestScript.onCheckpoint += OnCheckpoint;
         PlayerControllerTestScript.getCheckpoint += GetCheckpoint;
         PlayerControllerTestScript.onFinish += OnFinish;
+        PlayerControllerTestScript.onReady += OnReady;
     }
 
     private void OnDisable() {
         PlayerControllerTestScript.onCheckpoint -= OnCheckpoint;
         PlayerControllerTestScript.getCheckpoint -= GetCheckpoint;
         PlayerControllerTestScript.onFinish -= OnFinish;
+        PlayerControllerTestScript.onReady -= OnReady;
     }
 }
