@@ -32,6 +32,8 @@ public class GameManager : MonoBehaviour {
         checkpoints = checkpoints.OrderBy(x => x.x).ToList();
 
         StartCoroutine(Countdown());
+
+        checkpoint.position = checkpoints[0];
     }
 
     IEnumerator Countdown() {
@@ -55,16 +57,15 @@ public class GameManager : MonoBehaviour {
 
     private void OnCheckpoint() {
         // Ignore this if it's the last checkpoint
-        if (currentCheckpoint == checkpoints.Count) return;
+        if (currentCheckpoint >= checkpoints.Count) return;
 
         // Go to the next checkpoint
-        checkpoint.position = checkpoints[currentCheckpoint];
         currentCheckpoint++;
+        checkpoint.position = checkpoints[currentCheckpoint];
         spawnNum = 0;
 
         // Unfreeze players if needed
         onUnfreeze?.Invoke();
-        Debug.Log("Checkpoint reached");
     }
 
     private Vector3 GetCheckpoint() {

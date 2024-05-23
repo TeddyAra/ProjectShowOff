@@ -58,6 +58,8 @@ public class PlayerControllerTestScript : MonoBehaviour {
     [Tooltip("The layer mask of the players")]
     [SerializeField] private LayerMask playerLayer;
 
+    [SerializeField] private AudioClip jumpLanding;
+
     // ----------------------------------------------------------------------------------
 
     // Movement variables
@@ -97,13 +99,10 @@ public class PlayerControllerTestScript : MonoBehaviour {
     public static event OnFinish onFinish;
 
     private float playerSpeed;
-
+    private bool isColliding;
 
     // Sound stuff
-
-    AudioSource audioSource;
-    [SerializeField] private AudioClip jumpLanding; 
-
+    private AudioSource audioSource;
     
     private void Start() {
         audioSource = GetComponent<AudioSource>();
@@ -115,7 +114,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
         powerupScript = GetComponent<PowerupTestScript>();
         powerupScript.ApplyVariables(maxSpeed);
-    }*/
+    }
 
     private void Update() {
         if (frozen || ignoreInput) return;
@@ -137,6 +136,8 @@ public class PlayerControllerTestScript : MonoBehaviour {
             if (Input.GetKeyDown(KeyCode.Space)) jump = true;
             if (Input.GetKeyDown(KeyCode.E)) powerup = true;
         }
+
+        isColliding = false;
     }
 
     private void FixedUpdate() {
@@ -266,7 +267,10 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
             // The player reached a checkpoint
             case "Checkpoint":
-                onCheckpoint?.Invoke();
+                if (!isColliding) {
+                    onCheckpoint?.Invoke();
+                    isColliding = true;
+                }
                 break;
 
             // The player got a powerup
