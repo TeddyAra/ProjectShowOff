@@ -156,10 +156,6 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
     private void FixedUpdate() {
         if (!isStarting) {
-            if (jump) {
-                rb.AddForce(Vector3.up * jumpForce);
-            }
-
             if (holdingJump) {
                 if (!isReady) {
                     isReady = true;
