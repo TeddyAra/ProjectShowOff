@@ -116,7 +116,7 @@ public class CameraTestScript : MonoBehaviour {
             averagePosition.x = fixedX;
         }
 
-        averagePosition.z = (minPlayerDistance + delta * (maxPlayerDistance - minPlayerDistance)) * -1;
+        averagePosition.z = (minCamDistance + delta * (maxCamDistance - minCamDistance)) * -1;
 
         // Get the average y position
         averagePosition.y = 0;
