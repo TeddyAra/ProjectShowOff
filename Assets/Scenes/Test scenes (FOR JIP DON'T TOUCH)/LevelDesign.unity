@@ -979,6 +979,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3468134009132608798, guid: 44f8adee21f98354b9e70972ca788849,
         type: 3}
+      propertyPath: gravity
+      value: 39.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 3468134009132608798, guid: 44f8adee21f98354b9e70972ca788849,
+        type: 3}
       propertyPath: maxSpeed
       value: 20
       objectReference: {fileID: 0}
@@ -996,6 +1001,11 @@ PrefabInstance:
         type: 3}
       propertyPath: jumpForce
       value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 3468134009132608798, guid: 44f8adee21f98354b9e70972ca788849,
+        type: 3}
+      propertyPath: groundCheckSize
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 4530758235380207482, guid: 44f8adee21f98354b9e70972ca788849,
         type: 3}
@@ -12320,6 +12330,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3468134009132608798, guid: 44f8adee21f98354b9e70972ca788849,
         type: 3}
+      propertyPath: gravity
+      value: 39.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 3468134009132608798, guid: 44f8adee21f98354b9e70972ca788849,
+        type: 3}
       propertyPath: maxSpeed
       value: 20
       objectReference: {fileID: 0}
@@ -19169,6 +19184,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3468134009132608798, guid: 44f8adee21f98354b9e70972ca788849,
         type: 3}
+      propertyPath: gravity
+      value: 39.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 3468134009132608798, guid: 44f8adee21f98354b9e70972ca788849,
+        type: 3}
       propertyPath: maxSpeed
       value: 20
       objectReference: {fileID: 0}
@@ -23982,6 +24002,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3468134009132608798, guid: 44f8adee21f98354b9e70972ca788849,
+        type: 3}
+      propertyPath: gravity
+      value: 39.24
       objectReference: {fileID: 0}
     - target: {fileID: 3468134009132608798, guid: 44f8adee21f98354b9e70972ca788849,
         type: 3}
