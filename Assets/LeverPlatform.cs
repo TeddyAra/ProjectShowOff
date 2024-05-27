@@ -14,6 +14,7 @@ public class LeverPlatform : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
+            Debug.Log("Levering!"); 
              StartCoroutine(DoorRotation()); 
         }
     }
