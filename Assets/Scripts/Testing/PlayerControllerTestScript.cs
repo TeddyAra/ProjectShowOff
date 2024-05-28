@@ -85,9 +85,9 @@ public class PlayerControllerTestScript : MonoBehaviour {
     private Vector3 velocity;
     public bool grounded;
     private int groundMaskInt;
-    //private int bouncePadMaskInt;
+    private int bouncePadMaskInt;
     private bool canBounce = true; 
-    //private bool ignoreMaxSpeed = false; 
+    private bool ignoreMaxSpeed = false; 
 
     // Input variables
     private Vector2 move;
@@ -141,7 +141,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
         audioSource = GetComponent<AudioSource>();
         rb = GetComponent<Rigidbody>();
         groundMaskInt = LayerMask.GetMask(groundMask);
-        //bouncePadMaskInt = LayerMask.GetMask(bouncePadMask); 
+        bouncePadMaskInt = LayerMask.GetMask(bouncePadMask); 
 
         col = GetComponent<CapsuleCollider>();
         playerSpeed = maxSpeed;
@@ -216,8 +216,6 @@ public class PlayerControllerTestScript : MonoBehaviour {
         // Get the rigid body's velocity
         velocity = rb.velocity;
 
-        
-
         // Check if the player is grounded or not
         if (Physics.CheckSphere(checkPoint.position, groundCheckSize, groundMaskInt)) {
             if (grounded == false) {
@@ -278,7 +276,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
         // Make sure players aren't going too fast
         Vector2 tempVelocity = velocity;
         tempVelocity.x = Mathf.Clamp(tempVelocity.x, -playerSpeed, playerSpeed);
-        tempVelocity.y = Mathf.Clamp(tempVelocity.y, -maxFallSpeed, maxFallSpeed);
+        if (!ignoreMaxSpeed) tempVelocity.y = Mathf.Clamp(tempVelocity.y, -maxFallSpeed, maxFallSpeed);
         velocity = tempVelocity;
 
         if (powerup) {
@@ -362,7 +360,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
             if (canBounce && checkPoint.position.y > collision.transform.position.y && 
                 (checkPoint.position.x > collision.transform.position.x - collision.transform.localScale.x / 2) && 
                 (checkPoint.position.x < collision.transform.position.x + collision.transform.localScale.x / 2)) {
-                //StartCoroutine(DisableMaxSpeed());
+                StartCoroutine(DisableMaxSpeed());
                 rb.AddForce(Vector3.up * bouncePadForce); 
                 Debug.Log("Bouncing"); 
                 canBounce = false; 
@@ -371,7 +369,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
         }
     }
 
-    /*IEnumerator DisableMaxSpeed() {
+    IEnumerator DisableMaxSpeed() {
         ignoreMaxSpeed = true; 
 
         while (!grounded) {
@@ -379,7 +377,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
         }
 
         ignoreMaxSpeed = false; 
-    }*/
+    }
 
     private void OnFreeze() {
         if (!frozen) {
