@@ -97,7 +97,7 @@ public class PlayerManagerScript : MonoBehaviour {
     [SerializeField] private float barWidth;
 
     private Dictionary<Gamepad, bool> gamepads;
-    private Dictionary<Gamepad, bool> ready;
+    private List<bool> lastJoysticks;
     private List<int> taken;
     private Gamepad firstPlayer;
     private float waitTimer;
@@ -116,9 +116,10 @@ public class PlayerManagerScript : MonoBehaviour {
         }
 
         gamepads = new Dictionary<Gamepad, bool>();
-        ready = new Dictionary<Gamepad, bool>();
+        lastJoysticks = new List<bool>();
         foreach (Gamepad gamepad in Gamepad.all) { 
             gamepads.Add(gamepad, false);
+            lastJoysticks.Add(false);
         }
 
         taken = new List<int>();
@@ -131,16 +132,7 @@ public class PlayerManagerScript : MonoBehaviour {
                 startBar.sizeDelta = new Vector2(0, startBar.sizeDelta.y);
             }
 
-            bool ignore = false;
-            foreach (bool state in ready.Values) {
-                if (!state) {
-                    ignore = true;
-                    startBar.sizeDelta = new Vector2(0, startBar.sizeDelta.y);
-                    break;
-                }
-            }
-
-            if (firstPlayer.buttonSouth.isPressed && !ignore) {
+            if (firstPlayer.buttonSouth.isPressed) {
                 waitTimer += Time.deltaTime;
                 float width = Mathf.Clamp(barWidth * (waitTimer / waitTime), 0, barWidth);
                 startBar.sizeDelta = new Vector2(width, startBar.sizeDelta.y);
@@ -162,9 +154,12 @@ public class PlayerManagerScript : MonoBehaviour {
                 }
 
                 // If the player wants to switch characters
-                if (gamepad.Key.dpad.left.wasPressedThisFrame || gamepad.Key.dpad.right.wasPressedThisFrame) {
-                    bool right = gamepad.Key.dpad.right.wasPressedThisFrame;
+                Vector2 joystick = gamepad.Key.leftStick.ReadValue();
+                bool left = gamepad.Key.dpad.left.wasPressedThisFrame || (joystick.x < -0.5f && !lastJoysticks[i]);
+                bool right = gamepad.Key.dpad.right.wasPressedThisFrame || (joystick.x > 0.5f && !lastJoysticks[i]);
 
+                if (left != right) {
+                    lastJoysticks[i] = true;
                     for (int j = 0; j < characterPickers.Count; j++) {
                         if (characterPickers[j].GetIndex() == i) {
                             CharacterPicker picker = characterPickers[j];
@@ -174,20 +169,45 @@ public class PlayerManagerScript : MonoBehaviour {
                     }
                 }
 
+                if (lastJoysticks[i] && joystick.x > -0.5f && joystick.x < 0.5f) {
+                    lastJoysticks[i] = false;
+                }
+
                 // If the player wants to confirm their character
                 if (gamepad.Key.buttonSouth.wasPressedThisFrame) {
                     for (int j = 0; j < characterPickers.Count; j++) {
                         if (characterPickers[j].GetIndex() == i) {
                             CharacterPicker picker = characterPickers[j];
                             taken.Add(picker.GetCharacter());
-                            Debug.Log(picker.GetCharacter());
                             picker.Ready();
 
                             characterPickers[j] = picker;
-                            ready[gamepad.Key] = true;
+
+                            for (int k = 0; k < characterPickers.Count; k++) {
+                                if (k == j) continue;
+
+                                CharacterPicker pickerCopy = characterPickers[k];
+                                if (pickerCopy.GetCharacter() == picker.GetCharacter())
+                                    pickerCopy.ChangeCharacter(true, taken);
+
+                                characterPickers[k] = pickerCopy;
+                            }
                         }
                     }
                 }
+
+                // If the player wants to go back to character selection
+                if (gamepad.Key.buttonEast.wasPressedThisFrame) {
+                    for (int j = 0; j < characterPickers.Count; j++) {
+                        if (characterPickers[j].GetIndex() == i) {
+                            CharacterPicker picker = characterPickers[j];
+                            picker.Play();
+                            taken.Remove(picker.GetCharacter());
+                            characterPickers[j] = picker;
+                        }
+                    }
+                }
+
             // If the controller is not part of the game
             } else {
                 bool picked = false;
@@ -201,7 +221,6 @@ public class PlayerManagerScript : MonoBehaviour {
                             picker.ChangeCharacter(true, taken);
 
                             gamepads[gamepad.Key] = true;
-                            ready.Add(gamepad.Key, false);
                         }
 
                         characterPickers[j] = picker;
@@ -237,7 +256,7 @@ public class PlayerManagerScript : MonoBehaviour {
             }
 
             if (gamepads.ContainsKey((Gamepad)device)) gamepads[(Gamepad)device] = false;
-            if (ready.ContainsKey((Gamepad)device)) ready.Remove((Gamepad)device);
+            if (firstPlayer == (Gamepad)device) firstPlayer = null;
         }
     }
 
