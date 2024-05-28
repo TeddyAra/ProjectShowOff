@@ -85,7 +85,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
     private int groundMaskInt;
     private int bouncePadMaskInt;
     private bool canBounce = true; 
-
+    private bool ignoreMaxSpeed = false; 
 
     // Input variables
     private Vector2 move;
@@ -276,10 +276,20 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
         // Make sure players aren't going too fast
 
-        Vector2 tempVelocity = velocity;
-        tempVelocity.y = 0;
-        tempVelocity = Mathf.Clamp(tempVelocity.magnitude, 0, playerSpeed) * tempVelocity.normalized;
-        velocity.x = tempVelocity.x;
+        
+        if (!ignoreMaxSpeed)
+        {
+            velocity = Mathf.Clamp(velocity.magnitude, 0, playerSpeed) * velocity.normalized;
+        }
+        else
+        {
+            Vector2 tempVelocity = velocity;
+            tempVelocity.y = 0;
+            tempVelocity = Mathf.Clamp(tempVelocity.magnitude, 0, playerSpeed) * tempVelocity.normalized;
+            velocity.x = tempVelocity.x;
+        }
+            
+        
 
         //velocity = Mathf.Clamp(velocity.magnitude, 0, playerSpeed) * velocity.normalized;
 
@@ -368,6 +378,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
                 (checkPoint.position.x < collision.transform.position.x + collision.transform.localScale.x / 2) &&
                 canBounce)
             {
+                StartCoroutine(DisableMaxSpeed());
                 rb.AddForce(Vector3.up * bouncePadForce); 
                 Debug.Log("Bouncing"); 
                 canBounce = false; 
@@ -376,6 +387,16 @@ public class PlayerControllerTestScript : MonoBehaviour {
         }
     }
 
+    IEnumerator DisableMaxSpeed()
+    {
+        ignoreMaxSpeed = true; 
+        while (!grounded)
+        {
+            yield return null; 
+        }
+        ignoreMaxSpeed = false; 
+        
+    }
     private void OnFreeze() {
         if (!frozen) {
             // Freeze the player
