@@ -201,7 +201,6 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
         // Check if the player is grounded or not
         if (Physics.CheckSphere(checkPoint.position, groundCheckSize, groundMaskInt)) {
-
             if (grounded == false) {
                 audioSource.PlayOneShot(jumpLanding); 
             }
@@ -257,7 +256,10 @@ public class PlayerControllerTestScript : MonoBehaviour {
         }
 
         // Make sure players aren't going too fast
-        velocity = Mathf.Clamp(velocity.magnitude, 0, playerSpeed) * velocity.normalized;
+        Vector2 tempVelocity = velocity;
+        tempVelocity.y = 0;
+        tempVelocity = Mathf.Clamp(tempVelocity.magnitude, 0, playerSpeed) * tempVelocity.normalized;
+        velocity.x = tempVelocity.x;
 
         if (powerup) {
             powerupScript.UsePowerup();
