@@ -575,15 +575,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveForce: 0.5
   moveDrag: 2.5
-  maxSpeed: 25
+  maxSpeed: 17
   ignoreInput: 0
-  jumpForce: 600
+  jumpForce: 1600
   jumpBoost: 10
   jumpTime: 0.5
   coyoteTime: 0.1
+  bouncePadForce: 1500
+  gravity: 0
   checkPoint: {fileID: 3932955210228896583}
   groundCheckSize: 0.2
   groundMask: Ground
+  bouncePadMask: BouncePad
+  bounceCheckSize: 1
   invincibilityTime: 2
   playerLayer:
     serializedVersion: 2

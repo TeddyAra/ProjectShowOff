@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -39,6 +40,10 @@ public class PlayerControllerTestScript : MonoBehaviour {
     [Tooltip("The amount of time in seconds the player is allowed to jump, despite not being grounded")]
     [SerializeField] private float coyoteTime;
 
+
+    [Tooltip("The force that should be applied to the player when they hit a bounce pad")]
+    [SerializeField] private float bouncePadForce; 
+
     [Tooltip("Gravity")]
     [SerializeField] private float gravity;
 
@@ -53,6 +58,12 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
     [Tooltip("The name of the ground mask layer")]
     [SerializeField] private string groundMask;
+
+    [Tooltip("The name of the bounce pad mask layer")]
+    [SerializeField] private string bouncePadMask;
+
+    [Tooltip("The size of the bounce pad Check")]
+    [SerializeField] private float bounceCheckSize; 
 
     // ----------------------------------------------------------------------------------
     [Header("Extra")]
@@ -72,6 +83,9 @@ public class PlayerControllerTestScript : MonoBehaviour {
     private Vector3 velocity;
     public bool grounded;
     private int groundMaskInt;
+    private int bouncePadMaskInt;
+    private bool canBounce = true; 
+    private bool ignoreMaxSpeed = false; 
 
     // Input variables
     private Vector2 move;
@@ -125,6 +139,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
         audioSource = GetComponent<AudioSource>();
         rb = GetComponent<Rigidbody>();
         groundMaskInt = LayerMask.GetMask(groundMask);
+        bouncePadMaskInt = LayerMask.GetMask(bouncePadMask); 
 
         col = GetComponent<CapsuleCollider>();
         playerSpeed = maxSpeed;
@@ -199,6 +214,8 @@ public class PlayerControllerTestScript : MonoBehaviour {
         // Get the rigid body's velocity
         velocity = rb.velocity;
 
+        
+
         // Check if the player is grounded or not
         if (Physics.CheckSphere(checkPoint.position, groundCheckSize, groundMaskInt)) {
             if (grounded == false) {
@@ -217,7 +234,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
             RaycastHit hit;
             Vector3 normal = Vector3.up;
 
-            if (Physics.Raycast(checkPoint.position, Vector3.down, out hit, groundCheckSize, groundMaskInt)) {
+            if (Physics.Raycast(checkPoint.position, Vector3.down, out hit, bounceCheckSize, groundMaskInt)) {
                 normal = hit.normal;
             }
 
@@ -250,16 +267,30 @@ public class PlayerControllerTestScript : MonoBehaviour {
             rb.AddForce(Vector3.up * jumpForce);
         }
 
+
         // Give the player a boost if they're holding the button
         if (holdingJump && jumpTimer > 0) {
             rb.AddForce(Vector3.up * jumpBoost);
         }
 
         // Make sure players aren't going too fast
-        Vector2 tempVelocity = velocity;
-        tempVelocity.y = 0;
-        tempVelocity = Mathf.Clamp(tempVelocity.magnitude, 0, playerSpeed) * tempVelocity.normalized;
-        velocity.x = tempVelocity.x;
+
+        
+        if (!ignoreMaxSpeed)
+        {
+            velocity = Mathf.Clamp(velocity.magnitude, 0, playerSpeed) * velocity.normalized;
+        }
+        else
+        {
+            Vector2 tempVelocity = velocity;
+            tempVelocity.y = 0;
+            tempVelocity = Mathf.Clamp(tempVelocity.magnitude, 0, playerSpeed) * tempVelocity.normalized;
+            velocity.x = tempVelocity.x;
+        }
+            
+        
+
+        //velocity = Mathf.Clamp(velocity.magnitude, 0, playerSpeed) * velocity.normalized;
 
         if (powerup) {
             powerupScript.UsePowerup();
@@ -272,6 +303,12 @@ public class PlayerControllerTestScript : MonoBehaviour {
         // Reset input variables
         jump = false;
         powerup = false;
+    }
+
+    IEnumerator BouncePadDelay()
+    {
+        yield return new WaitForSeconds(0.8f); 
+        canBounce = true; 
     }
 
     public void ChangePlayerSpeed(float speed) {
@@ -330,6 +367,35 @@ public class PlayerControllerTestScript : MonoBehaviour {
         }
     }
 
+    private void OnCollisionStay(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("BouncePad"))
+        {
+            
+            if (checkPoint.position.y > collision.transform.position.y && 
+                (checkPoint.position.x > collision.transform.position.x - collision.transform.localScale.x / 2) && 
+                (checkPoint.position.x < collision.transform.position.x + collision.transform.localScale.x / 2) &&
+                canBounce)
+            {
+                StartCoroutine(DisableMaxSpeed());
+                rb.AddForce(Vector3.up * bouncePadForce); 
+                Debug.Log("Bouncing"); 
+                canBounce = false; 
+                StartCoroutine(BouncePadDelay()); 
+            }
+        }
+    }
+
+    IEnumerator DisableMaxSpeed()
+    {
+        ignoreMaxSpeed = true; 
+        while (!grounded)
+        {
+            yield return null; 
+        }
+        ignoreMaxSpeed = false; 
+        
+    }
     private void OnFreeze() {
         if (!frozen) {
             // Freeze the player
