@@ -43,12 +43,36 @@ public class PowerupTestScript : MonoBehaviour {
     [Tooltip("The maximum amount of time to be stunned")]
     [SerializeField] private float maxStun;
 
+    // ----------------------------------------------------------------------------------
+
+    [Header("Fart boost")]
+
+    [Tooltip("The prefab for the fart cloud")]
+    [SerializeField] private GameObject fartCloudPrefab;
+
+    [Tooltip("The amount of time the fart cloud will stay behind")]
+    [SerializeField] private float fartCloudTime;
+
+    [Tooltip("The amount of time players should be stunned when inside the fart cloud")]
+    [SerializeField] private float stunTime;
+
+    [Tooltip("The amount of time before the fart cloud gets active")] 
+    [SerializeField] private float startupTime;
+
+    [Tooltip("The direction the player should be pushed towards")]
+    [SerializeField] private Vector2 forceDirection;
+
+    [Tooltip("The amount of force to push the player with")]
+    [SerializeField] private float force;
+
     private float maxSpeed;
 
     private enum Powerup {
         None,
         Speedboost,
-        SleepBomb
+        SleepBomb,
+        Fartboost,
+        Scare
     }
 
     private List<Powerup> powerups;
@@ -57,14 +81,10 @@ public class PowerupTestScript : MonoBehaviour {
     private PlayerControllerTestScript playerControllerScript;
 
     // Audio Stuff
-
     AudioSource audioSource;  
     [SerializeField] AudioClip speedBoostSound;
     [SerializeField] AudioClip throwSound;
-
-
     [SerializeField] private TrailRenderer trailRenderer; 
-
 
     private void Start() {
         powerups = Enum.GetValues(typeof(Powerup)).Cast<Powerup>().ToList();
@@ -91,13 +111,22 @@ public class PowerupTestScript : MonoBehaviour {
             case Powerup.SleepBomb:
                 SpawnSleepBomb();
                 break;
+
+            case Powerup.Fartboost:
+                Fart();
+                break;
         }
 
         currentPowerup = Powerup.None;
     }
 
-    private void SpawnSleepBomb() {
+    private void Fart() {
+        FartCloudScript fartScript = Instantiate(fartCloudPrefab, transform.position, Quaternion.identity).GetComponent<FartCloudScript>();
+        fartScript.ApplyVariables(stunTime, fartCloudTime, startupTime);
+        playerControllerScript.AddForce(new Vector3(forceDirection.x, forceDirection.y, 0), force);
+    }
 
+    private void SpawnSleepBomb() {
         audioSource.PlayOneShot(throwSound);
 
         Rigidbody bomb = Instantiate(sleepBombPrefab, sleepBombSpawnPoint.position, Quaternion.identity).GetComponent<Rigidbody>();
@@ -105,7 +134,6 @@ public class PowerupTestScript : MonoBehaviour {
         SleepBombTestScript bombScript = bomb.GetComponent<SleepBombTestScript>();
         bombScript.ApplyVariables(explosionRange, minStun, maxStun); 
         bombScript.audioSource = audioSource;
-        
     }
 
     private IEnumerator SpeedUp() {
@@ -127,8 +155,9 @@ public class PowerupTestScript : MonoBehaviour {
     }
 
     public string GetRandomPowerup() {
-        int num = UnityEngine.Random.Range(1, powerups.Count);
+        int num = UnityEngine.Random.Range(powerups.Count - 1, powerups.Count);
         currentPowerup = powerups[num];
+        Debug.Log(currentPowerup.ToString());
         return currentPowerup.ToString();
     } 
 }

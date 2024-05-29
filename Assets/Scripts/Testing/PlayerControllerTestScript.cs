@@ -97,7 +97,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
     private float jumpTimer;
     private Gamepad gamepad;
     private bool powerup;
-    private bool isReady;
+    private bool reversed;
 
     // Death variables
     private bool frozen;
@@ -170,6 +170,8 @@ public class PlayerControllerTestScript : MonoBehaviour {
             if (Input.GetKeyDown(KeyCode.Space)) jump = true;
             if (Input.GetKeyDown(KeyCode.E)) powerup = true;
         }
+
+        if (reversed) move.x *= -1;
 
         isColliding = false;
     }
@@ -298,6 +300,12 @@ public class PlayerControllerTestScript : MonoBehaviour {
         canBounce = true; 
     }
 
+    IEnumerator Scare(float scareTime) {
+        reversed = true;
+        yield return new WaitForSeconds(scareTime);
+        reversed = false;
+    }
+
     public void ChangePlayerSpeed(float speed) {
         playerSpeed = speed;
     }
@@ -415,8 +423,10 @@ public class PlayerControllerTestScript : MonoBehaviour {
         readyImage.transform.parent.gameObject.SetActive(false);
     }
 
-    private void OnGo() {
-        isStarting = true;
+    public void AddForce(Vector3 direction, float force) {
+        Debug.Log("Added force");
+        direction.Normalize();
+        rb.AddForce(direction * force);
     }
 
     private void OnEnable() {

@@ -1105,6 +1105,7 @@ MonoBehaviour:
   waitTime: 3
   barWidth: 460
   gameSceneName: GameScene
+  oneController: 1
 --- !u!4 &252888799
 Transform:
   m_ObjectHideFlags: 0
@@ -6500,7 +6501,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 2100000, guid: 708e33746a57ccb4580c9d093786d697, type: 2}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.33333334}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.56078434}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

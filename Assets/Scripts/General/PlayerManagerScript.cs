@@ -167,6 +167,7 @@ public class PlayerManagerScript : MonoBehaviour {
 
                     if (oneController) { 
                         script = Instantiate(character, position + Vector3.left * ((i + 1) * 2), Quaternion.identity).GetComponent<PlayerControllerTestScript>();
+                        players.Add(script.transform);
                         script.ChangeGamepad(gamepad.Key);
                         script.OnFreeze();
                     }
