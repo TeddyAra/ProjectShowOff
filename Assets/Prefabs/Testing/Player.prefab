@@ -576,8 +576,9 @@ MonoBehaviour:
   moveForce: 0.5
   moveDrag: 2.5
   maxSpeed: 17
+  maxFallSpeed: 25
   ignoreInput: 0
-  jumpForce: 1600
+  jumpForce: 800
   jumpBoost: 10
   jumpTime: 0.5
   coyoteTime: 0.1
