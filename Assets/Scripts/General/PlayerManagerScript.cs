@@ -136,18 +136,23 @@ public class PlayerManagerScript : MonoBehaviour {
     }
 
     private void Update() {
-        // Waiting for the game scene to load
+        // If the game is ready to start
         if (done) {
+            // Wait for the game scene to load
             if (!SceneManager.GetSceneByName(gameSceneName).isLoaded) return;
 
             for (int i = 0; i < gamepads.Count; i++) {
                 KeyValuePair<Gamepad, bool> gamepad = gamepads.ElementAt(i);
                 if (!gamepad.Value) return;
 
+                // If the controller has a character selected
                 int index = GetCharacterPicker(i);
                 if (index != -1) {
+                    // Spawn the character
                     CharacterPicker picker = characterPickers[index];
                     GameObject character = characterSizes[picker.GetCharacter()].prefab;
+
+                    // Assign the controller to the character
                     PlayerControllerTestScript script = Instantiate(character).GetComponent<PlayerControllerTestScript>();
                     script.ChangeGamepad(gamepad.Key);
                 }
@@ -157,7 +162,9 @@ public class PlayerManagerScript : MonoBehaviour {
             return;
         }
 
+        // If there is a first player
         if (firstPlayer != null) {
+            // Reset the start bar if the button is let go
             if (firstPlayer.buttonSouth.wasReleasedThisFrame) {
                 waitTimer = 0;
                 startBar.sizeDelta = new Vector2(0, startBar.sizeDelta.y);
@@ -169,7 +176,9 @@ public class PlayerManagerScript : MonoBehaviour {
                 float width = Mathf.Clamp(barWidth * (waitTimer / waitTime), 0, barWidth);
                 startBar.sizeDelta = new Vector2(width, startBar.sizeDelta.y);
 
+                // If the game has to start
                 if (waitTimer >= waitTime) {
+                    // Don't start the game if there is not at least two players ready
                     if (taken.Count < 2) {
                         waitTimer = 0;
                         return;
@@ -207,6 +216,7 @@ public class PlayerManagerScript : MonoBehaviour {
                     }
                 }
 
+                // Let the script check the joystick again if the player put it back to the center
                 if (lastJoysticks[i] && joystick.x > -0.5f && joystick.x < 0.5f) {
                     lastJoysticks[i] = false;
                 }
@@ -280,6 +290,7 @@ public class PlayerManagerScript : MonoBehaviour {
 
     private void OnDeviceChange(InputDevice device, InputDeviceChange change) {
         if (change == InputDeviceChange.Added) {
+            // Add the gamepad if it wasn't here before
             if (!gamepads.ContainsKey((Gamepad)device)) {
                 gamepads.Add((Gamepad)device, false);
                 lastJoysticks.Add(false);
@@ -287,6 +298,8 @@ public class PlayerManagerScript : MonoBehaviour {
         }
 
         if (change == InputDeviceChange.Removed) {
+            // Check if the controller was a part of the game (assigned to one of the character pickers)
+            // -2 because -1 is the 'state' of characterpickers if they have no controller assigned to them
             int index = -2;
 
             for (int i = 0; i < gamepads.Count; ++i) {
@@ -298,15 +311,22 @@ public class PlayerManagerScript : MonoBehaviour {
 
             for (int i = 0; i < characterPickers.Count; i++) {
                 CharacterPicker picker = characterPickers[i];
+
+                // If the picker has this controller assigned to them
                 if (picker.GetIndex() == index) {
+                    // If the character had a confirmed character, make sure other players can choose that player again
                     if (taken.Contains(picker.GetCharacter())) taken.Remove(picker.GetCharacter());
+
                     picker.NotPlay();
                     picker.SetIndex(-1);
                 }
                 characterPickers[i] = picker;
             }
 
+            // Remove the controller if it was part of gamepads
             if (gamepads.ContainsKey((Gamepad)device)) gamepads[(Gamepad)device] = false;
+
+            // Find another first player if this was the first player
             if (firstPlayer == (Gamepad)device) firstPlayer = null;
         }
     }

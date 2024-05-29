@@ -160,6 +160,8 @@ public class PlayerControllerTestScript : MonoBehaviour {
             if (gamepad.buttonSouth.wasPressedThisFrame) jump = true;
             if (gamepad.buttonWest.wasPressedThisFrame) powerup = true;
 
+            Debug.Log(holdingJump);
+
         // Keyboard input
         } else {
             bool left = Input.GetKey(KeyCode.A);
