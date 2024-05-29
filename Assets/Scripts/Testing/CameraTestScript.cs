@@ -34,17 +34,14 @@ public class CameraTestScript : MonoBehaviour {
     private List<Transform> players;
     private bool starting = true;
 
-    private void Start() {
+    /*private void Start() {
         players = new List<Transform>();
 
         GameObject[] playerObjects = GameObject.FindGameObjectsWithTag("Player");
         foreach (GameObject player in playerObjects) {
             players.Add(player.transform);
         }
-
-        //transform.position = GetAveragePosition();
-        //StartCoroutine(StartRace());
-    }
+    }*/
 
     IEnumerator StartRace() {
         yield return new WaitForSeconds(3.05f);
@@ -139,11 +136,17 @@ public class CameraTestScript : MonoBehaviour {
         StartCoroutine(StartRace());
     }
 
+    private void OnGetPlayers(List<Transform> players) { 
+        this.players = players;
+    }
+
     private void OnEnable() {
         GameManager.onStart += OnStart;
+        PlayerManagerScript.onGetPlayers += OnGetPlayers;
     }
 
     private void OnDisable() {
         GameManager.onStart -= OnStart;
+        PlayerManagerScript.onGetPlayers -= OnGetPlayers;
     }
 }

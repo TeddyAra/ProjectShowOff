@@ -97,7 +97,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
     private float jumpTimer;
     private Gamepad gamepad;
     private bool powerup;
-    private bool isReady;
+    private bool reversed;
 
     // Death variables
     private bool frozen;
@@ -160,8 +160,6 @@ public class PlayerControllerTestScript : MonoBehaviour {
             if (gamepad.buttonSouth.wasPressedThisFrame) jump = true;
             if (gamepad.buttonWest.wasPressedThisFrame) powerup = true;
 
-            Debug.Log(holdingJump);
-
         // Keyboard input
         } else {
             bool left = Input.GetKey(KeyCode.A);
@@ -173,6 +171,8 @@ public class PlayerControllerTestScript : MonoBehaviour {
             if (Input.GetKeyDown(KeyCode.E)) powerup = true;
         }
 
+        if (reversed) move.x *= -1;
+
         isColliding = false;
     }
 
@@ -181,7 +181,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
             rb.AddForce(Vector3.down * gravity);
         }
 
-        if (!isStarting) {
+        /*if (!isStarting) {
             if (holdingJump) {
                 if (!isReady) {
                     isReady = true;
@@ -198,7 +198,9 @@ public class PlayerControllerTestScript : MonoBehaviour {
             jump = false;
         }
 
-        if (!isReady || !isStarting) return;
+        if (!isReady || !isStarting) return;*/
+
+        if (isStarting) return;
 
         // Update timers
         coyoteTimer--;
@@ -293,10 +295,15 @@ public class PlayerControllerTestScript : MonoBehaviour {
         powerup = false;
     }
 
-    IEnumerator BouncePadDelay()
-    {
+    IEnumerator BouncePadDelay() {
         yield return new WaitForSeconds(0.8f); 
         canBounce = true; 
+    }
+
+    IEnumerator Scare(float scareTime) {
+        reversed = true;
+        yield return new WaitForSeconds(scareTime);
+        reversed = false;
     }
 
     public void ChangePlayerSpeed(float speed) {
@@ -381,7 +388,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
         ignoreMaxSpeed = false; 
     }
 
-    private void OnFreeze() {
+    public void OnFreeze() {
         if (!frozen) {
             // Freeze the player
             frozen = true;
@@ -413,8 +420,13 @@ public class PlayerControllerTestScript : MonoBehaviour {
     }
 
     private void OnStart() {
-        isStarting = true;
         readyImage.transform.parent.gameObject.SetActive(false);
+    }
+
+    public void AddForce(Vector3 direction, float force) {
+        Debug.Log("Added force");
+        direction.Normalize();
+        rb.AddForce(direction * force);
     }
 
     private void OnEnable() {
