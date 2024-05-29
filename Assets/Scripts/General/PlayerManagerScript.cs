@@ -102,6 +102,7 @@ public class PlayerManagerScript : MonoBehaviour {
     [SerializeField] private float waitTime;
     [SerializeField] private float barWidth;
     [SerializeField] private string gameSceneName;
+    [SerializeField] private bool oneController;
 
     private Dictionary<Gamepad, bool> gamepads;
     private List<bool> lastJoysticks;
@@ -109,6 +110,9 @@ public class PlayerManagerScript : MonoBehaviour {
     private Gamepad firstPlayer;
     private float waitTimer;
     private bool done;
+
+    public delegate void OnGetPlayers(List<Transform> players);
+    public static event OnGetPlayers onGetPlayers;
 
     private void Start() {
         DontDestroyOnLoad(gameObject);
@@ -141,6 +145,9 @@ public class PlayerManagerScript : MonoBehaviour {
             // Wait for the game scene to load
             if (!SceneManager.GetSceneByName(gameSceneName).isLoaded) return;
 
+            Vector3 position = GameObject.FindGameObjectWithTag("SpawnPoint").transform.position;
+            List<Transform> players = new List<Transform>();
+
             for (int i = 0; i < gamepads.Count; i++) {
                 KeyValuePair<Gamepad, bool> gamepad = gamepads.ElementAt(i);
                 if (!gamepad.Value) return;
@@ -151,12 +158,22 @@ public class PlayerManagerScript : MonoBehaviour {
                     // Spawn the character
                     CharacterPicker picker = characterPickers[index];
                     GameObject character = characterSizes[picker.GetCharacter()].prefab;
+                    PlayerControllerTestScript script = Instantiate(character, position + Vector3.left * (i * 2), Quaternion.identity).GetComponent<PlayerControllerTestScript>();
+                    players.Add(script.transform);
 
                     // Assign the controller to the character
-                    PlayerControllerTestScript script = Instantiate(character).GetComponent<PlayerControllerTestScript>();
                     script.ChangeGamepad(gamepad.Key);
+                    script.OnFreeze();
+
+                    if (oneController) { 
+                        script = Instantiate(character, position + Vector3.left * ((i + 1) * 2), Quaternion.identity).GetComponent<PlayerControllerTestScript>();
+                        script.ChangeGamepad(gamepad.Key);
+                        script.OnFreeze();
+                    }
                 }
             }
+
+            onGetPlayers?.Invoke(players);
 
             Destroy(gameObject);
             return;
@@ -229,6 +246,7 @@ public class PlayerManagerScript : MonoBehaviour {
                         if (picker.isReady) return;
 
                         taken.Add(picker.GetCharacter());
+                        if (oneController) taken.Add(picker.GetCharacter());
                         picker.Ready();
 
                         characterPickers[index] = picker;
