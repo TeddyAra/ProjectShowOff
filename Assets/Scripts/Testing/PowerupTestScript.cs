@@ -155,7 +155,7 @@ public class PowerupTestScript : MonoBehaviour {
     }
 
     public string GetRandomPowerup() {
-        int num = UnityEngine.Random.Range(powerups.Count - 1, powerups.Count);
+        int num = UnityEngine.Random.Range(1, powerups.Count);
         currentPowerup = powerups[num];
         Debug.Log(currentPowerup.ToString());
         return currentPowerup.ToString();

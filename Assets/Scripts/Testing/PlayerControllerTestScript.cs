@@ -138,6 +138,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
     private AudioSource audioSource;
     
     private void Start() {
+        DontDestroyOnLoad(gameObject);
         audioSource = GetComponent<AudioSource>();
         rb = GetComponent<Rigidbody>();
         groundMaskInt = LayerMask.GetMask(groundMask);
@@ -423,6 +424,12 @@ public class PlayerControllerTestScript : MonoBehaviour {
         readyImage.transform.parent.gameObject.SetActive(false);
     }
 
+    private void OnRespawn()
+    {
+        Vector3 spawnPoint = GameObject.FindGameObjectWithTag("SpawnPoint").transform.position; 
+        transform.position = spawnPoint; 
+    }
+
     public void AddForce(Vector3 direction, float force) {
         Debug.Log("Added force");
         direction.Normalize();
@@ -433,6 +440,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
         GameManager.onFreeze += OnFreeze;
         GameManager.onUnfreeze += OnUnfreeze;
         GameManager.onStart += OnStart;
+        GameManager.onRespawn += OnRespawn; 
 
         rb = GetComponent<Rigidbody>();
         groundMaskInt = LayerMask.GetMask(groundMask);
@@ -448,5 +456,6 @@ public class PlayerControllerTestScript : MonoBehaviour {
         GameManager.onFreeze -= OnFreeze;
         GameManager.onUnfreeze -= OnUnfreeze;
         GameManager.onStart -= OnStart;
+        GameManager.onRespawn -= OnRespawn; 
     }
 }

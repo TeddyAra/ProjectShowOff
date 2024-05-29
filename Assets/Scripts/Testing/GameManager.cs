@@ -22,6 +22,9 @@ public class GameManager : MonoBehaviour {
     public delegate void OnUnfreeze();
     public static event OnUnfreeze onUnfreeze;
 
+    public delegate void OnRespawn();
+    public static event OnRespawn onRespawn;
+
     public delegate void OnStart();
     public static event OnStart onStart;
 
@@ -88,6 +91,7 @@ public class GameManager : MonoBehaviour {
     }
 
     private void OnFinish() {
+
         StartCoroutine(Finish());
     }
 
@@ -98,6 +102,7 @@ public class GameManager : MonoBehaviour {
         yield return new WaitForSeconds(3);
 
         // Restart the race
+        onRespawn?.Invoke();     
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
