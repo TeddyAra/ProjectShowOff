@@ -48,7 +48,8 @@ public class GameManager : MonoBehaviour {
 
         countdown.text = "Get ready...";
 
-        while (readyNum < playerNumber) yield return null;
+        //while (readyNum < playerNumber) yield return null;
+        yield return new WaitForSeconds(3);
 
         onStart?.Invoke();
 

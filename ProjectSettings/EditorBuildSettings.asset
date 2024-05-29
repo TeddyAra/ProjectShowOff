@@ -5,9 +5,15 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/OutdoorsScene.unity
     guid: 8124e5870f4fd4c779e7a5f994e84ad1
+  - enabled: 1
+    path: Assets/Scenes/Final scenes/CharacterSelectorScene.unity
+    guid: f81178e234583ec42865c4cc5d3d5bc1
+  - enabled: 1
+    path: Assets/Scenes/Final scenes/GameScene.unity
+    guid: 8f08fbbef812e6a4086bde31a6419446
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 26a948f478396f44b9d87ba603a1312e,
       type: 2}
