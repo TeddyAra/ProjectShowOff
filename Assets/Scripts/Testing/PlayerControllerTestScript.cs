@@ -155,11 +155,12 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
         // Controller input
         if (gamepad != null) {
-            Debug.Log("No controller!");
             move = gamepad.leftStick.ReadValue();
             holdingJump = gamepad.buttonSouth.isPressed;
             if (gamepad.buttonSouth.wasPressedThisFrame) jump = true;
             if (gamepad.buttonWest.wasPressedThisFrame) powerup = true;
+
+            Debug.Log(holdingJump);
 
         // Keyboard input
         } else {
@@ -303,6 +304,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
     }
 
     public void ChangeGamepad(Gamepad gamepad) {
+        Debug.Log(gamepad.description);
         this.gamepad = gamepad;
     }
 

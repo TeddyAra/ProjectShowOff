@@ -6,11 +6,13 @@ using UnityEngine.InputSystem;
 using Unity.VisualScripting;
 using System.Linq;
 using System;
+using UnityEngine.SceneManagement;
 
 public class PlayerManagerScript : MonoBehaviour {
     [Serializable]
     struct CharacterPicker {
         [HideInInspector] public bool isPlaying;                // Whether the character picker is being used
+        [HideInInspector] public bool isReady;                // Whether the character picker is ready
         [SerializeField] private GameObject playing;            // The UI for if someone is using the character picker
         [SerializeField] private GameObject notPlaying;         // The UI for if someone is not using the character picker
         [SerializeField] private GameObject ready;              // The UI for if someone is ready to play
@@ -60,6 +62,7 @@ public class PlayerManagerScript : MonoBehaviour {
         // Switch the character picker UI
         public void Play() {
             isPlaying = true;
+            isReady = false;
 
             playing.SetActive(true);
             notPlaying.SetActive(false);
@@ -68,6 +71,7 @@ public class PlayerManagerScript : MonoBehaviour {
 
         public void Ready() {
             isPlaying = true;
+            isReady = true;
 
             playing.SetActive(false);
             notPlaying.SetActive(false);
@@ -76,6 +80,7 @@ public class PlayerManagerScript : MonoBehaviour {
 
         public void NotPlay() {
             isPlaying = false;
+            isReady = false;
 
             playing.SetActive(false);
             notPlaying.SetActive(true);
@@ -89,20 +94,25 @@ public class PlayerManagerScript : MonoBehaviour {
     struct CharacterSize {
         public Material character;
         public Vector2 size;
+        public GameObject prefab;
     }
 
     [SerializeField] private List<CharacterSize> characterSizes;
     [SerializeField] private RectTransform startBar;
     [SerializeField] private float waitTime;
     [SerializeField] private float barWidth;
+    [SerializeField] private string gameSceneName;
 
     private Dictionary<Gamepad, bool> gamepads;
     private List<bool> lastJoysticks;
     private List<int> taken;
     private Gamepad firstPlayer;
     private float waitTimer;
+    private bool done;
 
     private void Start() {
+        DontDestroyOnLoad(gameObject);
+
         Dictionary<Material, Vector2> dict = new Dictionary<Material, Vector2>();
         foreach (CharacterSize characterSize in characterSizes) {
             dict.Add(characterSize.character, characterSize.size);
@@ -126,19 +136,57 @@ public class PlayerManagerScript : MonoBehaviour {
     }
 
     private void Update() {
+        // If the game is ready to start
+        if (done) {
+            // Wait for the game scene to load
+            if (!SceneManager.GetSceneByName(gameSceneName).isLoaded) return;
+
+            for (int i = 0; i < gamepads.Count; i++) {
+                KeyValuePair<Gamepad, bool> gamepad = gamepads.ElementAt(i);
+                if (!gamepad.Value) return;
+
+                // If the controller has a character selected
+                int index = GetCharacterPicker(i);
+                if (index != -1) {
+                    // Spawn the character
+                    CharacterPicker picker = characterPickers[index];
+                    GameObject character = characterSizes[picker.GetCharacter()].prefab;
+
+                    // Assign the controller to the character
+                    PlayerControllerTestScript script = Instantiate(character).GetComponent<PlayerControllerTestScript>();
+                    script.ChangeGamepad(gamepad.Key);
+                }
+            }
+
+            Destroy(gameObject);
+            return;
+        }
+
+        // If there is a first player
         if (firstPlayer != null) {
+            // Reset the start bar if the button is let go
             if (firstPlayer.buttonSouth.wasReleasedThisFrame) {
                 waitTimer = 0;
                 startBar.sizeDelta = new Vector2(0, startBar.sizeDelta.y);
             }
 
+            // If the first player wants to start the game
             if (firstPlayer.buttonSouth.isPressed) {
                 waitTimer += Time.deltaTime;
                 float width = Mathf.Clamp(barWidth * (waitTimer / waitTime), 0, barWidth);
                 startBar.sizeDelta = new Vector2(width, startBar.sizeDelta.y);
 
+                // If the game has to start
                 if (waitTimer >= waitTime) {
-                    Debug.Log("Ready!");
+                    // Don't start the game if there is not at least two players ready
+                    if (taken.Count < 2) {
+                        waitTimer = 0;
+                        return;
+                    }
+
+                    SceneManager.LoadScene(gameSceneName);
+                    done = true;
+                    return;
                 }
             } 
         }
@@ -160,51 +208,51 @@ public class PlayerManagerScript : MonoBehaviour {
 
                 if (left != right) {
                     lastJoysticks[i] = true;
-                    for (int j = 0; j < characterPickers.Count; j++) {
-                        if (characterPickers[j].GetIndex() == i) {
-                            CharacterPicker picker = characterPickers[j];
-                            picker.ChangeCharacter(right, taken);
-                            characterPickers[j] = picker;
-                        }
+                    int index = GetCharacterPicker(i);
+                    if (index != -1) {
+                        CharacterPicker picker = characterPickers[index];
+                        picker.ChangeCharacter(right, taken);
+                        characterPickers[index] = picker;
                     }
                 }
 
+                // Let the script check the joystick again if the player put it back to the center
                 if (lastJoysticks[i] && joystick.x > -0.5f && joystick.x < 0.5f) {
                     lastJoysticks[i] = false;
                 }
 
                 // If the player wants to confirm their character
                 if (gamepad.Key.buttonSouth.wasPressedThisFrame) {
-                    for (int j = 0; j < characterPickers.Count; j++) {
-                        if (characterPickers[j].GetIndex() == i) {
-                            CharacterPicker picker = characterPickers[j];
-                            taken.Add(picker.GetCharacter());
-                            picker.Ready();
+                    int index = GetCharacterPicker(i);
+                    if (index != -1) {
+                        CharacterPicker picker = characterPickers[index];
+                        if (picker.isReady) return;
 
-                            characterPickers[j] = picker;
+                        taken.Add(picker.GetCharacter());
+                        picker.Ready();
 
-                            for (int k = 0; k < characterPickers.Count; k++) {
-                                if (k == j) continue;
+                        characterPickers[index] = picker;
 
-                                CharacterPicker pickerCopy = characterPickers[k];
-                                if (pickerCopy.GetCharacter() == picker.GetCharacter())
-                                    pickerCopy.ChangeCharacter(true, taken);
+                        for (int k = 0; k < characterPickers.Count; k++) {
+                            if (k == index) continue;
 
-                                characterPickers[k] = pickerCopy;
-                            }
+                            CharacterPicker pickerCopy = characterPickers[k];
+                            if (pickerCopy.GetCharacter() == picker.GetCharacter())
+                                pickerCopy.ChangeCharacter(true, taken);
+
+                            characterPickers[k] = pickerCopy;
                         }
                     }
                 }
 
                 // If the player wants to go back to character selection
                 if (gamepad.Key.buttonEast.wasPressedThisFrame) {
-                    for (int j = 0; j < characterPickers.Count; j++) {
-                        if (characterPickers[j].GetIndex() == i) {
-                            CharacterPicker picker = characterPickers[j];
-                            picker.Play();
-                            taken.Remove(picker.GetCharacter());
-                            characterPickers[j] = picker;
-                        }
+                    int index = GetCharacterPicker(i);
+                    if (index != -1) {
+                        CharacterPicker picker = characterPickers[index];
+                        picker.Play();
+                        taken.Remove(picker.GetCharacter());
+                        characterPickers[index] = picker;
                     }
                 }
 
@@ -230,12 +278,28 @@ public class PlayerManagerScript : MonoBehaviour {
         }
     }
 
+    private int GetCharacterPicker(int index) {
+        for (int j = 0; j < characterPickers.Count; j++) {
+            if (characterPickers[j].GetIndex() == index) {
+                return j;
+            }
+        }
+
+        return -1;
+    }
+
     private void OnDeviceChange(InputDevice device, InputDeviceChange change) {
         if (change == InputDeviceChange.Added) {
-            if (!gamepads.ContainsKey((Gamepad)device)) gamepads.Add((Gamepad)device, false);
+            // Add the gamepad if it wasn't here before
+            if (!gamepads.ContainsKey((Gamepad)device)) {
+                gamepads.Add((Gamepad)device, false);
+                lastJoysticks.Add(false);
+            }
         }
 
         if (change == InputDeviceChange.Removed) {
+            // Check if the controller was a part of the game (assigned to one of the character pickers)
+            // -2 because -1 is the 'state' of characterpickers if they have no controller assigned to them
             int index = -2;
 
             for (int i = 0; i < gamepads.Count; ++i) {
@@ -247,15 +311,22 @@ public class PlayerManagerScript : MonoBehaviour {
 
             for (int i = 0; i < characterPickers.Count; i++) {
                 CharacterPicker picker = characterPickers[i];
+
+                // If the picker has this controller assigned to them
                 if (picker.GetIndex() == index) {
+                    // If the character had a confirmed character, make sure other players can choose that player again
                     if (taken.Contains(picker.GetCharacter())) taken.Remove(picker.GetCharacter());
+
                     picker.NotPlay();
                     picker.SetIndex(-1);
                 }
                 characterPickers[i] = picker;
             }
 
+            // Remove the controller if it was part of gamepads
             if (gamepads.ContainsKey((Gamepad)device)) gamepads[(Gamepad)device] = false;
+
+            // Find another first player if this was the first player
             if (firstPlayer == (Gamepad)device) firstPlayer = null;
         }
     }
