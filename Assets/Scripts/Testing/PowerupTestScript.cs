@@ -65,6 +65,16 @@ public class PowerupTestScript : MonoBehaviour {
     [Tooltip("The amount of force to push the player with")]
     [SerializeField] private float force;
 
+    // ----------------------------------------------------------------------------------
+
+    [Header("Scare")]
+
+    [Tooltip("The range of the scare")]
+    [SerializeField] private float scareRange;
+
+    [Tooltip("The amount of time to scare the players")]
+    [SerializeField] private float scareTime;
+
     private float maxSpeed;
 
     public enum Powerup {
@@ -119,9 +129,24 @@ public class PowerupTestScript : MonoBehaviour {
             case Powerup.Fartboost:
                 Fart();
                 break;
+
+            case Powerup.Scare:
+                Scare();
+                break;
         }
 
         currentPowerup = Powerup.None;
+    }
+
+    private void Scare() {
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+
+        foreach (GameObject player in players) {
+            if (player == gameObject) continue;
+            if ((player.transform.position - transform.position).magnitude < scareRange) {
+                StartCoroutine(player.GetComponent<PlayerControllerTestScript>().Scare(scareTime));
+            }
+        }
     }
 
     private void Fart() {
@@ -161,7 +186,10 @@ public class PowerupTestScript : MonoBehaviour {
     public string GetRandomPowerup() {
         int num = UnityEngine.Random.Range(1, powerups.Count);
         currentPowerup = powerups[num];
-        Debug.Log(currentPowerup.ToString());
+
+        // FOR DEBUGGING PURPOSES
+        currentPowerup = Powerup.Scare;
+
         return currentPowerup.ToString();
     } 
 }
