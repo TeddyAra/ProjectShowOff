@@ -10,7 +10,6 @@ public class GameManager : MonoBehaviour {
     [SerializeField] private Transform checkpoint;
     [SerializeField] private float spawnDistance;
     [SerializeField] private TMP_Text countdown;
-    [SerializeField] private int playerNumber;
 
     private List<Vector3> checkpoints;
     private int currentCheckpoint;
