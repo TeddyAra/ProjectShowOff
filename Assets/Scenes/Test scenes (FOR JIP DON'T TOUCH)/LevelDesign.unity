@@ -16231,6 +16231,9 @@ Transform:
   - {fileID: 156242900}
   - {fileID: 1165305258}
   - {fileID: 6027944396228056732}
+  - {fileID: 1917710848}
+  - {fileID: 1554685097}
+  - {fileID: 988498094}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &749745214 stripped
@@ -18487,6 +18490,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   resetWithController: 0
+  finish: {fileID: 0}
 --- !u!4 &867289941
 Transform:
   m_ObjectHideFlags: 0
@@ -19945,6 +19949,12 @@ PrefabInstance:
       addedObject: {fileID: 747440830}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 44f8adee21f98354b9e70972ca788849, type: 3}
+--- !u!4 &988498094 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 852988118346177373, guid: 44f8adee21f98354b9e70972ca788849,
+    type: 3}
+  m_PrefabInstance: {fileID: 988498093}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &994856371
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -28409,7 +28419,7 @@ Transform:
   m_LocalScale: {x: 2, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1165305258}
+  m_Father: {fileID: 1554685097}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &1294763408
 MeshRenderer:
@@ -34615,6 +34625,12 @@ PrefabInstance:
       addedObject: {fileID: 1294763407}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 44f8adee21f98354b9e70972ca788849, type: 3}
+--- !u!4 &1554685097 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 852988118346177373, guid: 44f8adee21f98354b9e70972ca788849,
+    type: 3}
+  m_PrefabInstance: {fileID: 1554685096}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1555380046
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -36305,23 +36321,8 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 1685974312}
+    m_TransformParent: {fileID: 988498094}
     m_Modifications:
-    - target: {fileID: -8679921383154817045, guid: c992e4c7fb6204349b82e1fb9c3426cf,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: c992e4c7fb6204349b82e1fb9c3426cf,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.75
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: c992e4c7fb6204349b82e1fb9c3426cf,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1.5
-      objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c992e4c7fb6204349b82e1fb9c3426cf,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -36372,21 +36373,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: c992e4c7fb6204349b82e1fb9c3426cf,
-        type: 3}
-      propertyPath: m_ConstrainProportionsScale
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: c992e4c7fb6204349b82e1fb9c3426cf,
         type: 3}
       propertyPath: m_Name
       value: M_Monster_Pinguino_0
       objectReference: {fileID: 0}
-    - target: {fileID: 7067180901427140812, guid: c992e4c7fb6204349b82e1fb9c3426cf,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 75a5eb1895d41c44293e347863b8a5ae, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -41151,6 +41142,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 44f8adee21f98354b9e70972ca788849, type: 3}
+--- !u!4 &1917710848 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 852988118346177373, guid: 44f8adee21f98354b9e70972ca788849,
+    type: 3}
+  m_PrefabInstance: {fileID: 1917710847}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1920365460
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -44087,7 +44084,6 @@ MonoBehaviour:
   checkpoint: {fileID: 1733451000}
   spawnDistance: 2
   countdown: {fileID: 849125972}
-  playerNumber: 4
 --- !u!1001 &2072326219
 PrefabInstance:
   m_ObjectHideFlags: 0
