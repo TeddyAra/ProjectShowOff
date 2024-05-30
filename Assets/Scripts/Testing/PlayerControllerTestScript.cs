@@ -301,12 +301,12 @@ public class PlayerControllerTestScript : MonoBehaviour {
         powerup = false;
     }
 
-    IEnumerator BouncePadDelay() {
+    private IEnumerator BouncePadDelay() {
         yield return new WaitForSeconds(0.8f); 
         canBounce = true; 
     }
 
-    IEnumerator Scare(float scareTime) {
+    public IEnumerator Scare(float scareTime) {
         reversed = true;
         yield return new WaitForSeconds(scareTime);
         reversed = false;

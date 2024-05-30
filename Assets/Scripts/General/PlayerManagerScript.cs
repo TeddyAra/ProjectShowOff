@@ -117,6 +117,9 @@ public class PlayerManagerScript : MonoBehaviour {
     public static event OnGetPlayers onGetPlayers;
 
     private void Start() {
+        UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI = false;
+        UnityEngine.Rendering.DebugManager.instance.displayRuntimeUI = false;
+
         DontDestroyOnLoad(gameObject);
 
         Dictionary<Material, Vector2> dict = new Dictionary<Material, Vector2>();

@@ -65,6 +65,29 @@ public class PowerupTestScript : MonoBehaviour {
     [Tooltip("The amount of force to push the player with")]
     [SerializeField] private float force;
 
+    // ----------------------------------------------------------------------------------
+
+    [Header("Scare")]
+
+    [Tooltip("The range of the scare")]
+    [SerializeField] private float scareRange;
+
+    [Tooltip("The amount of time to scare the players")]
+    [SerializeField] private float scareTime;
+
+    // ----------------------------------------------------------------------------------
+
+    [Header("Windblast")]
+
+    [Tooltip("How close people have to be to be blast back")]
+    [SerializeField] private float blastRange;
+
+    [Tooltip("With how much force others should be pushed back")]
+    [SerializeField] private float blastForce;
+
+    [Tooltip("With how much force the player should be pushed forward")]
+    [SerializeField] private float blastBoost;
+
     private float maxSpeed;
 
     public enum Powerup {
@@ -72,7 +95,8 @@ public class PowerupTestScript : MonoBehaviour {
         Speedboost,
         SleepBomb,
         Fartboost,
-        Scare
+        Scare,
+        Windblast
     }
 
     private List<Powerup> powerups;
@@ -119,9 +143,42 @@ public class PowerupTestScript : MonoBehaviour {
             case Powerup.Fartboost:
                 Fart();
                 break;
+
+            case Powerup.Scare:
+                Scare();
+                break;
+
+            case Powerup.Windblast:
+                Windblast();
+                break;
         }
 
         currentPowerup = Powerup.None;
+    }
+
+    private void Windblast() {
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+
+        foreach (GameObject player in players) {
+            if (player == gameObject) continue;
+            if ((player.transform.position - transform.position).magnitude < blastRange &&
+                player.transform.position.x < transform.position.x) {
+                player.GetComponent<PlayerControllerTestScript>().AddForce(Vector3.left, blastForce);
+            }
+        }
+
+        GetComponent<PlayerControllerTestScript>().AddForce(Vector3.right, blastBoost);
+    }
+
+    private void Scare() {
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+
+        foreach (GameObject player in players) {
+            if (player == gameObject) continue;
+            if ((player.transform.position - transform.position).magnitude < scareRange) {
+                StartCoroutine(player.GetComponent<PlayerControllerTestScript>().Scare(scareTime));
+            }
+        }
     }
 
     private void Fart() {
@@ -161,7 +218,10 @@ public class PowerupTestScript : MonoBehaviour {
     public string GetRandomPowerup() {
         int num = UnityEngine.Random.Range(1, powerups.Count);
         currentPowerup = powerups[num];
-        Debug.Log(currentPowerup.ToString());
+
+        // FOR DEBUGGING PURPOSES
+        currentPowerup = Powerup.Windblast;
+
         return currentPowerup.ToString();
     } 
 }
