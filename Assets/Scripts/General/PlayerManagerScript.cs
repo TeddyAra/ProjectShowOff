@@ -103,6 +103,7 @@ public class PlayerManagerScript : MonoBehaviour {
     [SerializeField] private float barWidth;
     [SerializeField] private string gameSceneName;
     [SerializeField] private bool oneController;
+    [SerializeField] private GameObject cameraPrefab;
 
     private Dictionary<Gamepad, bool> gamepads;
     private List<bool> lastJoysticks;
@@ -148,6 +149,9 @@ public class PlayerManagerScript : MonoBehaviour {
             Vector3 position = GameObject.FindGameObjectWithTag("SpawnPoint").transform.position;
             List<Transform> players = new List<Transform>();
 
+            Instantiate(cameraPrefab, position + Vector3.back * 14 + Vector3.up * 6, Quaternion.Euler(7, 0, 0));
+
+            int num = 0;
             for (int i = 0; i < gamepads.Count; i++) {
                 KeyValuePair<Gamepad, bool> gamepad = gamepads.ElementAt(i);
                 if (!gamepad.Value) return;
@@ -158,18 +162,22 @@ public class PlayerManagerScript : MonoBehaviour {
                     // Spawn the character
                     CharacterPicker picker = characterPickers[index];
                     GameObject character = characterSizes[picker.GetCharacter()].prefab;
-                    PlayerControllerTestScript script = Instantiate(character, position + Vector3.left * (i * 2), Quaternion.identity).GetComponent<PlayerControllerTestScript>();
+                    PlayerControllerTestScript script = Instantiate(character, Vector3.zero, Quaternion.identity).GetComponent<PlayerControllerTestScript>();
                     players.Add(script.transform);
 
-                    // Assign the controller to the character
-                    script.ChangeGamepad(gamepad.Key);
+                    script.ChangeGamepad(gamepad.Key, num);
+                    script.OnRespawn();
                     script.OnFreeze();
+                    num++;
 
                     if (oneController) { 
-                        script = Instantiate(character, position + Vector3.left * ((i + 1) * 2), Quaternion.identity).GetComponent<PlayerControllerTestScript>();
+                        script = Instantiate(character, Vector3.zero, Quaternion.identity).GetComponent<PlayerControllerTestScript>();
                         players.Add(script.transform);
-                        script.ChangeGamepad(gamepad.Key);
+
+                        script.ChangeGamepad(gamepad.Key, num);
+                        script.OnRespawn();
                         script.OnFreeze();
+                        num++;
                     }
                 }
             }

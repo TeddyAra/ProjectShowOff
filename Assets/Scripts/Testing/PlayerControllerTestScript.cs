@@ -76,6 +76,8 @@ public class PlayerControllerTestScript : MonoBehaviour {
     [Tooltip("The layer mask of the players")]
     [SerializeField] private LayerMask playerLayer;
 
+    [SerializeField] private float playerDistance;
+
     [SerializeField] private AudioClip jumpLanding;
 
     // ----------------------------------------------------------------------------------
@@ -87,7 +89,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
     private int groundMaskInt;
     private int bouncePadMaskInt;
     private bool canBounce = true; 
-    private bool ignoreMaxSpeed = false; 
+    //private bool ignoreMaxSpeed = false; 
 
     // Input variables
     private Vector2 move;
@@ -129,6 +131,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
     private float playerSpeed;
     private bool isColliding;
+    private int playerNum;
 
     [SerializeField] private Image readyImage;
     [SerializeField] private TMP_Text readyText;
@@ -136,9 +139,11 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
     // Sound stuff
     private AudioSource audioSource;
+
     
     private void Start() {
         DontDestroyOnLoad(gameObject);
+
         audioSource = GetComponent<AudioSource>();
         rb = GetComponent<Rigidbody>();
         groundMaskInt = LayerMask.GetMask(groundMask);
@@ -280,7 +285,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
         // Make sure players aren't going too fast
         Vector2 tempVelocity = velocity;
         tempVelocity.x = Mathf.Clamp(tempVelocity.x, -playerSpeed, playerSpeed);
-        if (!ignoreMaxSpeed) tempVelocity.y = Mathf.Clamp(tempVelocity.y, -maxFallSpeed, maxFallSpeed);
+        /*if (!ignoreMaxSpeed)*/ tempVelocity.y = Mathf.Clamp(tempVelocity.y, -maxFallSpeed, maxFallSpeed);
         velocity = tempVelocity;
 
         if (powerup) {
@@ -311,9 +316,9 @@ public class PlayerControllerTestScript : MonoBehaviour {
         playerSpeed = speed;
     }
 
-    public void ChangeGamepad(Gamepad gamepad) {
-        Debug.Log(gamepad.description);
+    public void ChangeGamepad(Gamepad gamepad, int playerNum) {
         this.gamepad = gamepad;
+        this.playerNum = playerNum;
     }
 
     public void Stun(float stunTime) {
@@ -352,7 +357,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
             // The player got a powerup
             case "Powerup":
-                if (powerupScript.GetCurrentPowerup() == PowerupTestScript.Powerup.None) return;
+                if (powerupScript.GetCurrentPowerup() != PowerupTestScript.Powerup.None) return;
                 string powerup = powerupScript.GetRandomPowerup();
                 onPowerup?.Invoke(this, powerup);
                 Destroy(other.gameObject);
@@ -371,7 +376,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
             if (canBounce && checkPoint.position.y > collision.transform.position.y && 
                 (checkPoint.position.x > collision.transform.position.x - collision.transform.localScale.x / 2) && 
                 (checkPoint.position.x < collision.transform.position.x + collision.transform.localScale.x / 2)) {
-                StartCoroutine(DisableMaxSpeed());
+                //StartCoroutine(DisableMaxSpeed());
                 rb.AddForce(Vector3.up * bouncePadForce); 
                 Debug.Log("Bouncing"); 
                 canBounce = false; 
@@ -380,7 +385,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
         }
     }
 
-    IEnumerator DisableMaxSpeed() {
+    /*IEnumerator DisableMaxSpeed() {
         ignoreMaxSpeed = true; 
 
         while (!grounded) {
@@ -388,7 +393,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
         }
 
         ignoreMaxSpeed = false; 
-    }
+    }*/
 
     public void OnFreeze() {
         if (!frozen) {
@@ -425,9 +430,8 @@ public class PlayerControllerTestScript : MonoBehaviour {
         readyImage.transform.parent.gameObject.SetActive(false);
     }
 
-    private void OnRespawn()
-    {
-        Vector3 spawnPoint = GameObject.FindGameObjectWithTag("SpawnPoint").transform.position; 
+    public void OnRespawn() {
+        Vector3 spawnPoint = GameObject.FindGameObjectWithTag("SpawnPoint").transform.position + Vector3.left * playerDistance * playerNum; 
         transform.position = spawnPoint; 
     }
 

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class CameraTestScript : MonoBehaviour {
     [Tooltip("The distance between the first and last player when the camera should start zooming out")]
@@ -43,8 +44,7 @@ public class CameraTestScript : MonoBehaviour {
         }
     }*/
 
-    private void Start ()
-    {
+    private void Start () {
         DontDestroyOnLoad(gameObject);
     }
 
@@ -145,13 +145,20 @@ public class CameraTestScript : MonoBehaviour {
         this.players = players;
     }
 
+    private void OnRespawn() {
+        Vector3 position = GameObject.FindGameObjectWithTag("SpawnPoint").transform.position;
+        transform.position = position + Vector3.back * 14 + Vector3.up * 6;
+    }
+
     private void OnEnable() {
         GameManager.onStart += OnStart;
         PlayerManagerScript.onGetPlayers += OnGetPlayers;
+        GameManager.onRespawn += OnRespawn;
     }
 
     private void OnDisable() {
         GameManager.onStart -= OnStart;
         PlayerManagerScript.onGetPlayers -= OnGetPlayers;
+        GameManager.onRespawn -= OnRespawn;
     }
 }

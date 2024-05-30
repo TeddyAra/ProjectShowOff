@@ -593,6 +593,7 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 512
+  playerDistance: 2
   jumpLanding: {fileID: 8300000, guid: f4258fac36938464cb9af7229fa65990, type: 3}
   grounded: 0
   readyImage: {fileID: 4803595635778081888}
