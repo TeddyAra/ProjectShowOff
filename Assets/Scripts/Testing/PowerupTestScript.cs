@@ -67,7 +67,7 @@ public class PowerupTestScript : MonoBehaviour {
 
     private float maxSpeed;
 
-    private enum Powerup {
+    public enum Powerup {
         None,
         Speedboost,
         SleepBomb,
@@ -93,6 +93,10 @@ public class PowerupTestScript : MonoBehaviour {
         audioSource = GetComponent<AudioSource>();  
 
         throwDirection.Normalize();
+    }
+
+    public Powerup GetCurrentPowerup() {
+        return currentPowerup;
     }
 
     public void ApplyVariables(float maxSpeed) {
