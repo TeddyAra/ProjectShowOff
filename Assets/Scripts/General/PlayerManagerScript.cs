@@ -12,7 +12,7 @@ public class PlayerManagerScript : MonoBehaviour {
     [Serializable]
     struct CharacterPicker {
         [HideInInspector] public bool isPlaying;                // Whether the character picker is being used
-        [HideInInspector] public bool isReady;                // Whether the character picker is ready
+        [HideInInspector] public bool isReady;                  // Whether the character picker is ready
         [SerializeField] private GameObject playing;            // The UI for if someone is using the character picker
         [SerializeField] private GameObject notPlaying;         // The UI for if someone is not using the character picker
         [SerializeField] private GameObject ready;              // The UI for if someone is ready to play
@@ -111,6 +111,7 @@ public class PlayerManagerScript : MonoBehaviour {
     private Gamepad firstPlayer;
     private float waitTimer;
     private bool done;
+    private int choosing;
 
     public delegate void OnGetPlayers(List<Transform> players);
     public static event OnGetPlayers onGetPlayers;
@@ -197,7 +198,8 @@ public class PlayerManagerScript : MonoBehaviour {
             }
 
             // If the first player wants to start the game
-            if (firstPlayer.buttonSouth.isPressed) {
+            if (firstPlayer.buttonSouth.isPressed && choosing == 0 && taken.Count > 1) {
+                Debug.Log(choosing);
                 waitTimer += Time.deltaTime;
                 float width = Mathf.Clamp(barWidth * (waitTimer / waitTime), 0, barWidth);
                 startBar.sizeDelta = new Vector2(width, startBar.sizeDelta.y);
@@ -254,6 +256,7 @@ public class PlayerManagerScript : MonoBehaviour {
                         CharacterPicker picker = characterPickers[index];
                         if (picker.isReady) return;
 
+                        choosing--;
                         taken.Add(picker.GetCharacter());
                         if (oneController) taken.Add(picker.GetCharacter());
                         picker.Ready();
@@ -280,6 +283,7 @@ public class PlayerManagerScript : MonoBehaviour {
                         picker.Play();
                         taken.Remove(picker.GetCharacter());
                         characterPickers[index] = picker;
+                        choosing++;
                     }
                 }
 
@@ -294,6 +298,7 @@ public class PlayerManagerScript : MonoBehaviour {
                             picker.SetIndex(i);
                             picked = true;
                             picker.ChangeCharacter(true, taken);
+                            choosing++;
 
                             gamepads[gamepad.Key] = true;
                         }
@@ -344,6 +349,7 @@ public class PlayerManagerScript : MonoBehaviour {
                     // If the character had a confirmed character, make sure other players can choose that player again
                     if (taken.Contains(picker.GetCharacter())) taken.Remove(picker.GetCharacter());
 
+                    if (picker.isPlaying) choosing--;
                     picker.NotPlay();
                     picker.SetIndex(-1);
                 }

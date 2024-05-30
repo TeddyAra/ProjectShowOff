@@ -578,11 +578,11 @@ MonoBehaviour:
   maxSpeed: 17
   maxFallSpeed: 25
   ignoreInput: 0
-  jumpForce: 800
+  jumpForce: 900
   jumpBoost: 10
   jumpTime: 0.5
   coyoteTime: 0.1
-  bouncePadForce: 1500
+  bouncePadForce: 1700
   gravity: 39.24
   checkPoint: {fileID: 3932955210228896583}
   groundCheckSize: 0.2
