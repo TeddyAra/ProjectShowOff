@@ -91,7 +91,6 @@ public class GameManager : MonoBehaviour {
     }
 
     private void OnFinish() {
-
         StartCoroutine(Finish());
     }
 

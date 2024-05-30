@@ -22,12 +22,12 @@ public class GamepadManagerTestScript : MonoBehaviour {
 
         // Apply the controller to the player
         public void EnablePlayer() {
-            script.ChangeGamepad(gamepad);
+            //script.ChangeGamepad(gamepad);
         }
 
         // Remove the controller from the player
         public void DisablePlayer() {
-            script.ChangeGamepad(null);
+            //script.ChangeGamepad(null);
         }
 
         // Get the controller's identifier

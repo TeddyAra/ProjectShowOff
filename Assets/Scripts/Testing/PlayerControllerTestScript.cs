@@ -76,6 +76,8 @@ public class PlayerControllerTestScript : MonoBehaviour {
     [Tooltip("The layer mask of the players")]
     [SerializeField] private LayerMask playerLayer;
 
+    [SerializeField] private float playerDistance;
+
     [SerializeField] private AudioClip jumpLanding;
 
     // ----------------------------------------------------------------------------------
@@ -129,6 +131,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
     private float playerSpeed;
     private bool isColliding;
+    private int playerNum;
 
     [SerializeField] private Image readyImage;
     [SerializeField] private TMP_Text readyText;
@@ -136,9 +139,11 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
     // Sound stuff
     private AudioSource audioSource;
+
     
     private void Start() {
         DontDestroyOnLoad(gameObject);
+
         audioSource = GetComponent<AudioSource>();
         rb = GetComponent<Rigidbody>();
         groundMaskInt = LayerMask.GetMask(groundMask);
@@ -311,9 +316,9 @@ public class PlayerControllerTestScript : MonoBehaviour {
         playerSpeed = speed;
     }
 
-    public void ChangeGamepad(Gamepad gamepad) {
-        Debug.Log(gamepad.description);
+    public void ChangeGamepad(Gamepad gamepad, int playerNum) {
         this.gamepad = gamepad;
+        this.playerNum = playerNum;
     }
 
     public void Stun(float stunTime) {
@@ -352,7 +357,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
             // The player got a powerup
             case "Powerup":
-                if (powerupScript.GetCurrentPowerup() == PowerupTestScript.Powerup.None) return;
+                if (powerupScript.GetCurrentPowerup() != PowerupTestScript.Powerup.None) return;
                 string powerup = powerupScript.GetRandomPowerup();
                 onPowerup?.Invoke(this, powerup);
                 Destroy(other.gameObject);
@@ -425,9 +430,8 @@ public class PlayerControllerTestScript : MonoBehaviour {
         readyImage.transform.parent.gameObject.SetActive(false);
     }
 
-    private void OnRespawn()
-    {
-        Vector3 spawnPoint = GameObject.FindGameObjectWithTag("SpawnPoint").transform.position; 
+    public void OnRespawn() {
+        Vector3 spawnPoint = GameObject.FindGameObjectWithTag("SpawnPoint").transform.position + Vector3.left * playerDistance * playerNum; 
         transform.position = spawnPoint; 
     }
 
