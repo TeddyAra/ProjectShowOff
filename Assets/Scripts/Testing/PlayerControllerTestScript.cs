@@ -97,7 +97,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
     private float jumpTimer;
     private Gamepad gamepad;
     private bool powerup;
-    private bool isReady;
+    private bool reversed;
 
     // Death variables
     private bool frozen;
@@ -138,6 +138,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
     private AudioSource audioSource;
     
     private void Start() {
+        DontDestroyOnLoad(gameObject);
         audioSource = GetComponent<AudioSource>();
         rb = GetComponent<Rigidbody>();
         groundMaskInt = LayerMask.GetMask(groundMask);
@@ -155,7 +156,6 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
         // Controller input
         if (gamepad != null) {
-            Debug.Log("No controller!");
             move = gamepad.leftStick.ReadValue();
             holdingJump = gamepad.buttonSouth.isPressed;
             if (gamepad.buttonSouth.wasPressedThisFrame) jump = true;
@@ -172,6 +172,8 @@ public class PlayerControllerTestScript : MonoBehaviour {
             if (Input.GetKeyDown(KeyCode.E)) powerup = true;
         }
 
+        if (reversed) move.x *= -1;
+
         isColliding = false;
     }
 
@@ -180,7 +182,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
             rb.AddForce(Vector3.down * gravity);
         }
 
-        if (!isStarting) {
+        /*if (!isStarting) {
             if (holdingJump) {
                 if (!isReady) {
                     isReady = true;
@@ -197,7 +199,9 @@ public class PlayerControllerTestScript : MonoBehaviour {
             jump = false;
         }
 
-        if (!isReady || !isStarting) return;
+        if (!isReady || !isStarting) return;*/
+
+        if (isStarting) return;
 
         // Update timers
         coyoteTimer--;
@@ -292,10 +296,15 @@ public class PlayerControllerTestScript : MonoBehaviour {
         powerup = false;
     }
 
-    IEnumerator BouncePadDelay()
-    {
+    IEnumerator BouncePadDelay() {
         yield return new WaitForSeconds(0.8f); 
         canBounce = true; 
+    }
+
+    IEnumerator Scare(float scareTime) {
+        reversed = true;
+        yield return new WaitForSeconds(scareTime);
+        reversed = false;
     }
 
     public void ChangePlayerSpeed(float speed) {
@@ -303,6 +312,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
     }
 
     public void ChangeGamepad(Gamepad gamepad) {
+        Debug.Log(gamepad.description);
         this.gamepad = gamepad;
     }
 
@@ -342,6 +352,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
             // The player got a powerup
             case "Powerup":
+                if (powerupScript.GetCurrentPowerup() == PowerupTestScript.Powerup.None) return;
                 string powerup = powerupScript.GetRandomPowerup();
                 onPowerup?.Invoke(this, powerup);
                 Destroy(other.gameObject);
@@ -379,7 +390,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
         ignoreMaxSpeed = false; 
     }
 
-    private void OnFreeze() {
+    public void OnFreeze() {
         if (!frozen) {
             // Freeze the player
             frozen = true;
@@ -411,14 +422,26 @@ public class PlayerControllerTestScript : MonoBehaviour {
     }
 
     private void OnStart() {
-        isStarting = true;
         readyImage.transform.parent.gameObject.SetActive(false);
+    }
+
+    private void OnRespawn()
+    {
+        Vector3 spawnPoint = GameObject.FindGameObjectWithTag("SpawnPoint").transform.position; 
+        transform.position = spawnPoint; 
+    }
+
+    public void AddForce(Vector3 direction, float force) {
+        Debug.Log("Added force");
+        direction.Normalize();
+        rb.AddForce(direction * force);
     }
 
     private void OnEnable() {
         GameManager.onFreeze += OnFreeze;
         GameManager.onUnfreeze += OnUnfreeze;
         GameManager.onStart += OnStart;
+        GameManager.onRespawn += OnRespawn; 
 
         rb = GetComponent<Rigidbody>();
         groundMaskInt = LayerMask.GetMask(groundMask);
@@ -434,5 +457,6 @@ public class PlayerControllerTestScript : MonoBehaviour {
         GameManager.onFreeze -= OnFreeze;
         GameManager.onUnfreeze -= OnUnfreeze;
         GameManager.onStart -= OnStart;
+        GameManager.onRespawn -= OnRespawn; 
     }
 }

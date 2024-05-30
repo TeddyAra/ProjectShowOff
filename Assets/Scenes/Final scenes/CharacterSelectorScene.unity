@@ -1035,6 +1035,7 @@ GameObject:
   m_Component:
   - component: {fileID: 252888799}
   - component: {fileID: 252888798}
+  - component: {fileID: 252888800}
   m_Layer: 0
   m_Name: PlayerManager
   m_TagString: Untagged
@@ -1056,21 +1057,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterPickers:
   - isPlaying: 0
+    isReady: 0
     playing: {fileID: 78133133}
     notPlaying: {fileID: 1369377051}
     ready: {fileID: 584312940}
     character: {fileID: 1480520951}
   - isPlaying: 0
+    isReady: 0
     playing: {fileID: 1498870515}
     notPlaying: {fileID: 611015385}
     ready: {fileID: 1583471754}
     character: {fileID: 758635437}
   - isPlaying: 0
+    isReady: 0
     playing: {fileID: 1138928019}
     notPlaying: {fileID: 1568003189}
     ready: {fileID: 1552157779}
     character: {fileID: 542416569}
   - isPlaying: 0
+    isReady: 0
     playing: {fileID: 304937889}
     notPlaying: {fileID: 74749862}
     ready: {fileID: 1888661470}
@@ -1078,17 +1083,29 @@ MonoBehaviour:
   characterSizes:
   - character: {fileID: 2100000, guid: ff40066a441e9414b85b27ec0104241a, type: 2}
     size: {x: 25, y: 35}
+    prefab: {fileID: 8320980614237078117, guid: d52d724c35030ce43946b46cc1e41a44,
+      type: 3}
   - character: {fileID: 2100000, guid: 21b5a4a372e8d084292f6aa5d9a2c562, type: 2}
     size: {x: 25, y: 35}
+    prefab: {fileID: 6606791742897403498, guid: 5852fb4ab89ca754182ce9a6fa6a8198,
+      type: 3}
   - character: {fileID: 2100000, guid: f11c10350f276fe42b93361fb8238db7, type: 2}
     size: {x: 25, y: 25}
+    prefab: {fileID: 2061705907342551129, guid: 30c3a72b2eb017c46adbe50fe420054d,
+      type: 3}
   - character: {fileID: 2100000, guid: 20bbe7d207c06374684828af15d3cbed, type: 2}
     size: {x: 25, y: 35}
+    prefab: {fileID: 1602459591494890334, guid: ef5b010eee12e6248b7691eb93b2282d,
+      type: 3}
   - character: {fileID: 2100000, guid: 6d6ad57836e421f4e951f66931f1770c, type: 2}
     size: {x: 20, y: 35}
+    prefab: {fileID: 5588686245595455014, guid: 5e0a0d82341f8e646b041f806d58a7d0,
+      type: 3}
   startBar: {fileID: 30309808}
   waitTime: 3
   barWidth: 460
+  gameSceneName: Level2
+  oneController: 0
 --- !u!4 &252888799
 Transform:
   m_ObjectHideFlags: 0
@@ -1104,6 +1121,30 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &252888800
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 252888797}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0e5354ba12750d4693633b57e6dc9c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  noteText: 'Player manager works! It''s basically done, but it''s one script for
+    all parts of the UI and all controllers. Preferably, we''d have this script,
+    that keeps track of when controllers connect and disconnect, and assigns controllers
+    to each part of the UI, and then separate scripts for each character picker.
+    These scripts would allow one specific controller to apply inputs to the UI,
+    etc.
+
+
+    Again, it works like this, and it would work exactly the same if we
+    do it the way I describe above, but this is slightly more bad/less readable than
+    the other solution.'
+  noteType: 2
 --- !u!1001 &270790628
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1296,6 +1337,7 @@ Transform:
   - {fileID: 270790629}
   - {fileID: 1810188827}
   - {fileID: 2118794656}
+  - {fileID: 890308301}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &324016152
@@ -3786,7 +3828,7 @@ GameObject:
   - component: {fileID: 890308299}
   - component: {fileID: 890308298}
   m_Layer: 0
-  m_Name: Plane
+  m_Name: Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3872,12 +3914,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 890308297}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -7.13, z: 50}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 3.04, y: -4.1800003, z: 46.45}
   m_LocalScale: {x: 100, y: 1, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 311653339}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &894855663
 GameObject:
@@ -6459,7 +6501,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 2100000, guid: 708e33746a57ccb4580c9d093786d697, type: 2}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.33333334}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.56078434}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -8364,5 +8406,4 @@ SceneRoots:
   - {fileID: 928321040}
   - {fileID: 252888799}
   - {fileID: 311653339}
-  - {fileID: 890308301}
   - {fileID: 132460086}
