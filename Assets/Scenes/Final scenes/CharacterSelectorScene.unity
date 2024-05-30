@@ -1083,29 +1083,29 @@ MonoBehaviour:
   characterSizes:
   - character: {fileID: 2100000, guid: ff40066a441e9414b85b27ec0104241a, type: 2}
     size: {x: 25, y: 35}
-    prefab: {fileID: 4671567364540712202, guid: 44f8adee21f98354b9e70972ca788849,
+    prefab: {fileID: 8320980614237078117, guid: d52d724c35030ce43946b46cc1e41a44,
       type: 3}
   - character: {fileID: 2100000, guid: 21b5a4a372e8d084292f6aa5d9a2c562, type: 2}
     size: {x: 25, y: 35}
-    prefab: {fileID: 4671567364540712202, guid: 44f8adee21f98354b9e70972ca788849,
+    prefab: {fileID: 6606791742897403498, guid: 5852fb4ab89ca754182ce9a6fa6a8198,
       type: 3}
   - character: {fileID: 2100000, guid: f11c10350f276fe42b93361fb8238db7, type: 2}
     size: {x: 25, y: 25}
-    prefab: {fileID: 4671567364540712202, guid: 44f8adee21f98354b9e70972ca788849,
+    prefab: {fileID: 2061705907342551129, guid: 30c3a72b2eb017c46adbe50fe420054d,
       type: 3}
   - character: {fileID: 2100000, guid: 20bbe7d207c06374684828af15d3cbed, type: 2}
     size: {x: 25, y: 35}
-    prefab: {fileID: 4671567364540712202, guid: 44f8adee21f98354b9e70972ca788849,
+    prefab: {fileID: 1602459591494890334, guid: ef5b010eee12e6248b7691eb93b2282d,
       type: 3}
   - character: {fileID: 2100000, guid: 6d6ad57836e421f4e951f66931f1770c, type: 2}
     size: {x: 20, y: 35}
-    prefab: {fileID: 4671567364540712202, guid: 44f8adee21f98354b9e70972ca788849,
+    prefab: {fileID: 5588686245595455014, guid: 5e0a0d82341f8e646b041f806d58a7d0,
       type: 3}
   startBar: {fileID: 30309808}
   waitTime: 3
   barWidth: 460
-  gameSceneName: GameScene
-  oneController: 1
+  gameSceneName: Level2
+  oneController: 0
 --- !u!4 &252888799
 Transform:
   m_ObjectHideFlags: 0

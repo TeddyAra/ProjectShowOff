@@ -43,6 +43,11 @@ public class CameraTestScript : MonoBehaviour {
         }
     }*/
 
+    private void Start ()
+    {
+        DontDestroyOnLoad(gameObject);
+    }
+
     IEnumerator StartRace() {
         yield return new WaitForSeconds(3.05f);
         starting = false;
