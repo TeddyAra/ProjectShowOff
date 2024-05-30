@@ -7,7 +7,8 @@ public class LeverPlatform : MonoBehaviour
 
     [SerializeField] private GameObject door;
     [SerializeField] private float rotateSpeed;
-    [SerializeField] private float maxRotation; 
+    [SerializeField] private float maxRotation;
+    [SerializeField] private GameObject vine; 
 
 
     private void OnTriggerEnter(Collider other)
@@ -15,7 +16,8 @@ public class LeverPlatform : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             Debug.Log("Levering!"); 
-             StartCoroutine(DoorRotation()); 
+            Destroy(vine); 
+            StartCoroutine(DoorRotation()); 
         }
     }
 
