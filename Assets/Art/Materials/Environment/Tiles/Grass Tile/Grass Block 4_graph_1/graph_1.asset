@@ -13,15 +13,15 @@ MonoBehaviour:
   m_Name: graph_1
   m_EditorClassIdentifier: 
   AssetPath: Assets/Art/Materials/Environment/Tiles/Grass Tile/Grass Block 4.sbsar
-  RawData: {fileID: 0}
+  RawData: {fileID: -244192453324840774, guid: e640b441237e309429f6cc800f2a6d18, type: 3}
   Name: graph_1
   IsRoot: 1
   FlagedForDelete: 0
-  GUID: 90806ca6-7033-43be-aba8-e4fcd90ba054
+  GUID: a3d900f0-851f-4a99-830e-4e3497470b92
   Index: 1
   Input:
-  - rid: 1370756160873037826
-  - rid: 1370756160873037827
+  - rid: 1370756161059946498
+  - rid: 1370756161059946499
   Output:
   - Index: 0
     VirtualOutputIndex: 7
@@ -155,7 +155,7 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 1370756160873037826
+    - rid: 1370756161059946498
       type: {class: SubstanceInputInt2, ns: Adobe.Substance.Input, asm: Adobe.Substance}
       data:
         Index: 0
@@ -174,7 +174,7 @@ MonoBehaviour:
           SliderClamp: 0
           EnumValueCount: 0
           EnumValues: []
-    - rid: 1370756160873037827
+    - rid: 1370756161059946499
       type: {class: SubstanceInputInt, ns: Adobe.Substance.Input, asm: Adobe.Substance}
       data:
         Index: 1
