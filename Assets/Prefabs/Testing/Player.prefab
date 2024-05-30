@@ -658,6 +658,9 @@ MonoBehaviour:
   force: 4000
   scareRange: 8
   scareTime: 4
+  blastRange: 8
+  blastForce: 4000
+  blastBoost: 6000
   speedBoostSound: {fileID: 8300000, guid: 7ee4535ea0d3b9940b2a6f75fb6fca2f, type: 3}
   throwSound: {fileID: 8300000, guid: 6d3912bc3d4080748987b4bba8f2737a, type: 3}
   trailRenderer: {fileID: 2795186136762503016}
