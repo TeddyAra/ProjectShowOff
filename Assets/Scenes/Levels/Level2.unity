@@ -2252,6 +2252,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: BounceLeaf (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 5317174857157265994, guid: 69db45c2e3773cf4e8ba05346eb48353,
+        type: 3}
+      propertyPath: m_TagString
+      value: BouncePad
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 2332891475655825623, guid: 69db45c2e3773cf4e8ba05346eb48353, type: 3}
@@ -16900,6 +16905,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BounceLeaf (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5317174857157265994, guid: 69db45c2e3773cf4e8ba05346eb48353,
+        type: 3}
+      propertyPath: m_TagString
+      value: BouncePad
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
@@ -65126,6 +65136,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: BounceLeaf (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 5317174857157265994, guid: 69db45c2e3773cf4e8ba05346eb48353,
+        type: 3}
+      propertyPath: m_TagString
+      value: BouncePad
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 2332891475655825623, guid: 69db45c2e3773cf4e8ba05346eb48353, type: 3}
@@ -78938,6 +78953,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: BounceLeaf (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 5317174857157265994, guid: 69db45c2e3773cf4e8ba05346eb48353,
+        type: 3}
+      propertyPath: m_TagString
+      value: BouncePad
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 2332891475655825623, guid: 69db45c2e3773cf4e8ba05346eb48353, type: 3}
@@ -81211,6 +81231,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BounceLeaf
+      objectReference: {fileID: 0}
+    - target: {fileID: 5317174857157265994, guid: 69db45c2e3773cf4e8ba05346eb48353,
+        type: 3}
+      propertyPath: m_TagString
+      value: BouncePad
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
