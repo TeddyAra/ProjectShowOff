@@ -220,15 +220,10 @@ public class PlayerControllerTestScript : MonoBehaviour {
             }
         }
 
-        if (ignoreInput || frozen) return;
-
-        // Get the rigid body's velocity
-        velocity = rb.velocity;
-
         // Check if the player is grounded or not
         if (Physics.CheckSphere(checkPoint.position, groundCheckSize, groundMaskInt)) {
             if (grounded == false) {
-                audioSource.PlayOneShot(jumpLanding); 
+                audioSource.PlayOneShot(jumpLanding);
             }
             grounded = true;
         } else {
@@ -237,6 +232,11 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
             grounded = false;
         }
+
+        if (ignoreInput || frozen) return;
+
+        // Get the rigid body's velocity
+        velocity = rb.velocity;
 
         // Apply input
         if (move != Vector2.zero) {
