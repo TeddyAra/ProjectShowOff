@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class CameraTestScript : MonoBehaviour {
     [Tooltip("The distance between the first and last player when the camera should start zooming out")]
@@ -25,26 +26,36 @@ public class CameraTestScript : MonoBehaviour {
     [Tooltip("The amount of distance that is too much for the camera to snap to")]
     [SerializeField] private float maxSnapDistance;
 
-    private Transform firstPlayer;  // The player in first place
-    private Transform lastPlayer;   // The player in last place
+    private Transform firstPlayer;
+    private Transform lastPlayer;
     private bool transitioning;
     private float moveTimer;
     private Vector3 oldPosition;
 
     private List<Transform> players;
+    private bool starting = true;
 
-    private void Start() {
+    /*private void Start() {
         players = new List<Transform>();
 
         GameObject[] playerObjects = GameObject.FindGameObjectsWithTag("Player");
         foreach (GameObject player in playerObjects) {
             players.Add(player.transform);
         }
+    }*/
 
-        transform.position = GetAveragePosition();
+    private void Start () {
+        DontDestroyOnLoad(gameObject);
+    }
+
+    IEnumerator StartRace() {
+        yield return new WaitForSeconds(3.05f);
+        starting = false;
     }
 
     private void Update() {
+        if (starting) return;
+
         if (!transitioning) {
             Vector3 averagePosition = GetAveragePosition();
             Vector3 displacement = averagePosition - transform.position;
@@ -107,7 +118,7 @@ public class CameraTestScript : MonoBehaviour {
             averagePosition.x = fixedX;
         }
 
-        averagePosition.z = (minPlayerDistance + delta * (maxPlayerDistance - minPlayerDistance)) * -1;
+        averagePosition.z = (minCamDistance + delta * (maxCamDistance - minCamDistance)) * -1;
 
         // Get the average y position
         averagePosition.y = 0;
@@ -124,5 +135,30 @@ public class CameraTestScript : MonoBehaviour {
         averagePosition += displacement;
 
         return averagePosition;
+    }
+
+    private void OnStart() {
+        StartCoroutine(StartRace());
+    }
+
+    private void OnGetPlayers(List<Transform> players) { 
+        this.players = players;
+    }
+
+    private void OnRespawn() {
+        Vector3 position = GameObject.FindGameObjectWithTag("SpawnPoint").transform.position;
+        transform.position = position + Vector3.back * 14 + Vector3.up * 6;
+    }
+
+    private void OnEnable() {
+        GameManager.onStart += OnStart;
+        PlayerManagerScript.onGetPlayers += OnGetPlayers;
+        GameManager.onRespawn += OnRespawn;
+    }
+
+    private void OnDisable() {
+        GameManager.onStart -= OnStart;
+        PlayerManagerScript.onGetPlayers -= OnGetPlayers;
+        GameManager.onRespawn -= OnRespawn;
     }
 }

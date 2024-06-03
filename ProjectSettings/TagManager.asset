@@ -9,6 +9,10 @@ TagManager:
   - GameManager
   - CheckpointPosition
   - Powerup
+  - Bomb
+  - PlayerTrigger
+  - BouncePad
+  - SpawnPoint
   layers:
   - Default
   - TransparentFX
@@ -20,7 +24,7 @@ TagManager:
   - 
   - Ground
   - Player
-  - 
+  - BouncePad
   - 
   - 
   - 

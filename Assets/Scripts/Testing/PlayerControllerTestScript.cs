@@ -2,10 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
+[RequireComponent(typeof(PowerupTestScript))]
 public class PlayerControllerTestScript : MonoBehaviour {
     [Header("Movement")]
 
@@ -17,6 +21,9 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
     [Tooltip("The maximum speed the player can reach")]
     [SerializeField] private float maxSpeed;
+
+    [Tooltip("The maximum speed the player can fall")]
+    [SerializeField] private float maxFallSpeed;
 
     [Tooltip("Whether the player should listen to input or not")]
     [SerializeField] private bool ignoreInput;
@@ -36,6 +43,12 @@ public class PlayerControllerTestScript : MonoBehaviour {
     [Tooltip("The amount of time in seconds the player is allowed to jump, despite not being grounded")]
     [SerializeField] private float coyoteTime;
 
+    [Tooltip("The force that should be applied to the player when they hit a bounce pad")]
+    [SerializeField] private float bouncePadForce; 
+
+    [Tooltip("Gravity")]
+    [SerializeField] private float gravity;
+
     // ----------------------------------------------------------------------------------
     [Header("Ground checking")]
 
@@ -48,6 +61,12 @@ public class PlayerControllerTestScript : MonoBehaviour {
     [Tooltip("The name of the ground mask layer")]
     [SerializeField] private string groundMask;
 
+    [Tooltip("The name of the bounce pad mask layer")]
+    [SerializeField] private string bouncePadMask;
+
+    [Tooltip("The size of the bounce pad Check")]
+    [SerializeField] private float bounceCheckSize; 
+
     // ----------------------------------------------------------------------------------
     [Header("Extra")]
 
@@ -57,23 +76,20 @@ public class PlayerControllerTestScript : MonoBehaviour {
     [Tooltip("The layer mask of the players")]
     [SerializeField] private LayerMask playerLayer;
 
+    [SerializeField] private float playerDistance;
+
+    [SerializeField] private AudioClip jumpLanding;
+
     // ----------------------------------------------------------------------------------
-    [Header("Powerups")]
-
-    [Tooltip("The speed of a speed boost")]
-    [SerializeField] private float speedboostSpeed;
-
-    [Tooltip("For how long the speed boost should last")]
-    [SerializeField] private float speedboostTime;
-
-    [Tooltip("How long does it take for the player to slow down again")]
-    [SerializeField] private float slowDownTime;
 
     // Movement variables
     private Rigidbody rb;
     private Vector3 velocity;
-    private bool grounded;
+    public bool grounded;
     private int groundMaskInt;
+    private int bouncePadMaskInt;
+    private bool canBounce = true; 
+    //private bool ignoreMaxSpeed = false; 
 
     // Input variables
     private Vector2 move;
@@ -83,12 +99,16 @@ public class PlayerControllerTestScript : MonoBehaviour {
     private float jumpTimer;
     private Gamepad gamepad;
     private bool powerup;
+    private bool reversed;
 
     // Death variables
     private bool frozen;
     private CapsuleCollider col;
     private float invincibilityTimer;
     private bool invincible;
+
+    // Powerup script
+    private PowerupTestScript powerupScript;
 
     // When a player reaches a checkpoint
     public delegate void OnCheckpoint();
@@ -102,28 +122,46 @@ public class PlayerControllerTestScript : MonoBehaviour {
     public delegate void OnFinish();
     public static event OnFinish onFinish;
 
-    private enum Powerup { 
-        None,
-        Speedboost
-    }
+    // When a player gets or uses a powerup
+    public delegate void OnPowerup(PlayerControllerTestScript player, string powerup);
+    public static event OnPowerup onPowerup;
 
-    private List<Powerup> powerups;
-    private Powerup currentPowerup;
+    public delegate void OnReady(PlayerControllerTestScript player);
+    public static event OnReady onReady;
 
     private float playerSpeed;
+    private bool isColliding;
+    private int playerNum;
 
+    [SerializeField] private Image readyImage;
+    [SerializeField] private TMP_Text readyText;
+    private bool isStarting;
+
+    // Sound stuff
+    private AudioSource audioSource;
+
+    // Animation stuff
+    [SerializeField] Animator animator;
+    [SerializeField] GameObject characterVisualBody; 
+    private bool isFacingRight = true; 
+    
     private void Start() {
+        DontDestroyOnLoad(gameObject);
+
+        audioSource = GetComponent<AudioSource>();
         rb = GetComponent<Rigidbody>();
         groundMaskInt = LayerMask.GetMask(groundMask);
+        bouncePadMaskInt = LayerMask.GetMask(bouncePadMask); 
 
         col = GetComponent<CapsuleCollider>();
         playerSpeed = maxSpeed;
 
-        powerups = Enum.GetValues(typeof(Powerup)).Cast<Powerup>().ToList();
+        powerupScript = GetComponent<PowerupTestScript>();
+        powerupScript.ApplyVariables(maxSpeed);
     }
 
     private void Update() {
-        if (frozen || ignoreInput) return;
+        if ((frozen || ignoreInput) && isStarting) return;
 
         // Controller input
         if (gamepad != null) {
@@ -142,9 +180,56 @@ public class PlayerControllerTestScript : MonoBehaviour {
             if (Input.GetKeyDown(KeyCode.Space)) jump = true;
             if (Input.GetKeyDown(KeyCode.E)) powerup = true;
         }
+
+        if (reversed) move.x *= -1;
+
+        isColliding = false;
+
+        // Animator Controller Stuff
+
+        animator.SetFloat("Speed", 1 + Mathf.Abs(rb.velocity.x / maxSpeed)); 
+        animator.SetFloat("FallSpeed", rb.velocity.y); 
+        
+        if (grounded)
+        {
+            animator.SetBool("Grounded", true); 
+        }
+        else
+        {
+            animator.SetBool("Grounded", false); 
+        }
+
     }
 
     private void FixedUpdate() {
+
+        Flip(); 
+
+        if (!grounded) {
+            rb.AddForce(Vector3.down * gravity);
+        }
+        
+        /*if (!isStarting) {
+            if (holdingJump) {
+                if (!isReady) {
+                    isReady = true;
+                    onReady?.Invoke(this);
+                    readyText.text = "Ready!";
+                    Debug.Log("Ready!");
+                }
+
+                readyImage.color = Color.white;
+            } else {
+                readyImage.color = new Color(1.0f, 1.0f, 1.0f, 0.25f);
+            }
+
+            jump = false;
+        }
+
+        if (!isReady || !isStarting) return;*/
+
+        if (isStarting) return;
+
         // Update timers
         coyoteTimer--;
         jumpTimer--;
@@ -164,6 +249,9 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
         // Check if the player is grounded or not
         if (Physics.CheckSphere(checkPoint.position, groundCheckSize, groundMaskInt)) {
+            if (grounded == false) {
+                audioSource.PlayOneShot(jumpLanding); 
+            }
             grounded = true;
         } else {
             if (grounded)
@@ -177,13 +265,17 @@ public class PlayerControllerTestScript : MonoBehaviour {
             RaycastHit hit;
             Vector3 normal = Vector3.up;
 
-            if (Physics.Raycast(checkPoint.position, Vector3.down, out hit, groundCheckSize, groundMaskInt)) {
+            if (Physics.Raycast(checkPoint.position, Vector3.down, out hit, bounceCheckSize, groundMaskInt)) {
                 normal = hit.normal;
             }
 
             Vector3 acc = move.x > 0 ? new Vector3(normal.y, -normal.x, 0) : new Vector3(-normal.y, normal.x, 0);
 
-            velocity += acc * moveForce;
+            if (velocity.x < 0 && acc.x > 0 || velocity.x > 0 && acc.x < 0) {
+                velocity += acc * moveDrag;
+            } else {
+                velocity += acc * moveForce;
+            }
         }
 
         // If there's no input and we're still moving
@@ -202,9 +294,12 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
         // Make player jump
         if (jump && (grounded || coyoteTimer >= 0)) {
+            animator.ResetTrigger("Jumping"); 
+            animator.SetTrigger("Jumping"); 
             jumpTimer = jumpTime * 60;
             rb.AddForce(Vector3.up * jumpForce);
         }
+
 
         // Give the player a boost if they're holding the button
         if (holdingJump && jumpTimer > 0) {
@@ -212,16 +307,14 @@ public class PlayerControllerTestScript : MonoBehaviour {
         }
 
         // Make sure players aren't going too fast
-        velocity = Mathf.Clamp(velocity.magnitude, 0, playerSpeed) * velocity.normalized;
+        Vector2 tempVelocity = velocity;
+        tempVelocity.x = Mathf.Clamp(tempVelocity.x, -playerSpeed, playerSpeed);
+        /*if (!ignoreMaxSpeed)*/ tempVelocity.y = Mathf.Clamp(tempVelocity.y, -maxFallSpeed, maxFallSpeed);
+        velocity = tempVelocity;
 
-        if (powerup && currentPowerup != Powerup.None) {
-            switch (currentPowerup) {
-                case Powerup.Speedboost:
-                    StartCoroutine(SpeedUp());
-                    break;
-            }
-
-            currentPowerup = Powerup.None;
+        if (powerup) {
+            powerupScript.UsePowerup();
+            onPowerup?.Invoke(this, "");
         }
 
         // Apply the velocity
@@ -232,23 +325,36 @@ public class PlayerControllerTestScript : MonoBehaviour {
         powerup = false;
     }
 
-    private IEnumerator SpeedUp() {
-        // Speed the player up
-        playerSpeed = speedboostSpeed;
-        currentPowerup = Powerup.None;
-        yield return new WaitForSeconds(speedboostTime);
-
-        // Slowly make the player slow down again
-        float timer = slowDownTime;
-        while (timer > 0) { 
-            timer -= Time.deltaTime;
-            playerSpeed = maxSpeed + (speedboostSpeed - maxSpeed) * (timer / slowDownTime);
-            yield return null;
-        }
+    private IEnumerator BouncePadDelay() {
+        yield return new WaitForSeconds(0.8f); 
+        canBounce = true; 
     }
 
-    public void ChangeGamepad(Gamepad gamepad) {
+    public IEnumerator Scare(float scareTime) {
+        reversed = true;
+        yield return new WaitForSeconds(scareTime);
+        reversed = false;
+    }
+
+    public void ChangePlayerSpeed(float speed) {
+        playerSpeed = speed;
+    }
+
+    public void ChangeGamepad(Gamepad gamepad, int playerNum) {
         this.gamepad = gamepad;
+        this.playerNum = playerNum;
+    }
+
+    public void Stun(float stunTime) {
+        StartCoroutine(StunCoroutine(stunTime));
+    }
+
+    public IEnumerator StunCoroutine(float stunTime) {
+        Debug.Log($"{gameObject.name} stunned for " + stunTime);
+        ignoreInput = true;
+        yield return new WaitForSeconds(stunTime);
+        Debug.Log($"{gameObject.name} no longer stunned");
+        ignoreInput = false;
     }
 
     private void OnTriggerEnter(Collider other) {
@@ -267,13 +373,18 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
             // The player reached a checkpoint
             case "Checkpoint":
-                onCheckpoint?.Invoke();
+                if (!isColliding) {
+                    onCheckpoint?.Invoke();
+                    isColliding = true;
+                }
                 break;
 
             // The player got a powerup
             case "Powerup":
-                Powerup power = GetRandomPowerup();
-                currentPowerup = power;
+                if (powerupScript.GetCurrentPowerup() != PowerupTestScript.Powerup.None) return;
+                string powerup = powerupScript.GetRandomPowerup();
+                onPowerup?.Invoke(this, powerup);
+                Destroy(other.gameObject);
                 break;
 
             // The player reached the finish line
@@ -283,15 +394,39 @@ public class PlayerControllerTestScript : MonoBehaviour {
         }
     }
 
-    private Powerup GetRandomPowerup() { 
-        int num = UnityEngine.Random.Range(1, powerups.Count);
-        return powerups[num];
+    private void OnCollisionStay(Collision collision) {
+        if (collision.gameObject.CompareTag("BouncePad")) {
+            animator.ResetTrigger("Jumping"); 
+            animator.SetTrigger("Jumping"); 
+            if (canBounce && checkPoint.position.y > collision.transform.position.y && 
+                (checkPoint.position.x > collision.transform.position.x - collision.transform.localScale.x / 2) && 
+                (checkPoint.position.x < collision.transform.position.x + collision.transform.localScale.x / 2)) {
+                //StartCoroutine(DisableMaxSpeed());
+                rb.AddForce(Vector3.up * bouncePadForce); 
+                Debug.Log("Bouncing"); 
+                canBounce = false; 
+                StartCoroutine(BouncePadDelay()); 
+            }
+        }
     }
 
-    private void OnFreeze() {
+    /*IEnumerator DisableMaxSpeed() {
+        ignoreMaxSpeed = true; 
+
+        while (!grounded) {
+            yield return null; 
+        }
+
+        ignoreMaxSpeed = false; 
+    }*/
+
+    public void OnFreeze() {
         if (!frozen) {
             // Freeze the player
             frozen = true;
+
+            if (!rb) rb = GetComponent<Rigidbody>();
+
             rb.velocity = Vector3.zero;
             rb.useGravity = false;
 
@@ -316,13 +451,55 @@ public class PlayerControllerTestScript : MonoBehaviour {
         }
     }
 
+    private void OnStart() {
+        readyImage.transform.parent.gameObject.SetActive(false);
+    }
+
+    public void OnRespawn() {
+        Vector3 spawnPoint = GameObject.FindGameObjectWithTag("SpawnPoint").transform.position + Vector3.left * playerDistance * playerNum; 
+        transform.position = spawnPoint; 
+    }
+
+    public void AddForce(Vector3 direction, float force) {
+        Debug.Log("Added force");
+        direction.Normalize();
+        rb.AddForce(direction * force);
+    }
+
     private void OnEnable() {
         GameManager.onFreeze += OnFreeze;
         GameManager.onUnfreeze += OnUnfreeze;
+        GameManager.onStart += OnStart;
+        GameManager.onRespawn += OnRespawn; 
+
+        rb = GetComponent<Rigidbody>();
+        groundMaskInt = LayerMask.GetMask(groundMask);
+
+        col = GetComponent<CapsuleCollider>();
+        playerSpeed = maxSpeed;
+
+        powerupScript = GetComponent<PowerupTestScript>();
+        powerupScript.ApplyVariables(maxSpeed);
     }
 
     private void OnDisable() {
         GameManager.onFreeze -= OnFreeze;
         GameManager.onUnfreeze -= OnUnfreeze;
+        GameManager.onStart -= OnStart;
+        GameManager.onRespawn -= OnRespawn; 
     }
-}
+
+    private void Flip()
+    {
+        
+
+        if (isFacingRight && rb.velocity.x < 0 || !isFacingRight && rb.velocity.x > 0)
+        {
+            isFacingRight = !isFacingRight; 
+            Vector3 scaleCopy = characterVisualBody.transform.localScale; 
+            scaleCopy.z *= -1; 
+            characterVisualBody.transform.localScale = scaleCopy;
+        }
+       
+    }
+}   

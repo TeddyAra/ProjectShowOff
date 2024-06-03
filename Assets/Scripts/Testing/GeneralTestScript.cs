@@ -6,15 +6,25 @@ using UnityEngine.InputSystem;
 
 public class GeneralTestScript : MonoBehaviour {
     private Gamepad gamepad;
+    [SerializeField] private bool resetWithController;
+    [SerializeField] private Transform finish;
 
     private void Update() {
         if (Gamepad.all.Count != 0) gamepad = Gamepad.current;
 
-        if (Input.GetKeyDown(KeyCode.R)) 
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        if (Input.GetKeyDown(KeyCode.R)) {
+            Respawn();
+        }
 
-        if (gamepad != null && gamepad.buttonNorth.wasPressedThisFrame)
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        if (!resetWithController) return;
 
+        if (gamepad != null && gamepad.buttonNorth.wasPressedThisFrame) {
+            Respawn();
+        }
+    }
+
+    private void Respawn() { 
+        Vector3 position = GameObject.FindGameObjectWithTag("Player").transform.position;
+        finish.position = position;
     }
 }
