@@ -101,6 +101,17 @@ public class PowerupTestScript : MonoBehaviour {
     [Tooltip("The force of the player while they fly")]
     [SerializeField] private float flyForce;
 
+    [Tooltip("For how long the ice will last after the player stops flying")]
+    [SerializeField] private float iceDuration;
+
+    // ----------------------------------------------------------------------------------
+
+    [Header("Audio")]
+
+    [SerializeField] private AudioClip speedBoostSound;
+    [SerializeField] private AudioClip throwSound;
+    [SerializeField] private TrailRenderer trailRenderer;
+
     private float maxSpeed;
 
     public enum Powerup {
@@ -118,11 +129,7 @@ public class PowerupTestScript : MonoBehaviour {
 
     private PlayerControllerTestScript playerControllerScript;
 
-    // Audio Stuff
-    AudioSource audioSource;  
-    [SerializeField] AudioClip speedBoostSound;
-    [SerializeField] AudioClip throwSound;
-    [SerializeField] private TrailRenderer trailRenderer; 
+    private AudioSource audioSource;  
 
     private void Start() {
         powerups = Enum.GetValues(typeof(Powerup)).Cast<Powerup>().ToList();
@@ -175,7 +182,7 @@ public class PowerupTestScript : MonoBehaviour {
     }
 
     private void SnowFlight() {
-        StartCoroutine(playerControllerScript.Fly(flyDuration, maxFlySpeed, flyForce));
+        StartCoroutine(playerControllerScript.Fly(flyDuration, maxFlySpeed, flyForce, iceDuration));
     }
 
     private void Windblast() {

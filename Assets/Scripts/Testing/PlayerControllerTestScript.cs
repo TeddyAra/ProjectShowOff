@@ -144,6 +144,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
     private Vector3 firstIcePosition;
     private Vector3 lastIcePosition;
     private Transform ice;
+    private List<Transform> icePlatforms;
 
     // Sound stuff
     private AudioSource audioSource;
@@ -161,6 +162,8 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
         powerupScript = GetComponent<PowerupTestScript>();
         powerupScript.ApplyVariables(maxSpeed);
+
+        icePlatforms = new List<Transform>();
     }
 
     private void Update() {
@@ -340,6 +343,12 @@ public class PlayerControllerTestScript : MonoBehaviour {
         ignoreInput = false;
     }
 
+    private void OnTriggerStay(Collider other) {
+        if (other.tag == "Ice") {
+            Stun(1f);
+        }
+    }
+
     private void OnTriggerEnter(Collider other) {
         if (frozen) return;
 
@@ -368,10 +377,6 @@ public class PlayerControllerTestScript : MonoBehaviour {
                 string powerup = powerupScript.GetRandomPowerup();
                 onPowerup?.Invoke(this, powerup);
                 Destroy(other.gameObject);
-                break;
-
-            case "Ice":
-                //Stun();
                 break;
 
             // The player reached the finish line
@@ -452,7 +457,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
         rb.AddForce(direction * force);
     }
 
-    public IEnumerator Fly(float flyDuration, float maxFlySpeed, float flyForce) {
+    public IEnumerator Fly(float flyDuration, float maxFlySpeed, float flyForce, float iceDuration) {
         float timer = flyDuration;
         flying = true;
         rb.velocity = Vector3.zero;
@@ -471,6 +476,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
                         firstIcePosition = hit.point;
                         lastIcePlatform = hit.transform;
                         ice = Instantiate(icePrefab, Vector3.zero, hit.transform.rotation).transform;
+                        icePlatforms.Add(ice);
                     }
 
                     lastIcePosition = hit.point;
@@ -478,6 +484,8 @@ public class PlayerControllerTestScript : MonoBehaviour {
                     Vector3 size = ice.localScale;
                     size.x = (lastIcePosition - firstIcePosition).magnitude;
                     ice.localScale = size;
+                } else {
+                    lastIcePlatform = null;
                 }
             } else {
                 lastIcePlatform = null;
@@ -494,6 +502,14 @@ public class PlayerControllerTestScript : MonoBehaviour {
         lastIcePosition = Vector3.zero;
         firstIcePosition = Vector3.zero;
         flying = false;
+
+        yield return new WaitForSeconds(iceDuration);
+
+        for (int i = icePlatforms.ToList().Count - 1; i >= 0; i--) {
+            Debug.Log("dfgjbgfd"); 
+            Destroy(icePlatforms[i].gameObject);
+            icePlatforms.RemoveAt(i);
+        }
     }
 
     private void OnEnable() {
