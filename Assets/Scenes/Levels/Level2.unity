@@ -44681,6 +44681,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pinguino Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 1602459591494890334, guid: ef5b010eee12e6248b7691eb93b2282d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6719306231768329481, guid: ef5b010eee12e6248b7691eb93b2282d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -50028,6 +50033,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Catnap Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 6606791742897403498, guid: 5852fb4ab89ca754182ce9a6fa6a8198,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -63845,6 +63855,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Stinkozila Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 5588686245595455014, guid: 5e0a0d82341f8e646b041f806d58a7d0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
