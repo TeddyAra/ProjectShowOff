@@ -508,6 +508,11 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 4530758235380207482, guid: 44f8adee21f98354b9e70972ca788849,
         type: 3}
+      propertyPath: flyDuration
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4530758235380207482, guid: 44f8adee21f98354b9e70972ca788849,
+        type: 3}
       propertyPath: scareSprite
       value: 
       objectReference: {fileID: 21300000, guid: 70be71faac0414f4a81965314437378a,
@@ -851,7 +856,7 @@ PrefabInstance:
     - target: {fileID: 913452525919531993, guid: deb34fde98fbbd042a7bf75d335ff45b,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 913452525919531993, guid: deb34fde98fbbd042a7bf75d335ff45b,
         type: 3}
@@ -861,7 +866,7 @@ PrefabInstance:
     - target: {fileID: 913452525919531993, guid: deb34fde98fbbd042a7bf75d335ff45b,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 1
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 913452525919531993, guid: deb34fde98fbbd042a7bf75d335ff45b,
         type: 3}
@@ -876,7 +881,7 @@ PrefabInstance:
     - target: {fileID: 913452525919531993, guid: deb34fde98fbbd042a7bf75d335ff45b,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 180
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 913452525919531993, guid: deb34fde98fbbd042a7bf75d335ff45b,
         type: 3}

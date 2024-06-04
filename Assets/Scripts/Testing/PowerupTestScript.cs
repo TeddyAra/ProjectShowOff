@@ -206,6 +206,8 @@ public class PowerupTestScript : MonoBehaviour {
 
     private void SnowFlight() {
         StartCoroutine(playerControllerScript.Fly(flyDuration, maxFlySpeed, flyForce, iceDuration));
+        snowFlightVFX.SetActive(true);
+        StartCoroutine(SnowFlightDelay()); 
     }
 
     private void Windblast() {
@@ -280,7 +282,7 @@ public class PowerupTestScript : MonoBehaviour {
         currentPowerup = powerups[num];
 
         // FOR DEBUGGING PURPOSES
-        //currentPowerup = Powerup.Windblast;
+        currentPowerup = Powerup.SnowFlight;
 
         abilityBubble.SetActive(true); 
 
@@ -294,6 +296,9 @@ public class PowerupTestScript : MonoBehaviour {
                 break; 
             case Powerup.Scare: 
                 currentAbilityIcon.sprite = scareSprite; 
+                break; 
+            case Powerup.SnowFlight:
+                currentAbilityIcon.sprite = iceSprite; 
                 break; 
             case Powerup.Speedboost:
                 currentAbilityIcon.sprite = speedBoostSprite; 
