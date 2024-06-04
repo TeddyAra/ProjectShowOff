@@ -284,6 +284,7 @@ public class PlayerManagerScript : MonoBehaviour {
                         CharacterPicker picker = characterPickers[index];
                         picker.Play();
                         taken.Remove(picker.GetCharacter());
+                        if (oneController) taken.Remove(picker.GetCharacter());
                         characterPickers[index] = picker;
                         choosing++;
                     }
