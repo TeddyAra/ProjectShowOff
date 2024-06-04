@@ -22,6 +22,12 @@ public class PlayerControllerTestScript : MonoBehaviour {
     [Tooltip("The maximum speed the player can reach")]
     [SerializeField] private float maxSpeed;
 
+    [Tooltip("Speed of player when they enter draft")]
+    [SerializeField] private float draftSpeed;
+
+    [Tooltip("How long does it take for the player to slow down again")]
+    [SerializeField] private float slowDownTime;
+
     [Tooltip("The maximum speed the player can fall")]
     [SerializeField] private float maxFallSpeed;
 
@@ -130,6 +136,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
     public static event OnPowerup onPowerup;
 
     private float playerSpeed;
+    private float baseSpeed;
     private bool isColliding;
     private int playerNum;
 
@@ -190,13 +197,28 @@ public class PlayerControllerTestScript : MonoBehaviour {
         if (reversed) move.x *= -1;
 
         isColliding = false;
+
+        // Animator Controller Stuff
+
+        animator.SetFloat("Speed", 1 + Mathf.Abs(rb.velocity.x / maxSpeed)); 
+        animator.SetFloat("FallSpeed", rb.velocity.y); 
+        
+        if (grounded)
+        {
+            animator.SetBool("Grounded", true); 
+        }
+        else
+        {
+            animator.SetBool("Grounded", false); 
+        }
+
     }
 
     private void FixedUpdate() {
         if (!grounded && !flying) {
             rb.AddForce(Vector3.down * gravity);
         }
-
+        
         /*if (!isStarting) {
             if (holdingJump) {
                 if (!isReady) {
@@ -282,6 +304,8 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
         // Make player jump
         if (jump && (grounded || coyoteTimer >= 0)) {
+            animator.ResetTrigger("Jumping"); 
+            animator.SetTrigger("Jumping"); 
             jumpTimer = jumpTime * 60;
             rb.AddForce(Vector3.up * jumpForce);
         }
@@ -384,11 +408,37 @@ public class PlayerControllerTestScript : MonoBehaviour {
                 onFinish?.Invoke();
                 break;
         }
+
+        //Player enters a wind draft
+        if (other.gameObject.CompareTag("WindDraft") && !windDraft)
+        {
+            Debug.Log("wind draft be happening");
+            playerSpeed = draftSpeed;
+            windDraft = true;
+            StartCoroutine(ResetWindraft(1));
+        }
+    }
+
+    IEnumerator ResetWindraft(float resetTime)
+    {
+        yield return new WaitForSeconds(resetTime);
+        ChangePlayerSpeed(baseSpeed);
+        windDraft = false;
+
+        // Slowly make the player slow down again
+        float timer = slowDownTime;
+        while (timer > 0)
+        {
+            timer -= Time.deltaTime;
+            ChangePlayerSpeed(maxSpeed + (draftSpeed - maxSpeed) * (timer / slowDownTime));
+            yield return null;
+        }
     }
 
     private void OnCollisionStay(Collision collision) {
         if (collision.gameObject.CompareTag("BouncePad")) {
-            
+            animator.ResetTrigger("Jumping"); 
+            animator.SetTrigger("Jumping"); 
             if (canBounce && checkPoint.position.y > collision.transform.position.y && 
                 (checkPoint.position.x > collision.transform.position.x - collision.transform.localScale.x / 2) && 
                 (checkPoint.position.x < collision.transform.position.x + collision.transform.localScale.x / 2)) {
@@ -534,4 +584,18 @@ public class PlayerControllerTestScript : MonoBehaviour {
         GameManager.onStart -= OnStart;
         GameManager.onRespawn -= OnRespawn; 
     }
-}
+
+    private void Flip()
+    {
+        
+
+        if (isFacingRight && rb.velocity.x < 0 || !isFacingRight && rb.velocity.x > 0)
+        {
+            isFacingRight = !isFacingRight; 
+            Vector3 scaleCopy = characterVisualBody.transform.localScale; 
+            scaleCopy.z *= -1; 
+            characterVisualBody.transform.localScale = scaleCopy;
+        }
+       
+    }
+}   
