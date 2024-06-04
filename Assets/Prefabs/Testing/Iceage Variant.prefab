@@ -103,7 +103,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 491497255204753021}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 59.540504}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -112,7 +112,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 6, y: -18.562738}
+  m_AnchoredPosition: {x: 0, y: 1}
   m_SizeDelta: {x: 1, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &7955827859684380703
@@ -501,6 +501,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6313615057689048590}
     m_Modifications:
+    - target: {fileID: 2153129741971336645, guid: 4d9014f1ff79b5e42a4c7efbe5fa501b,
+        type: 3}
+      propertyPath: lengthInSec
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 3790258322943658213, guid: 4d9014f1ff79b5e42a4c7efbe5fa501b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -551,6 +556,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6740124951196008123, guid: 4d9014f1ff79b5e42a4c7efbe5fa501b,
+        type: 3}
+      propertyPath: lengthInSec
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 6922116633783021347, guid: 4d9014f1ff79b5e42a4c7efbe5fa501b,
         type: 3}
       propertyPath: m_Name
@@ -560,6 +570,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7256390344241986012, guid: 4d9014f1ff79b5e42a4c7efbe5fa501b,
+        type: 3}
+      propertyPath: lengthInSec
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8082677818301149028, guid: 4d9014f1ff79b5e42a4c7efbe5fa501b,
+        type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8082677818301149028, guid: 4d9014f1ff79b5e42a4c7efbe5fa501b,
+        type: 3}
+      propertyPath: lengthInSec
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -778,6 +803,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: f20811f3653f6094f97978e094dd504e,
         type: 3}
+    - target: {fileID: 4530758235380207482, guid: 44f8adee21f98354b9e70972ca788849,
+        type: 3}
+      propertyPath: flyDuration
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4530758235380207482, guid: 44f8adee21f98354b9e70972ca788849,
         type: 3}
       propertyPath: scareSprite

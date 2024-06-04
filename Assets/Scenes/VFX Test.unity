@@ -30863,6 +30863,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Stinkozilla
       objectReference: {fileID: 0}
+    - target: {fileID: 5815212624230930851, guid: ef02fb0153016934294c6f2b431befdc,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8359889967030465330, guid: ef02fb0153016934294c6f2b431befdc,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -31053,6 +31058,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CatNap
+      objectReference: {fileID: 0}
+    - target: {fileID: 8742470981313507691, guid: 3c6c9d063920a124aa36fae32ce527cc,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
