@@ -8,6 +8,11 @@ public class SleepBombTestScript : MonoBehaviour {
     private float minStun;
     private float maxStun;
 
+    // VFX
+    [SerializeField] private GameObject bombVfx; 
+
+
+    // Audio
     public AudioSource audioSource;
     [SerializeField] AudioClip sleepBombExplode; 
     [SerializeField] AudioClip sleepBombNoHit; 
@@ -22,12 +27,14 @@ public class SleepBombTestScript : MonoBehaviour {
 
     private void OnCollisionEnter(Collision collision) {
         audioSource.PlayOneShot(sleepBombNoHit);
+        Instantiate(bombVfx, transform.position, transform.rotation);
         Explode();
     }
 
     private void OnTriggerEnter(Collider other) {
         if (other.tag == "PlayerTrigger") 
             audioSource.PlayOneShot(sleepBombExplode);
+            Instantiate(bombVfx, transform.position, transform.rotation);
             Explode();
     }
 

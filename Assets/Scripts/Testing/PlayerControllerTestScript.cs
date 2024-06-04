@@ -149,6 +149,10 @@ public class PlayerControllerTestScript : MonoBehaviour {
     // Sound stuff
     private AudioSource audioSource;
 
+    // Animation stuff
+    [SerializeField] Animator animator;
+    [SerializeField] GameObject characterVisualBody; 
+    private bool isFacingRight = true; 
     
     private void Start() {
         DontDestroyOnLoad(gameObject);
@@ -191,13 +195,31 @@ public class PlayerControllerTestScript : MonoBehaviour {
         if (reversed) move.x *= -1;
 
         isColliding = false;
+
+        // Animator Controller Stuff
+
+        animator.SetFloat("Speed", 1 + Mathf.Abs(rb.velocity.x / maxSpeed)); 
+        animator.SetFloat("FallSpeed", rb.velocity.y); 
+        
+        if (grounded)
+        {
+            animator.SetBool("Grounded", true); 
+        }
+        else
+        {
+            animator.SetBool("Grounded", false); 
+        }
+
     }
 
     private void FixedUpdate() {
+
+        Flip(); 
+
         if (!grounded) {
             rb.AddForce(Vector3.down * gravity);
         }
-
+        
         /*if (!isStarting) {
             if (holdingJump) {
                 if (!isReady) {
@@ -283,6 +305,8 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
         // Make player jump
         if (jump && (grounded || coyoteTimer >= 0)) {
+            animator.ResetTrigger("Jumping"); 
+            animator.SetTrigger("Jumping"); 
             jumpTimer = jumpTime * 60;
             rb.AddForce(Vector3.up * jumpForce);
         }
@@ -408,7 +432,8 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
     private void OnCollisionStay(Collision collision) {
         if (collision.gameObject.CompareTag("BouncePad")) {
-            
+            animator.ResetTrigger("Jumping"); 
+            animator.SetTrigger("Jumping"); 
             if (canBounce && checkPoint.position.y > collision.transform.position.y && 
                 (checkPoint.position.x > collision.transform.position.x - collision.transform.localScale.x / 2) && 
                 (checkPoint.position.x < collision.transform.position.x + collision.transform.localScale.x / 2)) {
@@ -499,4 +524,18 @@ public class PlayerControllerTestScript : MonoBehaviour {
         GameManager.onStart -= OnStart;
         GameManager.onRespawn -= OnRespawn; 
     }
-}
+
+    private void Flip()
+    {
+        
+
+        if (isFacingRight && rb.velocity.x < 0 || !isFacingRight && rb.velocity.x > 0)
+        {
+            isFacingRight = !isFacingRight; 
+            Vector3 scaleCopy = characterVisualBody.transform.localScale; 
+            scaleCopy.z *= -1; 
+            characterVisualBody.transform.localScale = scaleCopy;
+        }
+       
+    }
+}   

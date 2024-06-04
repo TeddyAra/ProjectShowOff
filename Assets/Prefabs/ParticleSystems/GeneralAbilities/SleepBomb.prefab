@@ -19561,6 +19561,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6034452375445667391}
+  - component: {fileID: -2811818770361397991}
   m_Layer: 0
   m_Name: SleepBomb
   m_TagString: Untagged
@@ -19588,6 +19589,18 @@ Transform:
   - {fileID: 334115298708896321}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-2811818770361397991
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6992616164662640640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c4944ddce92c204688a1a2f8158fe5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7237847738279338880
 GameObject:
   m_ObjectHideFlags: 0
