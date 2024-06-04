@@ -202,7 +202,6 @@ public class PlayerManagerScript : MonoBehaviour {
 
             // If the first player wants to start the game
             if (firstPlayer.buttonSouth.isPressed && choosing == 0 && taken.Count > 1) {
-                Debug.Log(choosing);
                 waitTimer += Time.deltaTime;
                 float width = Mathf.Clamp(barWidth * (waitTimer / waitTime), 0, barWidth);
                 startBar.sizeDelta = new Vector2(width, startBar.sizeDelta.y);

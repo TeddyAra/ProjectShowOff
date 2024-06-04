@@ -430,6 +430,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Wood_Platform (13)
       objectReference: {fileID: 0}
+    - target: {fileID: 6804773577936154377, guid: 37d02f7bfa92ea14690144ae52f7d73d,
+        type: 3}
+      propertyPath: m_TagString
+      value: IgnoreIce
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

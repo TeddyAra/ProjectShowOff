@@ -88,6 +88,19 @@ public class PowerupTestScript : MonoBehaviour {
     [Tooltip("With how much force the player should be pushed forward")]
     [SerializeField] private float blastBoost;
 
+    // ----------------------------------------------------------------------------------
+
+    [Header("Snow flight")]
+
+    [Tooltip("For how long the player will fly")]
+    [SerializeField] private float flyDuration;
+
+    [Tooltip("The max velocity while flying")]
+    [SerializeField] private float maxFlySpeed;
+
+    [Tooltip("The force of the player while they fly")]
+    [SerializeField] private float flyForce;
+
     private float maxSpeed;
 
     public enum Powerup {
@@ -96,7 +109,8 @@ public class PowerupTestScript : MonoBehaviour {
         SleepBomb,
         Fartboost,
         Scare,
-        Windblast
+        Windblast,
+        SnowFlight
     }
 
     private List<Powerup> powerups;
@@ -151,9 +165,17 @@ public class PowerupTestScript : MonoBehaviour {
             case Powerup.Windblast:
                 Windblast();
                 break;
+
+            case Powerup.SnowFlight:
+                SnowFlight();
+                break;
         }
 
         currentPowerup = Powerup.None;
+    }
+
+    private void SnowFlight() {
+        StartCoroutine(playerControllerScript.Fly(flyDuration, maxFlySpeed, flyForce));
     }
 
     private void Windblast() {
@@ -220,7 +242,7 @@ public class PowerupTestScript : MonoBehaviour {
         currentPowerup = powerups[num];
 
         // FOR DEBUGGING PURPOSES
-        currentPowerup = Powerup.Windblast;
+        currentPowerup = Powerup.SnowFlight;
 
         return currentPowerup.ToString();
     } 
