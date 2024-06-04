@@ -90,6 +90,13 @@ public class PowerupTestScript : MonoBehaviour {
 
     private float maxSpeed;
 
+    // VFX 
+
+    [SerializeField] private GameObject fartVFX;
+    [SerializeField] private GameObject windBlastVFX;
+    [SerializeField] private GameObject snowFlightVFX;
+    [SerializeField] private GameObject scareVFX; 
+
     public enum Powerup {
         None,
         Speedboost,
@@ -159,6 +166,10 @@ public class PowerupTestScript : MonoBehaviour {
     private void Windblast() {
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
 
+        windBlastVFX.SetActive(true);
+
+        StartCoroutine(WindBlastVFXDelay());
+
         foreach (GameObject player in players) {
             if (player == gameObject) continue;
             if ((player.transform.position - transform.position).magnitude < blastRange &&
@@ -173,6 +184,9 @@ public class PowerupTestScript : MonoBehaviour {
     private void Scare() {
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
 
+        scareVFX.SetActive(true); 
+        StartCoroutine(ScareVFXDelay()); 
+
         foreach (GameObject player in players) {
             if (player == gameObject) continue;
             if ((player.transform.position - transform.position).magnitude < scareRange) {
@@ -185,6 +199,8 @@ public class PowerupTestScript : MonoBehaviour {
         FartCloudScript fartScript = Instantiate(fartCloudPrefab, transform.position, Quaternion.identity).GetComponent<FartCloudScript>();
         fartScript.ApplyVariables(stunTime, fartCloudTime, startupTime);
         playerControllerScript.AddForce(new Vector3(forceDirection.x, forceDirection.y, 0), force);
+        fartVFX.SetActive(true);
+        StartCoroutine(FartVFXDelay()); 
     }
 
     private void SpawnSleepBomb() {
@@ -220,8 +236,32 @@ public class PowerupTestScript : MonoBehaviour {
         currentPowerup = powerups[num];
 
         // FOR DEBUGGING PURPOSES
-        currentPowerup = Powerup.SleepBomb;
+        //currentPowerup = Powerup.SleepBomb;
 
         return currentPowerup.ToString();
     } 
+
+    // VFX Timers 
+    IEnumerator FartVFXDelay()
+    {
+        yield return new WaitForSeconds(2); 
+        fartVFX.SetActive(false);
+    }
+    IEnumerator ScareVFXDelay()
+    {
+        yield return new WaitForSeconds(2);
+        scareVFX.SetActive(false);
+    }
+
+    IEnumerator WindBlastVFXDelay()
+    {
+        yield return new WaitForSeconds(2);
+        windBlastVFX.SetActive(false);
+    }
+
+    IEnumerator SnowFlightDelay()
+    {
+        yield return new WaitForSeconds(4);
+        snowFlightVFX.SetActive(false);
+    }
 }
