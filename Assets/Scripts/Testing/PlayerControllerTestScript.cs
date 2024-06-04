@@ -22,6 +22,12 @@ public class PlayerControllerTestScript : MonoBehaviour {
     [Tooltip("The maximum speed the player can reach")]
     [SerializeField] private float maxSpeed;
 
+    [Tooltip("Speed of player when they enter draft")]
+    [SerializeField] private float draftSpeed;
+
+    [Tooltip("How long does it take for the player to slow down again")]
+    [SerializeField] private float slowDownTime;
+
     [Tooltip("The maximum speed the player can fall")]
     [SerializeField] private float maxFallSpeed;
 
@@ -130,8 +136,11 @@ public class PlayerControllerTestScript : MonoBehaviour {
     public static event OnReady onReady;
 
     private float playerSpeed;
+    private float baseSpeed;
     private bool isColliding;
     private int playerNum;
+
+    private bool windDraft;
 
     [SerializeField] private Image readyImage;
     [SerializeField] private TMP_Text readyText;
@@ -154,6 +163,8 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
         powerupScript = GetComponent<PowerupTestScript>();
         powerupScript.ApplyVariables(maxSpeed);
+
+        baseSpeed = playerSpeed;
     }
 
     private void Update() {
@@ -367,6 +378,31 @@ public class PlayerControllerTestScript : MonoBehaviour {
             case "Finish":
                 onFinish?.Invoke();
                 break;
+        }
+
+        //Player enters a wind draft
+        if (other.gameObject.CompareTag("WindDraft") && !windDraft)
+        {
+            Debug.Log("wind draft be happening");
+            playerSpeed = draftSpeed;
+            windDraft = true;
+            StartCoroutine(ResetWindraft(1));
+        }
+    }
+
+    IEnumerator ResetWindraft(float resetTime)
+    {
+        yield return new WaitForSeconds(resetTime);
+        ChangePlayerSpeed(baseSpeed);
+        windDraft = false;
+
+        // Slowly make the player slow down again
+        float timer = slowDownTime;
+        while (timer > 0)
+        {
+            timer -= Time.deltaTime;
+            ChangePlayerSpeed(maxSpeed + (draftSpeed - maxSpeed) * (timer / slowDownTime));
+            yield return null;
         }
     }
 
