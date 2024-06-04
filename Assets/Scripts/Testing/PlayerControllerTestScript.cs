@@ -156,6 +156,13 @@ public class PlayerControllerTestScript : MonoBehaviour {
     // Sound stuff
     private AudioSource audioSource;
 
+    private bool windDraft;
+
+    // Animation stuff
+    [SerializeField] Animator animator;
+    [SerializeField] GameObject characterVisualBody;
+    private bool isFacingRight = true;
+
     private void Start() {
         DontDestroyOnLoad(gameObject);
 
