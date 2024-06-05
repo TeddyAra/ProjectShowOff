@@ -215,9 +215,13 @@ public class PowerupTestScript : MonoBehaviour {
         spawnDirection.Normalize();
     }
 
-    private void Update()
-    {
-        Debug.Log("windblast timer " + windBlastTimer); 
+    private void Update() {
+        pointTimer += Time.deltaTime;
+
+        if (pointTimer >= pointTime) {
+            pointTimer = 0;
+            OnPoints(character, lifePoints);
+        }
     }
 
     public Powerup GetCurrentPowerup() {
@@ -444,15 +448,6 @@ public class PowerupTestScript : MonoBehaviour {
     IEnumerator SnowFlightDelay() {
         yield return new WaitForSeconds(4);
         snowFlightVFX.SetActive(false);
-    }
-
-    private void Update() {
-        pointTimer += Time.deltaTime;
-
-        if (pointTimer >= pointTime) {
-            pointTimer = 0;
-            OnPoints(character, lifePoints);
-        }
     }
 
     private void OnPoints(PlayerControllerTestScript.Character character, int points) {
