@@ -550,7 +550,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
             if (Physics.Raycast(checkPoint.position, Vector3.down, out hit, 1000f, groundMaskInt)) {
                 if (rb.velocity.x > 0 && hit.transform.tag != "IgnoreIce") {
-                    if (hit.transform != lastIcePlatform || firstIcePosition == null) {
+                    if (hit.transform != lastIcePlatform || firstIcePosition == null || ice == null) {
                         firstIcePosition = hit.point;
                         lastIcePlatform = hit.transform;
                         ice = Instantiate(icePrefab, Vector3.zero, hit.transform.rotation).transform;

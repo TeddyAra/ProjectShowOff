@@ -384,8 +384,9 @@ public class PowerupTestScript : MonoBehaviour {
     }
 
     public string GetRandomPowerup() {
-        currentPowerup = Powerup.Fireball;
-        return currentPowerup.ToString();
+        // For debugging
+        /*currentPowerup = Powerup.Fireball;
+        return currentPowerup.ToString();*/
 
         if (points >= ultimatePoints) {
             foreach (Ultimate ultimate in ultimates) {
