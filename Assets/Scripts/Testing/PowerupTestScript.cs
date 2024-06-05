@@ -156,6 +156,7 @@ public class PowerupTestScript : MonoBehaviour {
     private Powerup currentPowerup;
 
     private PlayerControllerTestScript playerControllerScript;
+    private PlayerControllerTestScript.Character character;
 
     private AudioSource audioSource;  
 
@@ -166,8 +167,6 @@ public class PowerupTestScript : MonoBehaviour {
         audioSource = GetComponent<AudioSource>();  
 
         throwDirection.Normalize();
-
-        
     }
 
     private void Update()
@@ -179,8 +178,9 @@ public class PowerupTestScript : MonoBehaviour {
         return currentPowerup;
     }
 
-    public void ApplyVariables(float maxSpeed) {
+    public void ApplyVariables(float maxSpeed, PlayerControllerTestScript.Character character) {
         this.maxSpeed = maxSpeed;
+        this.character = character;
     }
 
     public void UsePowerup() {
