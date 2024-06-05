@@ -35,6 +35,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
     [SerializeField] private bool ignoreInput;
 
     // ----------------------------------------------------------------------------------
+
     [Header("Jumping")]
 
     [Tooltip("The force that should be applied to the player when they jump")]
@@ -56,6 +57,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
     [SerializeField] private float gravity;
 
     // ----------------------------------------------------------------------------------
+
     [Header("Ground checking")]
 
     [Tooltip("The point where the ground should be checked")]
@@ -71,9 +73,17 @@ public class PlayerControllerTestScript : MonoBehaviour {
     [SerializeField] private string bouncePadMask;
 
     [Tooltip("The size of the bounce pad Check")]
-    [SerializeField] private float bounceCheckSize; 
+    [SerializeField] private float bounceCheckSize;
 
     // ----------------------------------------------------------------------------------
+
+    [Header("Points")]
+
+    [Tooltip("How many points should be deducted for dying")]
+    [SerializeField] private int deathPoints;
+
+    // ----------------------------------------------------------------------------------
+
     [Header("Extra")]
 
     [Tooltip("The amount of time the player is invincible after they're respawned")]
@@ -134,6 +144,10 @@ public class PlayerControllerTestScript : MonoBehaviour {
     // When a player gets or uses a powerup
     public delegate void OnPowerup(PlayerControllerTestScript player, string powerup);
     public static event OnPowerup onPowerup;
+
+    // When a player has done something to get or lose points
+    public delegate void OnPoints(Character character, int points);
+    public static event OnPoints onPoints;
 
     private float playerSpeed;
     private float baseSpeed;
@@ -395,6 +409,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
         switch (other.tag) {
             // The player went too far left
             case "Death":
+                onPoints?.Invoke(character, deathPoints);
                 frozen = true;
                 transform.position = (Vector3)getCheckpoint?.Invoke();
                 tag = "Untagged";
@@ -426,8 +441,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
         }
 
         //Player enters a wind draft
-        if (other.gameObject.CompareTag("WindDraft") && !windDraft)
-        {
+        if (other.gameObject.CompareTag("WindDraft") && !windDraft) {
             Debug.Log("wind draft be happening");
             playerSpeed = draftSpeed;
             windDraft = true;
@@ -435,16 +449,14 @@ public class PlayerControllerTestScript : MonoBehaviour {
         }
     }
 
-    IEnumerator ResetWindraft(float resetTime)
-    {
+    IEnumerator ResetWindraft(float resetTime) {
         yield return new WaitForSeconds(resetTime);
         ChangePlayerSpeed(baseSpeed);
         windDraft = false;
 
         // Slowly make the player slow down again
         float timer = slowDownTime;
-        while (timer > 0)
-        {
+        while (timer > 0) {
             timer -= Time.deltaTime;
             ChangePlayerSpeed(maxSpeed + (draftSpeed - maxSpeed) * (timer / slowDownTime));
             yield return null;
@@ -538,7 +550,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
             if (Physics.Raycast(checkPoint.position, Vector3.down, out hit, 1000f, groundMaskInt)) {
                 if (rb.velocity.x > 0 && hit.transform.tag != "IgnoreIce") {
-                    if (hit.transform != lastIcePlatform || firstIcePosition == null) {
+                    if (hit.transform != lastIcePlatform || firstIcePosition == null || ice == null) {
                         firstIcePosition = hit.point;
                         lastIcePlatform = hit.transform;
                         ice = Instantiate(icePrefab, Vector3.zero, hit.transform.rotation).transform;
@@ -581,9 +593,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
     private void Flip() {
         if (isFacingRight && rb.velocity.x < 0 || !isFacingRight && rb.velocity.x > 0) {
             isFacingRight = !isFacingRight;
-            Vector3 scaleCopy = characterVisualBody.transform.localScale;
-            scaleCopy.z *= -1;
-            characterVisualBody.transform.localScale = scaleCopy;
+            transform.Rotate(Vector3.up, 180);
         }
     }
 
