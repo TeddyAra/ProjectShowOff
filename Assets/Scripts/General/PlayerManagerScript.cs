@@ -232,30 +232,31 @@ public class PlayerManagerScript : MonoBehaviour {
                 }
 
                 // If the player wants to switch characters
-                Vector2 joystick = gamepad.Key.leftStick.ReadValue();
-                bool left = gamepad.Key.dpad.left.wasPressedThisFrame || (joystick.x < -0.5f && !lastJoysticks[i]);
-                bool right = gamepad.Key.dpad.right.wasPressedThisFrame || (joystick.x > 0.5f && !lastJoysticks[i]);
+                int index = GetCharacterPicker(i);
+                CharacterPicker picker = characterPickers[index];
 
-                if (left != right) {
-                    lastJoysticks[i] = true;
-                    int index = GetCharacterPicker(i);
-                    if (index != -1) {
-                        CharacterPicker picker = characterPickers[index];
-                        picker.ChangeCharacter(right, taken);
-                        characterPickers[index] = picker;
+                if (picker.isPlaying && !picker.isReady) {
+                    Vector2 joystick = gamepad.Key.leftStick.ReadValue();
+                    bool left = gamepad.Key.dpad.left.wasPressedThisFrame || (joystick.x < -0.5f && !lastJoysticks[i]);
+                    bool right = gamepad.Key.dpad.right.wasPressedThisFrame || (joystick.x > 0.5f && !lastJoysticks[i]);
+
+                    if (left != right) {
+                        lastJoysticks[i] = true;
+                        if (index != -1) {
+                            picker.ChangeCharacter(right, taken);
+                            characterPickers[index] = picker;
+                        }
                     }
-                }
 
-                // Let the script check the joystick again if the player put it back to the center
-                if (lastJoysticks[i] && joystick.x > -0.5f && joystick.x < 0.5f) {
-                    lastJoysticks[i] = false;
+                    // Let the script check the joystick again if the player put it back to the center
+                    if (lastJoysticks[i] && joystick.x > -0.5f && joystick.x < 0.5f) {
+                        lastJoysticks[i] = false;
+                    }
                 }
 
                 // If the player wants to confirm their character
                 if (gamepad.Key.buttonSouth.wasPressedThisFrame) {
-                    int index = GetCharacterPicker(i);
                     if (index != -1) {
-                        CharacterPicker picker = characterPickers[index];
                         if (picker.isReady) return;
 
                         choosing--;
@@ -279,9 +280,7 @@ public class PlayerManagerScript : MonoBehaviour {
 
                 // If the player wants to go back to character selection
                 if (gamepad.Key.buttonEast.wasPressedThisFrame) {
-                    int index = GetCharacterPicker(i);
                     if (index != -1) {
-                        CharacterPicker picker = characterPickers[index];
                         picker.Play();
                         taken.Remove(picker.GetCharacter());
                         if (oneController) taken.Remove(picker.GetCharacter());

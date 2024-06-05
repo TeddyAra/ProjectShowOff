@@ -781,6 +781,11 @@ PrefabInstance:
       propertyPath: bouncePadForce
       value: 1500
       objectReference: {fileID: 0}
+    - target: {fileID: 3468134009132608798, guid: 44f8adee21f98354b9e70972ca788849,
+        type: 3}
+      propertyPath: characterVisualBody
+      value: 
+      objectReference: {fileID: 6834845591394657662}
     - target: {fileID: 4530758235380207482, guid: 44f8adee21f98354b9e70972ca788849,
         type: 3}
       propertyPath: fartVFX

@@ -107,6 +107,41 @@ public class PowerupTestScript : MonoBehaviour {
 
     // ----------------------------------------------------------------------------------
 
+    [Header("Fireball")]
+
+    [Tooltip("The prefab of the fireball")]
+    [SerializeField] private GameObject fireballPrefab;
+
+    [Tooltip("The direction that the fireball should go once it gets spawned")]
+    [SerializeField] private Vector2 spawnDirection;
+
+    [Tooltip("The force that the fireball should start out with")]
+    [SerializeField] private float spawnForce;
+
+    [Tooltip("For how long a player should be stunned if they're hit")]
+    [SerializeField] private float burnTime;
+
+    [Tooltip("After how many bounces a fireball should get destroyed")]
+    [SerializeField] private int maxBounces;
+
+    [Tooltip("the gravity applied onto the fireball")]
+    [SerializeField] private float fireballGravity;
+
+    // ----------------------------------------------------------------------------------
+
+    [Header("Extra")]
+
+    [Tooltip("The maximum amount of points a character needs to have to use their ultimate ability")]
+    [SerializeField] private int ultimatePoints;
+
+    [Tooltip("How much time should pass before getting a point for staying alive")]
+    [SerializeField] private int pointTime;
+
+    [Tooltip("How many points you should get for staying alive")]
+    [SerializeField] private int lifePoints;
+
+    // ----------------------------------------------------------------------------------
+
     [Header("Audio")]
 
     [SerializeField] private AudioClip speedBoostSound;
@@ -114,6 +149,7 @@ public class PowerupTestScript : MonoBehaviour {
     [SerializeField] private TrailRenderer trailRenderer;
 
     private float maxSpeed;
+    private int points;
 
     // ---------------------------------------------------------------------------------
 
@@ -139,9 +175,9 @@ public class PowerupTestScript : MonoBehaviour {
     // Animations
 
     [SerializeField] private Animator animator; 
-    private float windBlastTimer; 
+    private float windBlastTimer;
 
-
+    [Serializable]
     public enum Powerup {
         None,
         Speedboost,
@@ -149,11 +185,21 @@ public class PowerupTestScript : MonoBehaviour {
         Fartboost,
         Scare,
         Windblast,
-        SnowFlight
+        SnowFlight,
+        Fireball
     }
 
-    private List<Powerup> powerups;
+    [Serializable]
+    public struct Ultimate { 
+        public PlayerControllerTestScript.Character character;
+        public Powerup powerup;
+    }
+
+    [SerializeField] private List<Powerup> powerups;
+    [SerializeField] private List<Ultimate> ultimates;
+
     private Powerup currentPowerup;
+    private float pointTimer;
 
     private PlayerControllerTestScript playerControllerScript;
     private PlayerControllerTestScript.Character character;
@@ -161,12 +207,12 @@ public class PowerupTestScript : MonoBehaviour {
     private AudioSource audioSource;  
 
     private void Start() {
-        powerups = Enum.GetValues(typeof(Powerup)).Cast<Powerup>().ToList();
         playerControllerScript = GetComponent<PlayerControllerTestScript>();
 
         audioSource = GetComponent<AudioSource>();  
 
         throwDirection.Normalize();
+        spawnDirection.Normalize();
     }
 
     public Powerup GetCurrentPowerup() {
@@ -201,16 +247,36 @@ public class PowerupTestScript : MonoBehaviour {
 
             case Powerup.Windblast:
                 Windblast();
-                //StartCoroutine(Windblast());
                 break;
 
             case Powerup.SnowFlight:
                 SnowFlight();
                 break;
+
+            case Powerup.Fireball:
+                SpawnFireball();
+                break;
+        }
+
+        foreach (Ultimate ultimate in ultimates) {
+            if (ultimate.powerup == currentPowerup) {
+                points = 0;
+                break;
+            }
         }
 
         currentPowerup = Powerup.None;
         abilityBubble.SetActive(false);
+    }
+
+    private void SpawnFireball() {
+        Debug.Log("Spawned!");
+
+        FireballScript fireball = Instantiate(fireballPrefab, sleepBombSpawnPoint.position, Quaternion.identity).GetComponent<FireballScript>();
+        fireball.ApplyVariables(maxBounces, burnTime, fireballGravity);
+
+        Rigidbody rb = fireball.GetComponent<Rigidbody>();
+        rb.AddForce(spawnDirection * spawnForce);
     }
 
     private void SnowFlight() {
@@ -219,17 +285,16 @@ public class PowerupTestScript : MonoBehaviour {
         StartCoroutine(SnowFlightDelay()); 
     }
 
-    private void Windblast()
-    {
+    private void Windblast() {
         windBlastTimer = 2 - Time.deltaTime; 
         animator.SetFloat("WindBlast", windBlastTimer); 
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-        foreach (GameObject player in players)
-        {
+        foreach (GameObject player in players) {
             if (player == gameObject) continue;
+
             if ((player.transform.position - transform.position).magnitude < blastRange &&
-                player.transform.position.x < transform.position.x)
-            {
+                player.transform.position.x < transform.position.x) {
+
                 player.GetComponent<PlayerControllerTestScript>().AddForce(Vector3.left, blastForce);
             }
         }
@@ -237,8 +302,6 @@ public class PowerupTestScript : MonoBehaviour {
         GetComponent<PlayerControllerTestScript>().AddForce(Vector3.right, blastBoost);
         windBlastVFX.SetActive(true);
         StartCoroutine(WindBlastVFXDelay());
-        
-
     }
 
     // IEnumerator Windblast()
@@ -273,8 +336,6 @@ public class PowerupTestScript : MonoBehaviour {
             }
         }
     }
-
-
 
     private void Fart() {
         FartCloudScript fartScript = Instantiate(fartCloudPrefab, transform.position, Quaternion.identity).GetComponent<FartCloudScript>();
@@ -313,16 +374,27 @@ public class PowerupTestScript : MonoBehaviour {
     }
 
     public string GetRandomPowerup() {
-        int num = UnityEngine.Random.Range(1, powerups.Count);
-        currentPowerup = powerups[num];
+        currentPowerup = Powerup.Fireball;
+        return currentPowerup.ToString();
 
-        // FOR DEBUGGING PURPOSES
-        currentPowerup = Powerup.Windblast;
+        if (points >= ultimatePoints) {
+            foreach (Ultimate ultimate in ultimates) {
+                if (character == ultimate.character) {
+                    currentPowerup = ultimate.powerup;
+                    return ultimate.powerup.ToString();
+                }
+            }
+
+            Debug.LogError($"There is no ultimate powerup for character {character}");
+            return null;
+        }
+
+        int num = UnityEngine.Random.Range(0, powerups.Count);
+        currentPowerup = powerups[num];
 
         abilityBubble.SetActive(true); 
 
-        switch (currentPowerup)
-        {
+        switch (currentPowerup) {
             case Powerup.Windblast:
                 currentAbilityIcon.sprite = windBlastSprite; 
                 break;
@@ -348,27 +420,44 @@ public class PowerupTestScript : MonoBehaviour {
     } 
 
     // VFX Timers 
-    IEnumerator FartVFXDelay()
-    {
+    IEnumerator FartVFXDelay() {
         yield return new WaitForSeconds(2); 
         fartVFX.SetActive(false);
     }
-    IEnumerator ScareVFXDelay()
-    {
+    IEnumerator ScareVFXDelay() {
         yield return new WaitForSeconds(2);
         scareVFX.SetActive(false);
     }
 
-    IEnumerator WindBlastVFXDelay()
-    {
+    IEnumerator WindBlastVFXDelay() {
         yield return new WaitForSeconds(2);
         windBlastVFX.SetActive(false);
         windBlastTimer = 1; 
     }
 
-    IEnumerator SnowFlightDelay()
-    {
+    IEnumerator SnowFlightDelay() {
         yield return new WaitForSeconds(4);
         snowFlightVFX.SetActive(false);
+    }
+
+    private void Update() {
+        pointTimer += Time.deltaTime;
+
+        if (pointTimer >= pointTime) {
+            pointTimer = 0;
+            OnPoints(character, lifePoints);
+        }
+    }
+
+    private void OnPoints(PlayerControllerTestScript.Character character, int points) {
+        if (this.character == character) this.points += points;
+    }
+
+    private void OnEnable() {
+        PlayerControllerTestScript.onPoints += OnPoints;
+    }
+
+    private void OnDisable() {
+        PlayerControllerTestScript.onPoints -= OnPoints;
     }
 }

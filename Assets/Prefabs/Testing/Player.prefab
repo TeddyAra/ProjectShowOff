@@ -274,7 +274,7 @@ Transform:
   m_GameObject: {fileID: 2546094427723018718}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1, y: 0, z: 0}
+  m_LocalPosition: {x: 1.607, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -591,6 +591,7 @@ MonoBehaviour:
   groundMask: Ground
   bouncePadMask: BouncePad
   bounceCheckSize: 1
+  deathPoints: -10
   invincibilityTime: 2
   playerLayer:
     serializedVersion: 2
@@ -600,8 +601,11 @@ MonoBehaviour:
   playerDistance: 2
   jumpLanding: {fileID: 8300000, guid: f4258fac36938464cb9af7229fa65990, type: 3}
   grounded: 0
+  character: 0
   readyImage: {fileID: 4803595635778081888}
   readyText: {fileID: 2827397316840058104}
+  animator: {fileID: 0}
+  characterVisualBody: {fileID: 0}
 --- !u!114 &8867031693499356766
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -669,9 +673,46 @@ MonoBehaviour:
   maxFlySpeed: 10
   flyForce: 30
   iceDuration: 6
+  fireballPrefab: {fileID: 5174555104169828889, guid: 40f4ee648815df54daec54f968df04b0,
+    type: 3}
+  bounceForce: 100
+  spawnDirection: {x: 1, y: 1}
+  spawnForce: 600
+  burnTime: 2
+  maxBounces: 10
+  fireballGravity: 39.24
+  ultimatePoints: 1
+  pointTime: 1
+  lifePoints: 1
   speedBoostSound: {fileID: 8300000, guid: 7ee4535ea0d3b9940b2a6f75fb6fca2f, type: 3}
   throwSound: {fileID: 8300000, guid: 6d3912bc3d4080748987b4bba8f2737a, type: 3}
   trailRenderer: {fileID: 2795186136762503016}
+  fartVFX: {fileID: 0}
+  windBlastVFX: {fileID: 0}
+  snowFlightVFX: {fileID: 0}
+  scareVFX: {fileID: 0}
+  abilityBubble: {fileID: 0}
+  currentAbilityIcon: {fileID: 0}
+  speedBoostSprite: {fileID: 0}
+  sleepBombSprite: {fileID: 0}
+  fireBallSprite: {fileID: 0}
+  windBlastSprite: {fileID: 0}
+  fartSprite: {fileID: 0}
+  scareSprite: {fileID: 0}
+  iceSprite: {fileID: 0}
+  animator: {fileID: 0}
+  powerups: 0100000002000000
+  ultimates:
+  - character: 0
+    powerup: 6
+  - character: 1
+    powerup: 0
+  - character: 2
+    powerup: 4
+  - character: 3
+    powerup: 3
+  - character: 4
+    powerup: 5
 --- !u!114 &7694126204278291087
 MonoBehaviour:
   m_ObjectHideFlags: 0
