@@ -185,7 +185,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
     // Animation stuff
     [SerializeField] Animator animator;
     [SerializeField] GameObject characterVisualBody;
-    private bool isFacingRight = true;
+    public bool isFacingRight = true;
 
     private void Start() {
         DontDestroyOnLoad(gameObject);
@@ -591,6 +591,9 @@ public class PlayerControllerTestScript : MonoBehaviour {
     }
 
     private void Flip() {
+        if (powerupScript.isCastingWindBlast == true)
+            return; 
+
         if (isFacingRight && rb.velocity.x < 0 || !isFacingRight && rb.velocity.x > 0) {
             isFacingRight = !isFacingRight;
             transform.Rotate(Vector3.up, 180);
