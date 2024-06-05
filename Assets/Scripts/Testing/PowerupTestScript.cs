@@ -156,6 +156,7 @@ public class PowerupTestScript : MonoBehaviour {
     private Powerup currentPowerup;
 
     private PlayerControllerTestScript playerControllerScript;
+    private PlayerControllerTestScript.Character character;
 
     private AudioSource audioSource;  
 
@@ -166,16 +167,20 @@ public class PowerupTestScript : MonoBehaviour {
         audioSource = GetComponent<AudioSource>();  
 
         throwDirection.Normalize();
+    }
 
-        
+    private void Update()
+    {
+        Debug.Log("windblast timer " + windBlastTimer); 
     }
 
     public Powerup GetCurrentPowerup() {
         return currentPowerup;
     }
 
-    public void ApplyVariables(float maxSpeed) {
+    public void ApplyVariables(float maxSpeed, PlayerControllerTestScript.Character character) {
         this.maxSpeed = maxSpeed;
+        this.character = character;
     }
 
     public void UsePowerup() {
@@ -221,8 +226,9 @@ public class PowerupTestScript : MonoBehaviour {
 
     private void Windblast()
     {
-        windBlastTimer = 2 - Time.deltaTime; 
+        windBlastTimer = 3 - Time.deltaTime; 
         animator.SetFloat("WindBlast", windBlastTimer); 
+        animator.SetTrigger("PinguinoAbility"); 
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
         foreach (GameObject player in players)
         {
