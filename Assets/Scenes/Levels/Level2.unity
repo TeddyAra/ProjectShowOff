@@ -100784,11 +100784,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 374346412}
     m_Modifications:
+    - target: {fileID: 1048616358868392783, guid: 770d2a1e206ad974e998fb9a2790893d,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 1638275678728592452, guid: 770d2a1e206ad974e998fb9a2790893d,
         type: 3}
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 1819394649}
+    - target: {fileID: 3381929817461678728, guid: 770d2a1e206ad974e998fb9a2790893d,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 4266085568675675069, guid: 770d2a1e206ad974e998fb9a2790893d,
         type: 3}
       propertyPath: m_Mesh

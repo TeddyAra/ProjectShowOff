@@ -323,7 +323,7 @@ public class PowerupTestScript : MonoBehaviour {
         currentPowerup = powerups[num];
 
         // FOR DEBUGGING PURPOSES
-        currentPowerup = Powerup.Windblast;
+        currentPowerup = Powerup.SnowFlight;
 
         abilityBubble.SetActive(true); 
 
