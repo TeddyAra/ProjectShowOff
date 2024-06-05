@@ -140,8 +140,18 @@ public class PlayerControllerTestScript : MonoBehaviour {
     private bool isColliding;
     private int playerNum;
 
+    [Serializable]
+    public enum Character { 
+        Iceage,
+        Catfire,
+        Catnap,
+        Stinkozila,
+        Pinguino
+    }
+
     [Header("Extra")]
 
+    [SerializeField] private Character character;
     [SerializeField] private Image readyImage;
     [SerializeField] private TMP_Text readyText;
     private bool isStarting;
@@ -175,7 +185,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
         playerSpeed = maxSpeed;
 
         powerupScript = GetComponent<PowerupTestScript>();
-        powerupScript.ApplyVariables(maxSpeed);
+        powerupScript.ApplyVariables(maxSpeed, character);
 
         icePlatforms = new List<Transform>();
     }
@@ -210,12 +220,9 @@ public class PlayerControllerTestScript : MonoBehaviour {
         animator.SetFloat("Speed", 1 + Mathf.Abs(rb.velocity.x / maxSpeed)); 
         animator.SetFloat("FallSpeed", rb.velocity.y); 
         
-        if (grounded)
-        {
+        if (grounded) {
             animator.SetBool("Grounded", true); 
-        }
-        else
-        {
+        } else {
             animator.SetBool("Grounded", false); 
         }
 
@@ -375,7 +382,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
     }
 
     private void OnTriggerStay(Collider other) {
-        if (other.tag == "Ice") {
+        if (other.tag == "Ice" && character != Character.Iceage) {
             Stun(1f);
         }
     }
@@ -569,6 +576,15 @@ public class PlayerControllerTestScript : MonoBehaviour {
         }
     }
 
+    private void Flip() {
+        if (isFacingRight && rb.velocity.x < 0 || !isFacingRight && rb.velocity.x > 0) {
+            isFacingRight = !isFacingRight;
+            Vector3 scaleCopy = characterVisualBody.transform.localScale;
+            scaleCopy.z *= -1;
+            characterVisualBody.transform.localScale = scaleCopy;
+        }
+    }
+
     private void OnEnable() {
         GameManager.onFreeze += OnFreeze;
         GameManager.onUnfreeze += OnUnfreeze;
@@ -582,7 +598,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
         playerSpeed = maxSpeed;
 
         powerupScript = GetComponent<PowerupTestScript>();
-        powerupScript.ApplyVariables(maxSpeed);
+        powerupScript.ApplyVariables(maxSpeed, character);
     }
 
     private void OnDisable() {
@@ -590,19 +606,5 @@ public class PlayerControllerTestScript : MonoBehaviour {
         GameManager.onUnfreeze -= OnUnfreeze;
         GameManager.onStart -= OnStart;
         GameManager.onRespawn -= OnRespawn; 
-    }
-
-    private void Flip()
-    {
-        
-
-        if (isFacingRight && rb.velocity.x < 0 || !isFacingRight && rb.velocity.x > 0)
-        {
-            isFacingRight = !isFacingRight; 
-            Vector3 scaleCopy = characterVisualBody.transform.localScale; 
-            scaleCopy.z *= -1; 
-            characterVisualBody.transform.localScale = scaleCopy;
-        }
-       
     }
 }   
