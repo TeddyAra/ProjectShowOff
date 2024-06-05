@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using UnityEngine;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(PlayerControllerTestScript))]
 public class PowerupTestScript : MonoBehaviour {
@@ -88,6 +89,30 @@ public class PowerupTestScript : MonoBehaviour {
     [Tooltip("With how much force the player should be pushed forward")]
     [SerializeField] private float blastBoost;
 
+    // ----------------------------------------------------------------------------------
+
+    [Header("Snow flight")]
+
+    [Tooltip("For how long the player will fly")]
+    [SerializeField] private float flyDuration;
+
+    [Tooltip("The max velocity while flying")]
+    [SerializeField] private float maxFlySpeed;
+
+    [Tooltip("The force of the player while they fly")]
+    [SerializeField] private float flyForce;
+
+    [Tooltip("For how long the ice will last after the player stops flying")]
+    [SerializeField] private float iceDuration;
+
+    // ----------------------------------------------------------------------------------
+
+    [Header("Audio")]
+
+    [SerializeField] private AudioClip speedBoostSound;
+    [SerializeField] private AudioClip throwSound;
+    [SerializeField] private TrailRenderer trailRenderer;
+
     private float maxSpeed;
 
     // VFX 
@@ -95,7 +120,19 @@ public class PowerupTestScript : MonoBehaviour {
     [SerializeField] private GameObject fartVFX;
     [SerializeField] private GameObject windBlastVFX;
     [SerializeField] private GameObject snowFlightVFX;
-    [SerializeField] private GameObject scareVFX; 
+    [SerializeField] private GameObject scareVFX;
+
+    // Ability UI Tooltip
+
+    [SerializeField] private GameObject abilityBubble; 
+    [SerializeField] private Image currentAbilityIcon;
+    [SerializeField] private Sprite speedBoostSprite;
+    [SerializeField] private Sprite sleepBombSprite;
+    [SerializeField] private Sprite fireBallSprite;
+    [SerializeField] private Sprite windBlastSprite; 
+    [SerializeField] private Sprite fartSprite;
+    [SerializeField] private Sprite scareSprite;
+    [SerializeField] private Sprite iceSprite;
 
     public enum Powerup {
         None,
@@ -103,7 +140,8 @@ public class PowerupTestScript : MonoBehaviour {
         SleepBomb,
         Fartboost,
         Scare,
-        Windblast
+        Windblast,
+        SnowFlight
     }
 
     private List<Powerup> powerups;
@@ -111,11 +149,7 @@ public class PowerupTestScript : MonoBehaviour {
 
     private PlayerControllerTestScript playerControllerScript;
 
-    // Audio Stuff
-    AudioSource audioSource;  
-    [SerializeField] AudioClip speedBoostSound;
-    [SerializeField] AudioClip throwSound;
-    [SerializeField] private TrailRenderer trailRenderer; 
+    private AudioSource audioSource;  
 
     private void Start() {
         powerups = Enum.GetValues(typeof(Powerup)).Cast<Powerup>().ToList();
@@ -124,6 +158,8 @@ public class PowerupTestScript : MonoBehaviour {
         audioSource = GetComponent<AudioSource>();  
 
         throwDirection.Normalize();
+
+        
     }
 
     public Powerup GetCurrentPowerup() {
@@ -158,18 +194,24 @@ public class PowerupTestScript : MonoBehaviour {
             case Powerup.Windblast:
                 Windblast();
                 break;
+
+            case Powerup.SnowFlight:
+                SnowFlight();
+                break;
         }
 
         currentPowerup = Powerup.None;
+        abilityBubble.SetActive(false);
+    }
+
+    private void SnowFlight() {
+        StartCoroutine(playerControllerScript.Fly(flyDuration, maxFlySpeed, flyForce, iceDuration));
+        snowFlightVFX.SetActive(true);
+        StartCoroutine(SnowFlightDelay()); 
     }
 
     private void Windblast() {
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-
-        windBlastVFX.SetActive(true);
-
-        StartCoroutine(WindBlastVFXDelay());
-
         foreach (GameObject player in players) {
             if (player == gameObject) continue;
             if ((player.transform.position - transform.position).magnitude < blastRange &&
@@ -179,6 +221,8 @@ public class PowerupTestScript : MonoBehaviour {
         }
 
         GetComponent<PlayerControllerTestScript>().AddForce(Vector3.right, blastBoost);
+        windBlastVFX.SetActive(true);
+        StartCoroutine(WindBlastVFXDelay());
     }
 
     private void Scare() {
@@ -194,6 +238,8 @@ public class PowerupTestScript : MonoBehaviour {
             }
         }
     }
+
+
 
     private void Fart() {
         FartCloudScript fartScript = Instantiate(fartCloudPrefab, transform.position, Quaternion.identity).GetComponent<FartCloudScript>();
@@ -236,7 +282,32 @@ public class PowerupTestScript : MonoBehaviour {
         currentPowerup = powerups[num];
 
         // FOR DEBUGGING PURPOSES
-        //currentPowerup = Powerup.SleepBomb;
+        //currentPowerup = Powerup.SnowFlight;
+
+        abilityBubble.SetActive(true); 
+
+        switch (currentPowerup)
+        {
+            case Powerup.Windblast:
+                currentAbilityIcon.sprite = windBlastSprite; 
+                break;
+            case Powerup.Fartboost:
+                currentAbilityIcon.sprite = fartSprite; 
+                break; 
+            case Powerup.Scare: 
+                currentAbilityIcon.sprite = scareSprite; 
+                break; 
+            case Powerup.SnowFlight:
+                currentAbilityIcon.sprite = iceSprite; 
+                break; 
+            case Powerup.Speedboost:
+                currentAbilityIcon.sprite = speedBoostSprite; 
+                break; 
+            case Powerup.SleepBomb:
+                currentAbilityIcon.sprite = sleepBombSprite;
+                break; 
+            
+        }
 
         return currentPowerup.ToString();
     } 

@@ -27,8 +27,6 @@ public class GameManager : MonoBehaviour {
     public delegate void OnStart();
     public static event OnStart onStart;
 
-    private int readyNum;
-
     private void Start() {
         // Get all checkpoints
         GameObject[] list = GameObject.FindGameObjectsWithTag("CheckpointPosition");
@@ -50,7 +48,6 @@ public class GameManager : MonoBehaviour {
 
         countdown.text = "Get ready...";
 
-        //while (readyNum < playerNumber) yield return null;
         yield return new WaitForSeconds(3);
 
         onStart?.Invoke();
@@ -104,21 +101,15 @@ public class GameManager : MonoBehaviour {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
-    private void OnReady(PlayerControllerTestScript player) {
-        readyNum++;
-    }
-
     private void OnEnable() {
         PlayerControllerTestScript.onCheckpoint += OnCheckpoint;
         PlayerControllerTestScript.getCheckpoint += GetCheckpoint;
         PlayerControllerTestScript.onFinish += OnFinish;
-        PlayerControllerTestScript.onReady += OnReady;
     }
 
     private void OnDisable() {
         PlayerControllerTestScript.onCheckpoint -= OnCheckpoint;
         PlayerControllerTestScript.getCheckpoint -= GetCheckpoint;
         PlayerControllerTestScript.onFinish -= OnFinish;
-        PlayerControllerTestScript.onReady -= OnReady;
     }
 }

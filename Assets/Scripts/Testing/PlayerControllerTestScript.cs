@@ -82,6 +82,9 @@ public class PlayerControllerTestScript : MonoBehaviour {
     [Tooltip("The layer mask of the players")]
     [SerializeField] private LayerMask playerLayer;
 
+    [Tooltip("The prefab of the ice")]
+    [SerializeField] private GameObject icePrefab;
+
     [SerializeField] private float playerDistance;
 
     [SerializeField] private AudioClip jumpLanding;
@@ -132,28 +135,34 @@ public class PlayerControllerTestScript : MonoBehaviour {
     public delegate void OnPowerup(PlayerControllerTestScript player, string powerup);
     public static event OnPowerup onPowerup;
 
-    public delegate void OnReady(PlayerControllerTestScript player);
-    public static event OnReady onReady;
-
     private float playerSpeed;
     private float baseSpeed;
     private bool isColliding;
     private int playerNum;
 
-    private bool windDraft;
+    [Header("Extra")]
 
     [SerializeField] private Image readyImage;
     [SerializeField] private TMP_Text readyText;
     private bool isStarting;
 
+    private bool flying;
+    private Transform lastIcePlatform;
+    private Vector3 firstIcePosition;
+    private Vector3 lastIcePosition;
+    private Transform ice;
+    private List<Transform> icePlatforms;
+
     // Sound stuff
     private AudioSource audioSource;
 
+    private bool windDraft;
+
     // Animation stuff
     [SerializeField] Animator animator;
-    [SerializeField] GameObject characterVisualBody; 
-    private bool isFacingRight = true; 
-    
+    [SerializeField] GameObject characterVisualBody;
+    private bool isFacingRight = true;
+
     private void Start() {
         DontDestroyOnLoad(gameObject);
 
@@ -168,7 +177,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
         powerupScript = GetComponent<PowerupTestScript>();
         powerupScript.ApplyVariables(maxSpeed);
 
-        baseSpeed = playerSpeed;
+        icePlatforms = new List<Transform>();
     }
 
     private void Update() {
@@ -213,10 +222,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
     }
 
     private void FixedUpdate() {
-
-        Flip(); 
-
-        if (!grounded) {
+        if (!grounded && !flying) {
             rb.AddForce(Vector3.down * gravity);
         }
         
@@ -239,7 +245,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
         if (!isReady || !isStarting) return;*/
 
-        if (isStarting) return;
+        if (isStarting || flying) return;
 
         // Update timers
         coyoteTimer--;
@@ -253,15 +259,10 @@ public class PlayerControllerTestScript : MonoBehaviour {
             }
         }
 
-        if (ignoreInput || frozen) return;
-
-        // Get the rigid body's velocity
-        velocity = rb.velocity;
-
         // Check if the player is grounded or not
         if (Physics.CheckSphere(checkPoint.position, groundCheckSize, groundMaskInt)) {
             if (grounded == false) {
-                audioSource.PlayOneShot(jumpLanding); 
+                audioSource.PlayOneShot(jumpLanding);
             }
             grounded = true;
         } else {
@@ -270,6 +271,11 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
             grounded = false;
         }
+
+        if (ignoreInput || frozen) return;
+
+        // Get the rigid body's velocity
+        velocity = rb.velocity;
 
         // Apply input
         if (move != Vector2.zero) {
@@ -334,6 +340,8 @@ public class PlayerControllerTestScript : MonoBehaviour {
         // Reset input variables
         jump = false;
         powerup = false;
+
+        Flip(); 
     }
 
     private IEnumerator BouncePadDelay() {
@@ -366,6 +374,12 @@ public class PlayerControllerTestScript : MonoBehaviour {
         yield return new WaitForSeconds(stunTime);
         Debug.Log($"{gameObject.name} no longer stunned");
         ignoreInput = false;
+    }
+
+    private void OnTriggerStay(Collider other) {
+        if (other.tag == "Ice") {
+            Stun(1f);
+        }
     }
 
     private void OnTriggerEnter(Collider other) {
@@ -500,6 +514,61 @@ public class PlayerControllerTestScript : MonoBehaviour {
         Debug.Log("Added force");
         direction.Normalize();
         rb.AddForce(direction * force);
+    }
+
+    public IEnumerator Fly(float flyDuration, float maxFlySpeed, float flyForce, float iceDuration) {
+        float timer = flyDuration;
+        flying = true;
+        rb.velocity = Vector3.zero;
+
+        RaycastHit hit;
+        if (Physics.Raycast(checkPoint.position, Vector3.down, out hit, 1000f, groundMaskInt)) { 
+            firstIcePosition = hit.point;
+        }
+
+        while (timer > 0) {
+            timer -= Time.deltaTime;
+
+            if (Physics.Raycast(checkPoint.position, Vector3.down, out hit, 1000f, groundMaskInt)) {
+                if (rb.velocity.x > 0 && hit.transform.tag != "IgnoreIce") {
+                    if (hit.transform != lastIcePlatform || firstIcePosition == null) {
+                        firstIcePosition = hit.point;
+                        lastIcePlatform = hit.transform;
+                        ice = Instantiate(icePrefab, Vector3.zero, hit.transform.rotation).transform;
+                        icePlatforms.Add(ice);
+                    }
+
+                    lastIcePosition = hit.point;
+                    ice.position = (firstIcePosition + lastIcePosition) / 2;
+                    Vector3 size = ice.localScale;
+                    size.x = (lastIcePosition - firstIcePosition).magnitude;
+                    ice.localScale = size;
+                } else {
+                    lastIcePlatform = null;
+                }
+            } else {
+                lastIcePlatform = null;
+            }
+
+            rb.AddForce(new Vector3(move.x, move.y, 0) * flyForce);
+            if (rb.velocity.magnitude > maxFlySpeed) {
+                rb.velocity = rb.velocity.normalized * maxFlySpeed;
+            }
+            yield return null;
+        }
+
+        lastIcePlatform = null;
+        lastIcePosition = Vector3.zero;
+        firstIcePosition = Vector3.zero;
+        flying = false;
+
+        yield return new WaitForSeconds(iceDuration);
+
+        for (int i = icePlatforms.ToList().Count - 1; i >= 0; i--) {
+            Debug.Log("dfgjbgfd"); 
+            Destroy(icePlatforms[i].gameObject);
+            icePlatforms.RemoveAt(i);
+        }
     }
 
     private void OnEnable() {

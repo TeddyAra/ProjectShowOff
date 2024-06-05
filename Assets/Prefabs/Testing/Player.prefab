@@ -595,6 +595,8 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 512
+  icePrefab: {fileID: 8415167979898979819, guid: 722fe90b28b701a438c77c43a4744a82,
+    type: 3}
   playerDistance: 2
   jumpLanding: {fileID: 8300000, guid: f4258fac36938464cb9af7229fa65990, type: 3}
   grounded: 0
@@ -663,6 +665,10 @@ MonoBehaviour:
   blastRange: 8
   blastForce: 4000
   blastBoost: 6000
+  flyDuration: 5
+  maxFlySpeed: 10
+  flyForce: 30
+  iceDuration: 6
   speedBoostSound: {fileID: 8300000, guid: 7ee4535ea0d3b9940b2a6f75fb6fca2f, type: 3}
   throwSound: {fileID: 8300000, guid: 6d3912bc3d4080748987b4bba8f2737a, type: 3}
   trailRenderer: {fileID: 2795186136762503016}
