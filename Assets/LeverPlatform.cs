@@ -27,7 +27,7 @@ public class LeverPlatform : MonoBehaviour
         {
             Debug.Log(Mathf.Rad2Deg * door.transform.localRotation.z); 
             door.transform.Rotate(Vector3.forward, Time.deltaTime * -rotateSpeed); 
-            yield return null; 
+            yield return null;  
         }
     }
 

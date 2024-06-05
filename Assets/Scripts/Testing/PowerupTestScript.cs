@@ -138,8 +138,11 @@ public class PowerupTestScript : MonoBehaviour {
 
     // Animations
 
-    [SerializeField] private Animator animator; 
-    private float windBlastTimer; 
+    [SerializeField] private GameObject animatedBody;
+    [SerializeField] private Animator animator;
+    [SerializeField] private float rotationSpeed; 
+    //private float windBlastTimer; 
+
 
 
     public enum Powerup {
@@ -167,11 +170,6 @@ public class PowerupTestScript : MonoBehaviour {
         audioSource = GetComponent<AudioSource>();  
 
         throwDirection.Normalize();
-    }
-
-    private void Update()
-    {
-        Debug.Log("windblast timer " + windBlastTimer); 
     }
 
     public Powerup GetCurrentPowerup() {
@@ -226,8 +224,8 @@ public class PowerupTestScript : MonoBehaviour {
 
     private void Windblast()
     {
-        windBlastTimer = 3 - Time.deltaTime; 
-        animator.SetFloat("WindBlast", windBlastTimer); 
+        //windBlastTimer = 3 - Time.deltaTime; 
+        //animator.SetFloat("WindBlast", windBlastTimer); 
         animator.SetTrigger("PinguinoAbility"); 
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
         foreach (GameObject player in players)
@@ -247,24 +245,6 @@ public class PowerupTestScript : MonoBehaviour {
 
     }
 
-    // IEnumerator Windblast()
-    //{
-    //    animator.SetTrigger("PinguinoAbility"); 
-    //    yield return new WaitForSeconds(1); 
-    //    GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-    //    foreach (GameObject player in players) {
-    //        if (player == gameObject) continue;
-    //        if ((player.transform.position - transform.position).magnitude < blastRange &&
-    //            player.transform.position.x < transform.position.x) {
-    //            player.GetComponent<PlayerControllerTestScript>().AddForce(Vector3.left, blastForce);
-    //        }
-    //    }
-
-    //    GetComponent<PlayerControllerTestScript>().AddForce(Vector3.right, blastBoost);
-    //    windBlastVFX.SetActive(true);
-    //    yield return new WaitForSeconds(2); 
-    //    windBlastVFX.SetActive(false);
-    //}
 
     private void Scare() {
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
@@ -367,9 +347,24 @@ public class PowerupTestScript : MonoBehaviour {
 
     IEnumerator WindBlastVFXDelay()
     {
-        yield return new WaitForSeconds(2);
+        var targetRotation = Quaternion.Euler(0, 270, 0); 
+        var initialRotation = Quaternion.Euler(0, 90, 0); 
+
+        while (animatedBody.transform.eulerAngles.y < 270)
+        {
+            animatedBody.transform.Rotate(Vector3.up, 20); 
+            yield return null; 
+        }
+        yield return new WaitForSeconds(0.5f);
+
         windBlastVFX.SetActive(false);
-        windBlastTimer = 1; 
+
+        while (animatedBody.transform.eulerAngles.y > 90)
+        {
+            animatedBody.transform.Rotate(Vector3.up, -20); 
+            yield return null; 
+        }
+        
     }
 
     IEnumerator SnowFlightDelay()
