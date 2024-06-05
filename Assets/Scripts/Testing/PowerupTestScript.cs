@@ -115,6 +115,8 @@ public class PowerupTestScript : MonoBehaviour {
 
     private float maxSpeed;
 
+    // ---------------------------------------------------------------------------------
+
     // VFX 
 
     [SerializeField] private GameObject fartVFX;
@@ -133,6 +135,12 @@ public class PowerupTestScript : MonoBehaviour {
     [SerializeField] private Sprite fartSprite;
     [SerializeField] private Sprite scareSprite;
     [SerializeField] private Sprite iceSprite;
+
+    // Animations
+
+    [SerializeField] private Animator animator; 
+    private float windBlastTimer; 
+
 
     public enum Powerup {
         None,
@@ -193,6 +201,7 @@ public class PowerupTestScript : MonoBehaviour {
 
             case Powerup.Windblast:
                 Windblast();
+                //StartCoroutine(Windblast());
                 break;
 
             case Powerup.SnowFlight:
@@ -210,12 +219,17 @@ public class PowerupTestScript : MonoBehaviour {
         StartCoroutine(SnowFlightDelay()); 
     }
 
-    private void Windblast() {
+    private void Windblast()
+    {
+        windBlastTimer = 2 - Time.deltaTime; 
+        animator.SetFloat("WindBlast", windBlastTimer); 
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-        foreach (GameObject player in players) {
+        foreach (GameObject player in players)
+        {
             if (player == gameObject) continue;
             if ((player.transform.position - transform.position).magnitude < blastRange &&
-                player.transform.position.x < transform.position.x) {
+                player.transform.position.x < transform.position.x)
+            {
                 player.GetComponent<PlayerControllerTestScript>().AddForce(Vector3.left, blastForce);
             }
         }
@@ -223,7 +237,28 @@ public class PowerupTestScript : MonoBehaviour {
         GetComponent<PlayerControllerTestScript>().AddForce(Vector3.right, blastBoost);
         windBlastVFX.SetActive(true);
         StartCoroutine(WindBlastVFXDelay());
+        
+
     }
+
+    // IEnumerator Windblast()
+    //{
+    //    animator.SetTrigger("PinguinoAbility"); 
+    //    yield return new WaitForSeconds(1); 
+    //    GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+    //    foreach (GameObject player in players) {
+    //        if (player == gameObject) continue;
+    //        if ((player.transform.position - transform.position).magnitude < blastRange &&
+    //            player.transform.position.x < transform.position.x) {
+    //            player.GetComponent<PlayerControllerTestScript>().AddForce(Vector3.left, blastForce);
+    //        }
+    //    }
+
+    //    GetComponent<PlayerControllerTestScript>().AddForce(Vector3.right, blastBoost);
+    //    windBlastVFX.SetActive(true);
+    //    yield return new WaitForSeconds(2); 
+    //    windBlastVFX.SetActive(false);
+    //}
 
     private void Scare() {
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
@@ -282,7 +317,7 @@ public class PowerupTestScript : MonoBehaviour {
         currentPowerup = powerups[num];
 
         // FOR DEBUGGING PURPOSES
-        currentPowerup = Powerup.SnowFlight;
+        currentPowerup = Powerup.Windblast;
 
         abilityBubble.SetActive(true); 
 
@@ -328,6 +363,7 @@ public class PowerupTestScript : MonoBehaviour {
     {
         yield return new WaitForSeconds(2);
         windBlastVFX.SetActive(false);
+        windBlastTimer = 1; 
     }
 
     IEnumerator SnowFlightDelay()

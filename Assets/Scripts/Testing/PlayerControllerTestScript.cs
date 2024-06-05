@@ -347,6 +347,8 @@ public class PlayerControllerTestScript : MonoBehaviour {
         // Reset input variables
         jump = false;
         powerup = false;
+
+        Flip(); 
     }
 
     private IEnumerator BouncePadDelay() {
