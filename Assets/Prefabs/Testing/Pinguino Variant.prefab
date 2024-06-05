@@ -752,6 +752,11 @@ PrefabInstance:
       objectReference: {fileID: 4128053222300234130}
     - target: {fileID: 4530758235380207482, guid: 44f8adee21f98354b9e70972ca788849,
         type: 3}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 5697985314613425112}
+    - target: {fileID: 4530758235380207482, guid: 44f8adee21f98354b9e70972ca788849,
+        type: 3}
       propertyPath: scareVFX
       value: 
       objectReference: {fileID: 4631216537706242166}
