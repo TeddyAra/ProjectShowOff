@@ -170,6 +170,11 @@ public class PowerupTestScript : MonoBehaviour {
         
     }
 
+    private void Update()
+    {
+        Debug.Log("windblast timer " + windBlastTimer); 
+    }
+
     public Powerup GetCurrentPowerup() {
         return currentPowerup;
     }
@@ -221,8 +226,9 @@ public class PowerupTestScript : MonoBehaviour {
 
     private void Windblast()
     {
-        windBlastTimer = 2 - Time.deltaTime; 
+        windBlastTimer = 3 - Time.deltaTime; 
         animator.SetFloat("WindBlast", windBlastTimer); 
+        animator.SetTrigger("PinguinoAbility"); 
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
         foreach (GameObject player in players)
         {
