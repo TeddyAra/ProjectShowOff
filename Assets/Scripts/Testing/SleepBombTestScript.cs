@@ -32,10 +32,11 @@ public class SleepBombTestScript : MonoBehaviour {
     }
 
     private void OnTriggerEnter(Collider other) {
-        if (other.tag == "PlayerTrigger") 
+        if (other.tag == "PlayerTrigger") {
             audioSource.PlayOneShot(sleepBombExplode);
             Instantiate(bombVfx, transform.position, transform.rotation);
             Explode();
+        }
     }
 
     private void Explode() {
