@@ -146,6 +146,7 @@ public class PowerupTestScript : MonoBehaviour {
 
     [SerializeField] private AudioClip speedBoostSound;
     [SerializeField] private AudioClip throwSound;
+    [SerializeField] private AudioClip fireballSpawn;
     [SerializeField] private TrailRenderer trailRenderer;
 
     private float maxSpeed;
@@ -284,6 +285,7 @@ public class PowerupTestScript : MonoBehaviour {
 
     private void SpawnFireball() {
         Debug.Log("Spawned!");
+        audioSource.PlayOneShot(fireballSpawn);
 
         FireballScript fireball = Instantiate(fireballPrefab, sleepBombSpawnPoint.position, Quaternion.Euler(0, 90, 0)).GetComponent<FireballScript>();
         fireball.ApplyVariables(maxBounces, burnTime, fireballGravity);
@@ -291,6 +293,8 @@ public class PowerupTestScript : MonoBehaviour {
         Rigidbody rb = fireball.GetComponent<Rigidbody>();
         rb.AddForce(spawnDirection * spawnForce);
     }
+
+
 
     private void SnowFlight() {
         StartCoroutine(playerControllerScript.Fly(flyDuration, maxFlySpeed, flyForce, iceDuration));

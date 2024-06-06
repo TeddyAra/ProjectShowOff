@@ -869,7 +869,7 @@ MonoBehaviour:
   characterVisualBody: {fileID: 0}
   isFacingRight: 1
   currentStunState: 0
-  sleepVFX: {fileID: 9171247944685282459}
+  sleepVFX: {fileID: 0}
 --- !u!114 &8867031693499356766
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -950,20 +950,19 @@ MonoBehaviour:
   speedBoostSound: {fileID: 8300000, guid: 7ee4535ea0d3b9940b2a6f75fb6fca2f, type: 3}
   throwSound: {fileID: 8300000, guid: 6d3912bc3d4080748987b4bba8f2737a, type: 3}
   trailRenderer: {fileID: 2795186136762503016}
-  fartVFX: {fileID: 2379728208613114877}
-  windBlastVFX: {fileID: 7644112097741115345}
-  snowFlightVFX: {fileID: 1559517843825957494}
-  scareVFX: {fileID: 8470046850348288639}
-  speedBoostVFX: {fileID: 7092412024828704597}
-  abilityBubble: {fileID: 931981345468790925}
-  currentAbilityIcon: {fileID: 1526074589032638124}
-  speedBoostSprite: {fileID: 21300000, guid: ba03f476909755f46a27aa2f7e5acce6, type: 3}
-  sleepBombSprite: {fileID: 21300000, guid: 802e8e637aac5bc4a9cb4d404bf88ea0, type: 3}
-  fireBallSprite: {fileID: 21300000, guid: 2b2faef2de29fd849a9965102f8b1a1a, type: 3}
-  windBlastSprite: {fileID: 21300000, guid: 845975c4ed84326429c385c566bb5bdd, type: 3}
-  fartSprite: {fileID: 21300000, guid: f20811f3653f6094f97978e094dd504e, type: 3}
-  scareSprite: {fileID: 21300000, guid: 70be71faac0414f4a81965314437378a, type: 3}
-  iceSprite: {fileID: 21300000, guid: e238d95ce888f28499c70638687ee11d, type: 3}
+  fartVFX: {fileID: 0}
+  windBlastVFX: {fileID: 0}
+  snowFlightVFX: {fileID: 0}
+  scareVFX: {fileID: 0}
+  abilityBubble: {fileID: 0}
+  currentAbilityIcon: {fileID: 0}
+  speedBoostSprite: {fileID: 0}
+  sleepBombSprite: {fileID: 0}
+  fireBallSprite: {fileID: 0}
+  windBlastSprite: {fileID: 0}
+  fartSprite: {fileID: 0}
+  scareSprite: {fileID: 0}
+  iceSprite: {fileID: 0}
   animatedBody: {fileID: 0}
   animator: {fileID: 0}
   isCastingWindBlast: 0
