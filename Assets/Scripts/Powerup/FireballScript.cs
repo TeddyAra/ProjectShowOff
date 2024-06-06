@@ -32,19 +32,7 @@ public class FireballScript : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other) {
         if (other.tag == "PlayerTrigger") {
-            GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-            float distance = float.MaxValue;
-            GameObject closest = null;
-
-            foreach (GameObject p in players) {
-                float newDistance = (p.transform.position - transform.position).magnitude;
-                if (newDistance < distance) {
-                    distance = newDistance;
-                    closest = p;
-                }
-            }
-
-            if (closest != null) closest.GetComponent<PlayerControllerTestScript>().Stun(stunTime);
+            other.transform.parent.GetComponent<PlayerControllerTestScript>().Stun(stunTime);
             Destroy(gameObject);
         }
     }
