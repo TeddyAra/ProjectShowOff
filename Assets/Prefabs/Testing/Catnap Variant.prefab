@@ -501,6 +501,11 @@ PrefabInstance:
       objectReference: {fileID: 3176703963658306842}
     - target: {fileID: 4530758235380207482, guid: 44f8adee21f98354b9e70972ca788849,
         type: 3}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 8328216953633125080}
+    - target: {fileID: 4530758235380207482, guid: 44f8adee21f98354b9e70972ca788849,
+        type: 3}
       propertyPath: scareVFX
       value: 
       objectReference: {fileID: 8989730204057881408}
@@ -527,6 +532,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 70be71faac0414f4a81965314437378a,
         type: 3}
+    - target: {fileID: 4530758235380207482, guid: 44f8adee21f98354b9e70972ca788849,
+        type: 3}
+      propertyPath: animatedBody
+      value: 
+      objectReference: {fileID: 5554206043240005776}
     - target: {fileID: 4530758235380207482, guid: 44f8adee21f98354b9e70972ca788849,
         type: 3}
       propertyPath: windBlastVFX
@@ -562,7 +572,7 @@ PrefabInstance:
         type: 3}
       propertyPath: sleepBombSprite
       value: 
-      objectReference: {fileID: 21300000, guid: 14ded868740612841abf63303ca02d39,
+      objectReference: {fileID: 21300000, guid: 802e8e637aac5bc4a9cb4d404bf88ea0,
         type: 3}
     - target: {fileID: 4530758235380207482, guid: 44f8adee21f98354b9e70972ca788849,
         type: 3}
@@ -579,7 +589,7 @@ PrefabInstance:
         type: 3}
       propertyPath: speedBoostSprite
       value: 
-      objectReference: {fileID: 21300000, guid: ac20f935d2776fc4b9bc87ba36fd73a0,
+      objectReference: {fileID: 21300000, guid: ba03f476909755f46a27aa2f7e5acce6,
         type: 3}
     - target: {fileID: 4530758235380207482, guid: 44f8adee21f98354b9e70972ca788849,
         type: 3}

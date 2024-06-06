@@ -174,8 +174,10 @@ public class PowerupTestScript : MonoBehaviour {
 
     // Animations
 
+    [SerializeField] private GameObject animatedBody; 
     [SerializeField] private Animator animator; 
-    private float windBlastTimer;
+    public bool isCastingWindBlast; 
+    
 
     [Serializable]
     public enum Powerup {
@@ -295,8 +297,7 @@ public class PowerupTestScript : MonoBehaviour {
     }
 
     private void Windblast() {
-        windBlastTimer = 2 - Time.deltaTime; 
-        animator.SetFloat("WindBlast", windBlastTimer); 
+        isCastingWindBlast = true; 
         animator.SetTrigger("PinguinoAbility"); 
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
         foreach (GameObject player in players) {
@@ -314,24 +315,6 @@ public class PowerupTestScript : MonoBehaviour {
         StartCoroutine(WindBlastVFXDelay());
     }
 
-    // IEnumerator Windblast()
-    //{
-    //    animator.SetTrigger("PinguinoAbility"); 
-    //    yield return new WaitForSeconds(1); 
-    //    GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-    //    foreach (GameObject player in players) {
-    //        if (player == gameObject) continue;
-    //        if ((player.transform.position - transform.position).magnitude < blastRange &&
-    //            player.transform.position.x < transform.position.x) {
-    //            player.GetComponent<PlayerControllerTestScript>().AddForce(Vector3.left, blastForce);
-    //        }
-    //    }
-
-    //    GetComponent<PlayerControllerTestScript>().AddForce(Vector3.right, blastBoost);
-    //    windBlastVFX.SetActive(true);
-    //    yield return new WaitForSeconds(2); 
-    //    windBlastVFX.SetActive(false);
-    //}
 
     private void Scare() {
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
@@ -384,24 +367,9 @@ public class PowerupTestScript : MonoBehaviour {
     }
 
     public string GetRandomPowerup() {
+        
         // For debugging
-        /*currentPowerup = Powerup.Fireball;
-        return currentPowerup.ToString();*/
-
-        if (points >= ultimatePoints) {
-            foreach (Ultimate ultimate in ultimates) {
-                if (character == ultimate.character) {
-                    currentPowerup = ultimate.powerup;
-                    return ultimate.powerup.ToString();
-                }
-            }
-
-            Debug.LogError($"There is no ultimate powerup for character {character}");
-            return null;
-        }
-
-        int num = UnityEngine.Random.Range(0, powerups.Count);
-        currentPowerup = powerups[num];
+        currentPowerup = Powerup.SleepBomb;
 
         abilityBubble.SetActive(true); 
 
@@ -426,6 +394,24 @@ public class PowerupTestScript : MonoBehaviour {
                 break; 
             
         }
+        return currentPowerup.ToString();
+
+        if (points >= ultimatePoints) {
+            foreach (Ultimate ultimate in ultimates) {
+                if (character == ultimate.character) {
+                    currentPowerup = ultimate.powerup;
+                    return ultimate.powerup.ToString();
+                }
+            }
+
+            Debug.LogError($"There is no ultimate powerup for character {character}");
+            return null;
+        }
+
+        int num = UnityEngine.Random.Range(0, powerups.Count);
+        currentPowerup = powerups[num];
+
+        
 
         return currentPowerup.ToString();
     } 
@@ -441,9 +427,29 @@ public class PowerupTestScript : MonoBehaviour {
     }
 
     IEnumerator WindBlastVFXDelay() {
-        yield return new WaitForSeconds(2);
+
+        while (animatedBody.transform.eulerAngles.y < 270)
+        {
+            animatedBody.transform.Rotate(Vector3.up, 15); 
+            yield return null; 
+        }
+
+        yield return new WaitForSeconds(0.5f);
+
         windBlastVFX.SetActive(false);
-        windBlastTimer = 1; 
+
+        while (animatedBody.transform.eulerAngles.y > 90)
+        {
+            animatedBody.transform.Rotate(Vector3.up, -15); 
+            yield return null; 
+        }
+        
+        if (playerControllerScript.isFacingRight == false)
+        {
+            playerControllerScript.isFacingRight = true; 
+        }
+
+        isCastingWindBlast = false; 
     }
 
     IEnumerator SnowFlightDelay() {

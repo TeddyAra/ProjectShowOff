@@ -49,6 +49,7 @@ public class SleepBombTestScript : MonoBehaviour {
             float distance = (player.transform.position - transform.position).magnitude;
             if (distance <= explosionRange) {
                 float stunTime = Mathf.Lerp(minStun, maxStun, distance / explosionRange);
+                player.currentStunState = PlayerControllerTestScript.StunState.Slept; 
                 player.Stun(stunTime);
             }
         }
