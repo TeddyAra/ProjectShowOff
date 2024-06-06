@@ -187,6 +187,22 @@ public class PlayerControllerTestScript : MonoBehaviour {
     [SerializeField] GameObject characterVisualBody;
     public bool isFacingRight = true;
 
+    // Stun States (for animations and VFX) 
+
+    public enum StunState
+    {
+        None, 
+        Slept,
+        Frozen, 
+        Burnt
+    }
+
+    public StunState currentStunState; 
+
+    [SerializeField] private GameObject sleepVFX;
+    //[SerializeField] private GameObject freezeVFX;
+    //[SerializeField] private GameObject burnVFX; 
+
     private void Start() {
         DontDestroyOnLoad(gameObject);
 
@@ -390,15 +406,45 @@ public class PlayerControllerTestScript : MonoBehaviour {
     }
 
     public IEnumerator StunCoroutine(float stunTime) {
+
+        switch (currentStunState) {
+            case StunState.None: 
+                break; 
+            case StunState.Slept: 
+                Debug.Log("StateChanged"); 
+                sleepVFX.SetActive(true); 
+                break; 
+            case StunState.Burnt: 
+                break; 
+            case StunState.Frozen: 
+                break; 
+        }
+        
         Debug.Log($"{gameObject.name} stunned for " + stunTime);
         ignoreInput = true;
         yield return new WaitForSeconds(stunTime);
         Debug.Log($"{gameObject.name} no longer stunned");
         ignoreInput = false;
+
+        switch (currentStunState) {
+            case StunState.None: 
+                break; 
+            case StunState.Slept: 
+                sleepVFX.SetActive(false); 
+                currentStunState = StunState.None;
+                break; 
+            case StunState.Burnt: 
+                currentStunState = StunState.None;
+                break; 
+            case StunState.Frozen: 
+                currentStunState = StunState.None;
+                break; 
+        }
     }
 
     private void OnTriggerStay(Collider other) {
         if (other.tag == "Ice" && character != Character.Iceage) {
+            currentStunState = StunState.Frozen; 
             Stun(1f);
         }
     }

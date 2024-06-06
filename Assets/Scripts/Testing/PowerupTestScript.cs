@@ -369,7 +369,7 @@ public class PowerupTestScript : MonoBehaviour {
     public string GetRandomPowerup() {
         
         // For debugging
-        currentPowerup = Powerup.Windblast;
+        currentPowerup = Powerup.SleepBomb;
 
         abilityBubble.SetActive(true); 
 
