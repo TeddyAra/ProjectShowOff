@@ -275,6 +275,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pref_Ground_Tiles_Dirt_with_rocks_on_top (21)
       objectReference: {fileID: 0}
+    - target: {fileID: 5520294567570278548, guid: 61325d11a8d2abe48a233862f18c5fbd,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -12829,6 +12834,59 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 271116466}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &271265969
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 271265970}
+  - component: {fileID: 271265971}
+  m_Layer: 8
+  m_Name: GroundCollider (3)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &271265970
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 271265969}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 534, y: -4, z: 0}
+  m_LocalScale: {x: 36, y: 4, z: 8}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1523107422}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &271265971
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 271265969}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &272979509
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15122,6 +15180,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Pref_Ground_Tiles_Dirt_with_rocks_on_top (23)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5520294567570278548, guid: 61325d11a8d2abe48a233862f18c5fbd,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -19505,6 +19568,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pref_Ground_Tiles_Dirt_with_rocks_on_top (19)
       objectReference: {fileID: 0}
+    - target: {fileID: 5520294567570278548, guid: 61325d11a8d2abe48a233862f18c5fbd,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -19528,6 +19596,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CheckpointPosition (8)
+      objectReference: {fileID: 0}
+    - target: {fileID: 914505340287398908, guid: 854a5f679b7f2f34b8d19f838bd92201,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8426548360401870509, guid: 854a5f679b7f2f34b8d19f838bd92201,
         type: 3}
@@ -21109,6 +21182,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 374346412}
     m_Modifications:
+    - target: {fileID: 1273912558399705681, guid: 770d2a1e206ad974e998fb9a2790893d,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1638275678728592452, guid: 770d2a1e206ad974e998fb9a2790893d,
         type: 3}
       propertyPath: m_Mesh
@@ -21124,6 +21202,11 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 710304426}
+    - target: {fileID: 4800352992740426377, guid: 770d2a1e206ad974e998fb9a2790893d,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5127501537747248064, guid: 770d2a1e206ad974e998fb9a2790893d,
         type: 3}
       propertyPath: m_Mesh
@@ -21132,7 +21215,7 @@ PrefabInstance:
     - target: {fileID: 5655059381516177563, guid: 770d2a1e206ad974e998fb9a2790893d,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 409.3
+      value: 408.2307
       objectReference: {fileID: 0}
     - target: {fileID: 5655059381516177563, guid: 770d2a1e206ad974e998fb9a2790893d,
         type: 3}
@@ -27348,6 +27431,59 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 578777473}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &581432834
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 581432835}
+  - component: {fileID: 581432836}
+  m_Layer: 8
+  m_Name: GroundCollider (10)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &581432835
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 581432834}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 96, y: -4, z: 0}
+  m_LocalScale: {x: 8, y: 4, z: 8}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1523107422}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &581432836
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 581432834}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &584957252
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -31208,6 +31344,59 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 670715930}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &671098622
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 671098623}
+  - component: {fileID: 671098624}
+  m_Layer: 8
+  m_Name: GroundCollider (7)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &671098623
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 671098622}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 268, y: -4, z: 0}
+  m_LocalScale: {x: 8, y: 4, z: 8}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1523107422}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &671098624
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 671098622}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &672909895
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -31685,6 +31874,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Pref_Ground_Tiles_Dirt_with_rocks_on_top (20)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5520294567570278548, guid: 61325d11a8d2abe48a233862f18c5fbd,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -33202,6 +33396,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Pref_Ground_Tiles_Dirt_with_rocks_on_top (22)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5520294567570278548, guid: 61325d11a8d2abe48a233862f18c5fbd,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -36462,6 +36661,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pref_Ground_Tiles_DirtwithRock_Top&Left (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 8628471735478359602, guid: 3f2a54e406a954a408949e3ef8074650,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -37178,6 +37382,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: CheckpointPosition (10)
       objectReference: {fileID: 0}
+    - target: {fileID: 914505340287398908, guid: 854a5f679b7f2f34b8d19f838bd92201,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8426548360401870509, guid: 854a5f679b7f2f34b8d19f838bd92201,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -37841,6 +38050,59 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 825073622}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &826805965
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 826805966}
+  - component: {fileID: 826805967}
+  m_Layer: 8
+  m_Name: GroundCollider (9)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &826805966
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 826805965}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 438.23, y: -4, z: 0}
+  m_LocalScale: {x: 8, y: 4, z: 8}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1523107422}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &826805967
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 826805965}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &827775114
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -42574,12 +42836,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 908944168}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -28, y: 10, z: -2}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 32, y: 4, z: 8}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1213080225}
+  m_Father: {fileID: 1523107422}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &908944170
 BoxCollider:
@@ -44740,6 +45002,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pref_Ground_Tiles_Dirt_with_rocks_on_top (16)
       objectReference: {fileID: 0}
+    - target: {fileID: 5520294567570278548, guid: 61325d11a8d2abe48a233862f18c5fbd,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -46189,6 +46456,59 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 988227539}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &988482210
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 988482211}
+  - component: {fileID: 988482212}
+  m_Layer: 8
+  m_Name: GroundCollider (8)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &988482211
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 988482210}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 360, y: -4, z: 0}
+  m_LocalScale: {x: 16, y: 4, z: 8}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1523107422}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &988482212
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 988482210}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &988498093
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -51877,6 +52197,59 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1091467541}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1096549655
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1096549656}
+  - component: {fileID: 1096549657}
+  m_Layer: 8
+  m_Name: GroundCollider (5)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1096549656
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1096549655}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 328, y: -4, z: 0}
+  m_LocalScale: {x: 8, y: 4, z: 8}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1523107422}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1096549657
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1096549655}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!4 &1097178466 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 92826743179819094, guid: cf14bc78e63a7ff46adbc9e92b26b34f,
@@ -53659,12 +54032,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1127710307}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -14, y: 6, z: -2}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 14, y: -4, z: 0}
   m_LocalScale: {x: 84, y: 4, z: 8}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1213080225}
+  m_Father: {fileID: 1523107422}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &1127710309
 BoxCollider:
@@ -57165,6 +57538,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pref_Ground_Tiles_Dirt_with_rocks_on_top (25)
       objectReference: {fileID: 0}
+    - target: {fileID: 5520294567570278548, guid: 61325d11a8d2abe48a233862f18c5fbd,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -58507,9 +58885,6 @@ Transform:
   - {fileID: 701608509}
   - {fileID: 2031741231}
   - {fileID: 1957400625}
-  - {fileID: 1589812368}
-  - {fileID: 1127710308}
-  - {fileID: 908944169}
   m_Father: {fileID: 1752012921}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1215064023
@@ -68855,6 +69230,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pref_Ground_Tiles_Dirt_with_rocks_on_top (26)
       objectReference: {fileID: 0}
+    - target: {fileID: 5520294567570278548, guid: 61325d11a8d2abe48a233862f18c5fbd,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -69562,6 +69942,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Pref_Ground_Tiles_Dirt_with_rocks_on_top (24)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5520294567570278548, guid: 61325d11a8d2abe48a233862f18c5fbd,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -72177,6 +72562,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: CheckpointPosition (7)
       objectReference: {fileID: 0}
+    - target: {fileID: 914505340287398908, guid: 854a5f679b7f2f34b8d19f838bd92201,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8426548360401870509, guid: 854a5f679b7f2f34b8d19f838bd92201,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -72752,6 +73142,48 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1522817733}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1523107421
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1523107422}
+  m_Layer: 0
+  m_Name: Ground Colliders
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1523107422
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1523107421}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -28, y: 6, z: -2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1589812368}
+  - {fileID: 1127710308}
+  - {fileID: 271265970}
+  - {fileID: 2078742924}
+  - {fileID: 988482211}
+  - {fileID: 1096549656}
+  - {fileID: 826805966}
+  - {fileID: 1771973162}
+  - {fileID: 671098623}
+  - {fileID: 581432835}
+  - {fileID: 908944169}
+  m_Father: {fileID: 1752012921}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1526074759 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6816438505647192146, guid: 2a801fb99c1b5ef43a57623b8a68973c,
@@ -74462,6 +74894,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pref_Ground_Tiles_Dirt_with_rocks_on_top (27)
       objectReference: {fileID: 0}
+    - target: {fileID: 5520294567570278548, guid: 61325d11a8d2abe48a233862f18c5fbd,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -75757,6 +76194,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 374346412}
     m_Modifications:
+    - target: {fileID: 1273912558399705681, guid: 770d2a1e206ad974e998fb9a2790893d,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1638275678728592452, guid: 770d2a1e206ad974e998fb9a2790893d,
         type: 3}
       propertyPath: m_Mesh
@@ -75772,6 +76214,11 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 1528634094}
+    - target: {fileID: 4800352992740426377, guid: 770d2a1e206ad974e998fb9a2790893d,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5127501537747248064, guid: 770d2a1e206ad974e998fb9a2790893d,
         type: 3}
       propertyPath: m_Mesh
@@ -75954,6 +76401,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CheckpointPosition (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 914505340287398908, guid: 854a5f679b7f2f34b8d19f838bd92201,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8426548360401870509, guid: 854a5f679b7f2f34b8d19f838bd92201,
         type: 3}
@@ -76453,12 +76905,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1589812367}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 368.7, y: 2, z: -2}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 396.7, y: -8, z: 0}
   m_LocalScale: {x: 1027.5, y: 4, z: 8}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1213080225}
+  m_Father: {fileID: 1523107422}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &1589812369
 BoxCollider:
@@ -83574,6 +84026,7 @@ Transform:
   - {fileID: 314340693}
   - {fileID: 1213080225}
   - {fileID: 374346412}
+  - {fileID: 1523107422}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1752220544
@@ -85351,6 +85804,59 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1771543152}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1771973161
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1771973162}
+  - component: {fileID: 1771973163}
+  m_Layer: 8
+  m_Name: GroundCollider (6)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1771973162
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1771973161}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 296, y: -4, z: 0}
+  m_LocalScale: {x: 8, y: 4, z: 8}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1523107422}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1771973163
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1771973161}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &1773450020
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -88794,6 +89300,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: CheckpointPosition (9)
       objectReference: {fileID: 0}
+    - target: {fileID: 914505340287398908, guid: 854a5f679b7f2f34b8d19f838bd92201,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8426548360401870509, guid: 854a5f679b7f2f34b8d19f838bd92201,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -89206,6 +89717,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 374346412}
     m_Modifications:
+    - target: {fileID: 1273912558399705681, guid: 770d2a1e206ad974e998fb9a2790893d,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1638275678728592452, guid: 770d2a1e206ad974e998fb9a2790893d,
         type: 3}
       propertyPath: m_Mesh
@@ -89221,6 +89737,11 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 437298908}
+    - target: {fileID: 4800352992740426377, guid: 770d2a1e206ad974e998fb9a2790893d,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5127501537747248064, guid: 770d2a1e206ad974e998fb9a2790893d,
         type: 3}
       propertyPath: m_Mesh
@@ -91791,6 +92312,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CheckpointPosition (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 914505340287398908, guid: 854a5f679b7f2f34b8d19f838bd92201,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8426548360401870509, guid: 854a5f679b7f2f34b8d19f838bd92201,
         type: 3}
@@ -97129,6 +97655,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 374346412}
     m_Modifications:
+    - target: {fileID: 1273912558399705681, guid: 770d2a1e206ad974e998fb9a2790893d,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1638275678728592452, guid: 770d2a1e206ad974e998fb9a2790893d,
         type: 3}
       propertyPath: m_Mesh
@@ -97144,6 +97675,11 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 1946770015}
+    - target: {fileID: 4800352992740426377, guid: 770d2a1e206ad974e998fb9a2790893d,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5127501537747248064, guid: 770d2a1e206ad974e998fb9a2790893d,
         type: 3}
       propertyPath: m_Mesh
@@ -99631,6 +100167,59 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2075860352}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2078742923
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2078742924}
+  - component: {fileID: 2078742925}
+  m_Layer: 8
+  m_Name: GroundCollider (4)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2078742924
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2078742923}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 360, y: -4, z: 0}
+  m_LocalScale: {x: 16, y: 4, z: 8}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1523107422}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &2078742925
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2078742923}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!4 &2079462940 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3677626718758536434, guid: 69db45c2e3773cf4e8ba05346eb48353,
@@ -100084,6 +100673,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CheckpointPosition (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 914505340287398908, guid: 854a5f679b7f2f34b8d19f838bd92201,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8426548360401870509, guid: 854a5f679b7f2f34b8d19f838bd92201,
         type: 3}
@@ -104394,6 +104988,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 1273912558399705681, guid: 770d2a1e206ad974e998fb9a2790893d,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1638275678728592452, guid: 770d2a1e206ad974e998fb9a2790893d,
         type: 3}
       propertyPath: m_Mesh
@@ -104414,6 +105013,11 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 422516598}
+    - target: {fileID: 4800352992740426377, guid: 770d2a1e206ad974e998fb9a2790893d,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5127501537747248064, guid: 770d2a1e206ad974e998fb9a2790893d,
         type: 3}
       propertyPath: m_Mesh

@@ -283,7 +283,7 @@ public class PowerupTestScript : MonoBehaviour {
     private void SpawnFireball() {
         Debug.Log("Spawned!");
 
-        FireballScript fireball = Instantiate(fireballPrefab, sleepBombSpawnPoint.position, Quaternion.identity).GetComponent<FireballScript>();
+        FireballScript fireball = Instantiate(fireballPrefab, sleepBombSpawnPoint.position, Quaternion.Euler(0, 90, 0)).GetComponent<FireballScript>();
         fireball.ApplyVariables(maxBounces, burnTime, fireballGravity);
 
         Rigidbody rb = fireball.GetComponent<Rigidbody>();
@@ -369,7 +369,7 @@ public class PowerupTestScript : MonoBehaviour {
     public string GetRandomPowerup() {
         
         // For debugging
-        currentPowerup = Powerup.SleepBomb;
+        currentPowerup = Powerup.Fireball;
 
         abilityBubble.SetActive(true); 
 
@@ -385,6 +385,9 @@ public class PowerupTestScript : MonoBehaviour {
                 break; 
             case Powerup.SnowFlight:
                 currentAbilityIcon.sprite = iceSprite; 
+                break; 
+            case Powerup.Fireball: 
+                currentAbilityIcon.sprite = fireBallSprite; 
                 break; 
             case Powerup.Speedboost:
                 currentAbilityIcon.sprite = speedBoostSprite; 

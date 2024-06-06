@@ -869,6 +869,11 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 4530758235380207482, guid: 44f8adee21f98354b9e70972ca788849,
         type: 3}
+      propertyPath: spawnForce
+      value: 1200
+      objectReference: {fileID: 0}
+    - target: {fileID: 4530758235380207482, guid: 44f8adee21f98354b9e70972ca788849,
+        type: 3}
       propertyPath: flyDuration
       value: 3
       objectReference: {fileID: 0}
