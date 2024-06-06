@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7870168972095962418}
   - component: {fileID: 1988312803916133501}
   - component: {fileID: 5006061404857422563}
+  - component: {fileID: -4799282680833596458}
   m_Layer: 0
   m_Name: Pref_Props_Small_Bush_0
   m_TagString: Untagged
@@ -83,3 +84,22 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!205 &-4799282680833596458
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3480003201893357445}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: 0, y: 0, z: 0}
+  m_Size: 1
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 5006061404857422563}
+  m_Enabled: 1
