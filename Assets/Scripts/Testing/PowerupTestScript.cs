@@ -159,6 +159,7 @@ public class PowerupTestScript : MonoBehaviour {
     [SerializeField] private GameObject windBlastVFX;
     [SerializeField] private GameObject snowFlightVFX;
     [SerializeField] private GameObject scareVFX;
+    [SerializeField] private GameObject speedBoostVFX; 
 
     // Ability UI Tooltip
 
@@ -224,6 +225,7 @@ public class PowerupTestScript : MonoBehaviour {
             pointTimer = 0;
             OnPoints(character, lifePoints);
         }
+
     }
 
     public Powerup GetCurrentPowerup() {
@@ -350,12 +352,12 @@ public class PowerupTestScript : MonoBehaviour {
 
     private IEnumerator SpeedUp() {
         audioSource.PlayOneShot(speedBoostSound); 
-        trailRenderer.emitting = true;
+        speedBoostVFX.SetActive(true);
 
         // Speed the player up
         playerControllerScript.ChangePlayerSpeed(speedboostSpeed);
         yield return new WaitForSeconds(speedboostTime);
-        trailRenderer.emitting = false; 
+        speedBoostVFX.SetActive(false); 
 
         // Slowly make the player slow down again
         float timer = slowDownTime;
@@ -369,40 +371,36 @@ public class PowerupTestScript : MonoBehaviour {
     public string GetRandomPowerup() {
         
         // For debugging
-        currentPowerup = Powerup.Fireball;
+        //currentPowerup = Powerup.Fireball;
 
         abilityBubble.SetActive(true); 
 
-        switch (currentPowerup) {
-            case Powerup.Windblast:
-                currentAbilityIcon.sprite = windBlastSprite; 
-                break;
-            case Powerup.Fartboost:
-                currentAbilityIcon.sprite = fartSprite; 
-                break; 
-            case Powerup.Scare: 
-                currentAbilityIcon.sprite = scareSprite; 
-                break; 
-            case Powerup.SnowFlight:
-                currentAbilityIcon.sprite = iceSprite; 
-                break; 
-            case Powerup.Fireball: 
-                currentAbilityIcon.sprite = fireBallSprite; 
-                break; 
-            case Powerup.Speedboost:
-                currentAbilityIcon.sprite = speedBoostSprite; 
-                break; 
-            case Powerup.SleepBomb:
-                currentAbilityIcon.sprite = sleepBombSprite;
-                break; 
-            
-        }
-        return currentPowerup.ToString();
+        
+        //return currentPowerup.ToString();
 
         if (points >= ultimatePoints) {
             foreach (Ultimate ultimate in ultimates) {
                 if (character == ultimate.character) {
                     currentPowerup = ultimate.powerup;
+
+                    switch (currentPowerup) {
+                        case Powerup.Windblast:
+                            currentAbilityIcon.sprite = windBlastSprite; 
+                            break;
+                        case Powerup.Fartboost:
+                            currentAbilityIcon.sprite = fartSprite; 
+                            break; 
+                        case Powerup.Scare: 
+                            currentAbilityIcon.sprite = scareSprite; 
+                            break; 
+                        case Powerup.SnowFlight:
+                            currentAbilityIcon.sprite = iceSprite; 
+                            break; 
+                        case Powerup.Fireball: 
+                            currentAbilityIcon.sprite = fireBallSprite; 
+                            break; 
+            
+                    }
                     return ultimate.powerup.ToString();
                 }
             }
@@ -414,7 +412,17 @@ public class PowerupTestScript : MonoBehaviour {
         int num = UnityEngine.Random.Range(0, powerups.Count);
         currentPowerup = powerups[num];
 
-        
+
+
+        switch (currentPowerup)
+        {
+            case Powerup.Speedboost:
+                currentAbilityIcon.sprite = speedBoostSprite; 
+                break; 
+            case Powerup.SleepBomb:
+                currentAbilityIcon.sprite = sleepBombSprite;
+                break; 
+        }
 
         return currentPowerup.ToString();
     } 

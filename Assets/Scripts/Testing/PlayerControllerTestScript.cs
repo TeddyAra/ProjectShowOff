@@ -411,7 +411,6 @@ public class PlayerControllerTestScript : MonoBehaviour {
             case StunState.None: 
                 break; 
             case StunState.Slept: 
-                Debug.Log("StateChanged"); 
                 sleepVFX.SetActive(true); 
                 break; 
             case StunState.Burnt: 
