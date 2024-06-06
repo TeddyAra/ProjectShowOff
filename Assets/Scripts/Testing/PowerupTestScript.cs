@@ -283,7 +283,7 @@ public class PowerupTestScript : MonoBehaviour {
     private void SpawnFireball() {
         Debug.Log("Spawned!");
 
-        FireballScript fireball = Instantiate(fireballPrefab, sleepBombSpawnPoint.position, Quaternion.identity).GetComponent<FireballScript>();
+        FireballScript fireball = Instantiate(fireballPrefab, sleepBombSpawnPoint.position, Quaternion.Euler(0, 90, 0)).GetComponent<FireballScript>();
         fireball.ApplyVariables(maxBounces, burnTime, fireballGravity);
 
         Rigidbody rb = fireball.GetComponent<Rigidbody>();
