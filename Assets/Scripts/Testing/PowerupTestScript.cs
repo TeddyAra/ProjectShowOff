@@ -160,6 +160,7 @@ public class PowerupTestScript : MonoBehaviour {
     [SerializeField] private GameObject windBlastVFX;
     [SerializeField] private GameObject snowFlightVFX;
     [SerializeField] private GameObject scareVFX;
+    [SerializeField] private GameObject speedBoostVFX; 
 
     // Ability UI Tooltip
 
@@ -355,12 +356,12 @@ public class PowerupTestScript : MonoBehaviour {
 
     private IEnumerator SpeedUp() {
         audioSource.PlayOneShot(speedBoostSound); 
-        trailRenderer.emitting = true;
+        speedBoostVFX.SetActive(true);
 
         // Speed the player up
         playerControllerScript.ChangePlayerSpeed(speedboostSpeed);
         yield return new WaitForSeconds(speedboostTime);
-        trailRenderer.emitting = false; 
+        speedBoostVFX.SetActive(false); 
 
         // Slowly make the player slow down again
         float timer = slowDownTime;
