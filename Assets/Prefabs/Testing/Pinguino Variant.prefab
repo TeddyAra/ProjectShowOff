@@ -863,6 +863,11 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 4530758235380207482, guid: 44f8adee21f98354b9e70972ca788849,
         type: 3}
+      propertyPath: blastForce
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 4530758235380207482, guid: 44f8adee21f98354b9e70972ca788849,
+        type: 3}
       propertyPath: fartSprite
       value: 
       objectReference: {fileID: 21300000, guid: f20811f3653f6094f97978e094dd504e,
@@ -928,6 +933,11 @@ PrefabInstance:
         type: 3}
       propertyPath: speedboostTime
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4530758235380207482, guid: 44f8adee21f98354b9e70972ca788849,
+        type: 3}
+      propertyPath: ultimatePoints
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4530758235380207482, guid: 44f8adee21f98354b9e70972ca788849,
         type: 3}
