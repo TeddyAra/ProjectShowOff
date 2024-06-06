@@ -606,6 +606,9 @@ MonoBehaviour:
   readyText: {fileID: 2827397316840058104}
   animator: {fileID: 0}
   characterVisualBody: {fileID: 0}
+  isFacingRight: 1
+  currentStunState: 0
+  sleepVFX: {fileID: 0}
 --- !u!114 &8867031693499356766
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -675,12 +678,12 @@ MonoBehaviour:
   iceDuration: 6
   fireballPrefab: {fileID: 5174555104169828889, guid: 40f4ee648815df54daec54f968df04b0,
     type: 3}
-  bounceForce: 100
   spawnDirection: {x: 1, y: 1}
   spawnForce: 600
   burnTime: 2
   maxBounces: 10
   fireballGravity: 39.24
+  fireballSpawn: {fileID: 8300000, guid: 8dedf6b0f97f552409b995c4effcaec3, type: 3}
   ultimatePoints: 1
   pointTime: 1
   lifePoints: 1
@@ -700,7 +703,9 @@ MonoBehaviour:
   fartSprite: {fileID: 0}
   scareSprite: {fileID: 0}
   iceSprite: {fileID: 0}
+  animatedBody: {fileID: 0}
   animator: {fileID: 0}
+  isCastingWindBlast: 0
   powerups: 0100000002000000
   ultimates:
   - character: 0
