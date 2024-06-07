@@ -11,16 +11,16 @@ using UnityEngine.SceneManagement;
 public class PlayerManagerScript : MonoBehaviour {
     [Serializable]
     struct CharacterPicker {
-        [HideInInspector] public bool isPlaying;                // Whether the character picker is being used
-        [HideInInspector] public bool isReady;                  // Whether the character picker is ready
-        [SerializeField] private GameObject playing;            // The UI for if someone is using the character picker
-        [SerializeField] private GameObject notPlaying;         // The UI for if someone is not using the character picker
-        [SerializeField] private GameObject ready;              // The UI for if someone is ready to play
-        [SerializeField] private Image character;               // The UI for the character
+        [HideInInspector] public bool isPlaying;                    // Whether the character picker is being used
+        [HideInInspector] public bool isReady;                      // Whether the character picker is ready
+        [SerializeField] private GameObject playing;                // The UI for if someone is using the character picker
+        [SerializeField] private GameObject notPlaying;             // The UI for if someone is not using the character picker
+        [SerializeField] private GameObject ready;                  // The UI for if someone is ready to play
+        [SerializeField] private Image character;                   // The UI for the character
 
-        private int index;                                      // The index of the controller
-        private int currentCharacter;                           // The index of the character
-        private Dictionary<Material, Vector2> characterSizes;   // The size of each character
+        private int index;                                          // The index of the controller
+        private int currentCharacter;                               // The index of the character
+        private Dictionary<Material, Vector2> characterSizes;       // The size of each character
 
         // Apply the dictionary and instantiate the character
         public void ApplyCharacterSizes(Dictionary<Material, Vector2> characterSizes) { 

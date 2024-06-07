@@ -372,15 +372,12 @@ public class PowerupTestScript : MonoBehaviour {
         }
     }
 
+    public int GetPoints() {
+        return points;
+    }
+
     public string GetRandomPowerup() {
-        
-        // For debugging
-        //currentPowerup = Powerup.Fireball;
-
-        abilityBubble.SetActive(true); 
-
-        
-        //return currentPowerup.ToString();
+        abilityBubble.SetActive(true);
 
         if (points >= ultimatePoints) {
             foreach (Ultimate ultimate in ultimates) {
@@ -416,16 +413,26 @@ public class PowerupTestScript : MonoBehaviour {
         int num = UnityEngine.Random.Range(0, powerups.Count);
         currentPowerup = powerups[num];
 
-
-
-        switch (currentPowerup)
-        {
+        switch (currentPowerup) {
+            case Powerup.Windblast:
+                currentAbilityIcon.sprite = windBlastSprite;
+                break;
+            case Powerup.Fartboost:
+                currentAbilityIcon.sprite = fartSprite;
+                break;
+            case Powerup.Scare:
+                currentAbilityIcon.sprite = scareSprite;
+                break;
+            case Powerup.SnowFlight:
+                currentAbilityIcon.sprite = iceSprite;
+                break;
             case Powerup.Speedboost:
-                currentAbilityIcon.sprite = speedBoostSprite; 
-                break; 
+                currentAbilityIcon.sprite = speedBoostSprite;
+                break;
             case Powerup.SleepBomb:
                 currentAbilityIcon.sprite = sleepBombSprite;
-                break; 
+                break;
+
         }
 
         return currentPowerup.ToString();

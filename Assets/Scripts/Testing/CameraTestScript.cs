@@ -153,12 +153,12 @@ public class CameraTestScript : MonoBehaviour {
     private void OnEnable() {
         GameManager.onStart += OnStart;
         PlayerManagerScript.onGetPlayers += OnGetPlayers;
-        GameManager.onRespawn += OnRespawn;
+        PlacementManagerScript.onRespawn += OnRespawn;
     }
 
     private void OnDisable() {
         GameManager.onStart -= OnStart;
         PlayerManagerScript.onGetPlayers -= OnGetPlayers;
-        GameManager.onRespawn -= OnRespawn;
+        PlacementManagerScript.onRespawn -= OnRespawn;
     }
 }
