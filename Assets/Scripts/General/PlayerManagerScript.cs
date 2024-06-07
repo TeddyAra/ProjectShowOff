@@ -104,7 +104,6 @@ public class PlayerManagerScript : MonoBehaviour {
     [SerializeField] private string gameSceneName;
     [SerializeField] private bool oneController;
     [SerializeField] private GameObject cameraPrefab;
-    [SerializeField] private GameObject placementCanvasPrefab;  
 
     private Dictionary<Gamepad, bool> gamepads;
     private List<bool> lastJoysticks;
@@ -155,7 +154,6 @@ public class PlayerManagerScript : MonoBehaviour {
             List<Transform> players = new List<Transform>();
 
             Instantiate(cameraPrefab, position + Vector3.back * 14 + Vector3.up * 6, Quaternion.Euler(7, 0, 0));
-            Instantiate(placementCanvasPrefab);
 
             int num = 0;
             for (int i = 0; i < gamepads.Count; i++) {
