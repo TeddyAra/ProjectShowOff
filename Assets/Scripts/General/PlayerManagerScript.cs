@@ -11,16 +11,16 @@ using UnityEngine.SceneManagement;
 public class PlayerManagerScript : MonoBehaviour {
     [Serializable]
     struct CharacterPicker {
-        [HideInInspector] public bool isPlaying;                // Whether the character picker is being used
-        [HideInInspector] public bool isReady;                  // Whether the character picker is ready
-        [SerializeField] private GameObject playing;            // The UI for if someone is using the character picker
-        [SerializeField] private GameObject notPlaying;         // The UI for if someone is not using the character picker
-        [SerializeField] private GameObject ready;              // The UI for if someone is ready to play
-        [SerializeField] private Image character;               // The UI for the character
+        [HideInInspector] public bool isPlaying;                    // Whether the character picker is being used
+        [HideInInspector] public bool isReady;                      // Whether the character picker is ready
+        [SerializeField] private GameObject playing;                // The UI for if someone is using the character picker
+        [SerializeField] private GameObject notPlaying;             // The UI for if someone is not using the character picker
+        [SerializeField] private GameObject ready;                  // The UI for if someone is ready to play
+        [SerializeField] private Image character;                   // The UI for the character
 
-        private int index;                                      // The index of the controller
-        private int currentCharacter;                           // The index of the character
-        private Dictionary<Material, Vector2> characterSizes;   // The size of each character
+        private int index;                                          // The index of the controller
+        private int currentCharacter;                               // The index of the character
+        private Dictionary<Material, Vector2> characterSizes;       // The size of each character
 
         // Apply the dictionary and instantiate the character
         public void ApplyCharacterSizes(Dictionary<Material, Vector2> characterSizes) { 
@@ -104,6 +104,7 @@ public class PlayerManagerScript : MonoBehaviour {
     [SerializeField] private string gameSceneName;
     [SerializeField] private bool oneController;
     [SerializeField] private GameObject cameraPrefab;
+    [SerializeField] private GameObject placementCanvasPrefab;  
 
     private Dictionary<Gamepad, bool> gamepads;
     private List<bool> lastJoysticks;
@@ -154,6 +155,7 @@ public class PlayerManagerScript : MonoBehaviour {
             List<Transform> players = new List<Transform>();
 
             Instantiate(cameraPrefab, position + Vector3.back * 14 + Vector3.up * 6, Quaternion.Euler(7, 0, 0));
+            Instantiate(placementCanvasPrefab);
 
             int num = 0;
             for (int i = 0; i < gamepads.Count; i++) {

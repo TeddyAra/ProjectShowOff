@@ -165,7 +165,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
     [Header("Extra")]
 
-    [SerializeField] private Character character;
+    public Character character;
     [SerializeField] private Image readyImage;
     [SerializeField] private TMP_Text readyText;
     private bool isStarting;
@@ -189,8 +189,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
     // Stun States (for animations and VFX) 
 
-    public enum StunState
-    {
+    public enum StunState {
         None, 
         Slept,
         Frozen, 
@@ -649,7 +648,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
         GameManager.onFreeze += OnFreeze;
         GameManager.onUnfreeze += OnUnfreeze;
         GameManager.onStart += OnStart;
-        GameManager.onRespawn += OnRespawn; 
+        PlacementManagerScript.onRespawn += OnRespawn;
 
         rb = GetComponent<Rigidbody>();
         groundMaskInt = LayerMask.GetMask(groundMask);
@@ -665,6 +664,6 @@ public class PlayerControllerTestScript : MonoBehaviour {
         GameManager.onFreeze -= OnFreeze;
         GameManager.onUnfreeze -= OnUnfreeze;
         GameManager.onStart -= OnStart;
-        GameManager.onRespawn -= OnRespawn; 
+        PlacementManagerScript.onRespawn -= OnRespawn;
     }
 }   
