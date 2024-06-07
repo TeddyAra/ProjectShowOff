@@ -186,6 +186,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
     [SerializeField] Animator animator;
     [SerializeField] GameObject characterVisualBody;
     public bool isFacingRight = true;
+    public bool canFlip = true;
 
     // Stun States (for animations and VFX) 
 
@@ -376,8 +377,11 @@ public class PlayerControllerTestScript : MonoBehaviour {
         // Reset input variables
         jump = false;
         powerup = false;
-
-        Flip(); 
+        if (canFlip)
+        {
+            Flip(); 
+        }
+        
     }
 
     private IEnumerator BouncePadDelay() {

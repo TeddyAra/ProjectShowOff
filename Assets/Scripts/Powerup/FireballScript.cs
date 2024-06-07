@@ -27,6 +27,10 @@ public class FireballScript : MonoBehaviour {
 
     private void FixedUpdate() {
         rb.AddForce(Vector3.down * gravity);
+
+        //Quaternion desiredRotation = Quaternion.LookRotation(rb.velocity); 
+
+        //rb.rotation = desiredRotation; 
     }
 
     public void ApplyVariables(int maxBounces, float stunTime, float gravity) { 

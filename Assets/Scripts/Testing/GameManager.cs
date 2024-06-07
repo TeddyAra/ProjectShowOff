@@ -6,6 +6,7 @@ using TMPro;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
+    [SerializeField] private GameObject placementCanvasPrefab;
     [SerializeField] private Transform checkpoint;
     [SerializeField] private float spawnDistance;
     [SerializeField] private TMP_Text countdown;
@@ -94,6 +95,8 @@ public class GameManager : MonoBehaviour {
         onFreeze?.Invoke();
         countdown.text = "Finish!";
         yield return new WaitForSeconds(3);
+
+        Instantiate(placementCanvasPrefab);
 
         onShowUI?.Invoke();   
     }
