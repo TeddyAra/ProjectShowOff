@@ -4,7 +4,6 @@ using System.Linq;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
-using static PlayerControllerTestScript;
 
 public class GameManager : MonoBehaviour {
     [SerializeField] private Transform checkpoint;
@@ -21,11 +20,11 @@ public class GameManager : MonoBehaviour {
     public delegate void OnUnfreeze();
     public static event OnUnfreeze onUnfreeze;
 
-    public delegate void OnRespawn();
-    public static event OnRespawn onRespawn;
-
     public delegate void OnStart();
     public static event OnStart onStart;
+
+    public delegate void OnShowUI();
+    public static event OnShowUI onShowUI;
 
     private void Start() {
         // Get all checkpoints
@@ -96,9 +95,7 @@ public class GameManager : MonoBehaviour {
         countdown.text = "Finish!";
         yield return new WaitForSeconds(3);
 
-        // Restart the race
-        onRespawn?.Invoke();     
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        onShowUI?.Invoke();   
     }
 
     private void OnEnable() {
