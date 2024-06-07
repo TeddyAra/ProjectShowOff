@@ -146,6 +146,7 @@ public class PowerupTestScript : MonoBehaviour {
 
     [SerializeField] private AudioClip speedBoostSound;
     [SerializeField] private AudioClip throwSound;
+    [SerializeField] private AudioClip fireballSpawn;
     [SerializeField] private TrailRenderer trailRenderer;
 
     private float maxSpeed;
@@ -159,6 +160,7 @@ public class PowerupTestScript : MonoBehaviour {
     [SerializeField] private GameObject windBlastVFX;
     [SerializeField] private GameObject snowFlightVFX;
     [SerializeField] private GameObject scareVFX;
+    [SerializeField] private GameObject speedBoostVFX; 
 
     // Ability UI Tooltip
 
@@ -224,6 +226,7 @@ public class PowerupTestScript : MonoBehaviour {
             pointTimer = 0;
             OnPoints(character, lifePoints);
         }
+
     }
 
     public Powerup GetCurrentPowerup() {
@@ -282,13 +285,16 @@ public class PowerupTestScript : MonoBehaviour {
 
     private void SpawnFireball() {
         Debug.Log("Spawned!");
+        audioSource.PlayOneShot(fireballSpawn);
 
-        FireballScript fireball = Instantiate(fireballPrefab, sleepBombSpawnPoint.position, Quaternion.identity).GetComponent<FireballScript>();
+        FireballScript fireball = Instantiate(fireballPrefab, sleepBombSpawnPoint.position, Quaternion.Euler(0, 90, 0)).GetComponent<FireballScript>();
         fireball.ApplyVariables(maxBounces, burnTime, fireballGravity);
 
         Rigidbody rb = fireball.GetComponent<Rigidbody>();
         rb.AddForce(spawnDirection * spawnForce);
     }
+
+
 
     private void SnowFlight() {
         StartCoroutine(playerControllerScript.Fly(flyDuration, maxFlySpeed, flyForce, iceDuration));
@@ -350,12 +356,12 @@ public class PowerupTestScript : MonoBehaviour {
 
     private IEnumerator SpeedUp() {
         audioSource.PlayOneShot(speedBoostSound); 
-        trailRenderer.emitting = true;
+        speedBoostVFX.SetActive(true);
 
         // Speed the player up
         playerControllerScript.ChangePlayerSpeed(speedboostSpeed);
         yield return new WaitForSeconds(speedboostTime);
-        trailRenderer.emitting = false; 
+        speedBoostVFX.SetActive(false); 
 
         // Slowly make the player slow down again
         float timer = slowDownTime;
@@ -377,6 +383,25 @@ public class PowerupTestScript : MonoBehaviour {
             foreach (Ultimate ultimate in ultimates) {
                 if (character == ultimate.character) {
                     currentPowerup = ultimate.powerup;
+
+                    switch (currentPowerup) {
+                        case Powerup.Windblast:
+                            currentAbilityIcon.sprite = windBlastSprite; 
+                            break;
+                        case Powerup.Fartboost:
+                            currentAbilityIcon.sprite = fartSprite; 
+                            break; 
+                        case Powerup.Scare: 
+                            currentAbilityIcon.sprite = scareSprite; 
+                            break; 
+                        case Powerup.SnowFlight:
+                            currentAbilityIcon.sprite = iceSprite; 
+                            break; 
+                        case Powerup.Fireball: 
+                            currentAbilityIcon.sprite = fireBallSprite; 
+                            break; 
+            
+                    }
                     return ultimate.powerup.ToString();
                 }
             }
