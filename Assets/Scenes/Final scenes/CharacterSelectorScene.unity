@@ -1159,6 +1159,9 @@ MonoBehaviour:
     type: 3}
   placementCanvasPrefab: {fileID: 695124521095176337, guid: bb51a34bdc473ce4f91b0899b18cf164,
     type: 3}
+  cameraBackDistance: 10
+  cameraUpDistance: 5
+  cameraAngle: 10
 --- !u!4 &252888799
 Transform:
   m_ObjectHideFlags: 0

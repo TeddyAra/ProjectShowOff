@@ -147,7 +147,10 @@ public class PowerupTestScript : MonoBehaviour {
     [SerializeField] private AudioClip speedBoostSound;
     [SerializeField] private AudioClip throwSound;
     [SerializeField] private AudioClip fireballSpawn;
+    [SerializeField] private AudioClip fartSound;
+    [SerializeField] private AudioClip windBlastSound; 
     [SerializeField] private TrailRenderer trailRenderer;
+    
 
     private float maxSpeed;
     private int points;
@@ -318,6 +321,7 @@ public class PowerupTestScript : MonoBehaviour {
 
         GetComponent<PlayerControllerTestScript>().AddForce(Vector3.right, blastBoost);
         windBlastVFX.SetActive(true);
+        audioSource.PlayOneShot(windBlastSound); 
         StartCoroutine(WindBlastVFXDelay());
     }
 
@@ -341,6 +345,7 @@ public class PowerupTestScript : MonoBehaviour {
         fartScript.ApplyVariables(stunTime, fartCloudTime, startupTime);
         playerControllerScript.AddForce(new Vector3(forceDirection.x, forceDirection.y, 0), force);
         fartVFX.SetActive(true);
+        audioSource.PlayOneShot(fartSound); 
         StartCoroutine(FartVFXDelay()); 
     }
 
