@@ -176,7 +176,7 @@ PrefabInstance:
     - target: {fileID: 7109046090878984745, guid: 30c3a72b2eb017c46adbe50fe420054d,
         type: 3}
       propertyPath: spawnForce
-      value: 1400
+      value: 1200
       objectReference: {fileID: 0}
     - target: {fileID: 7109046090878984745, guid: 30c3a72b2eb017c46adbe50fe420054d,
         type: 3}
@@ -217,11 +217,6 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 7109046090878984745, guid: 30c3a72b2eb017c46adbe50fe420054d,
         type: 3}
-      propertyPath: ultimatePoints
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7109046090878984745, guid: 30c3a72b2eb017c46adbe50fe420054d,
-        type: 3}
       propertyPath: sleepBombSprite
       value: 
       objectReference: {fileID: 21300000, guid: 802e8e637aac5bc4a9cb4d404bf88ea0,
@@ -243,10 +238,10 @@ PrefabInstance:
       propertyPath: currentAbilityIcon
       value: 
       objectReference: {fileID: 2775069271607796163}
-    - target: {fileID: 7811866136357044301, guid: 30c3a72b2eb017c46adbe50fe420054d,
+    - target: {fileID: 7109046090878984745, guid: 30c3a72b2eb017c46adbe50fe420054d,
         type: 3}
-      propertyPath: canFlip
-      value: 0
+      propertyPath: ultimates.Array.data[1].powerup
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 7811866136357044301, guid: 30c3a72b2eb017c46adbe50fe420054d,
         type: 3}
@@ -273,11 +268,6 @@ PrefabInstance:
       propertyPath: characterVisualBody
       value: 
       objectReference: {fileID: 5541859163735643543}
-    - target: {fileID: 7813464553034168328, guid: 30c3a72b2eb017c46adbe50fe420054d,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 2.55
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 6834845591394657662, guid: 30c3a72b2eb017c46adbe50fe420054d, type: 3}
