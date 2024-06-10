@@ -153,7 +153,7 @@ public class PowerupTestScript : MonoBehaviour {
     
 
     private float maxSpeed;
-    private int points;
+    [SerializeField] private int points;
 
     // ---------------------------------------------------------------------------------
 

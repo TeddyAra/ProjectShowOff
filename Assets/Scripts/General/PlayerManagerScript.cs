@@ -156,9 +156,9 @@ public class PlayerManagerScript : MonoBehaviour {
 
             Vector3 position = GameObject.FindGameObjectWithTag("SpawnPoint").transform.position;
             List<Transform> players = new List<Transform>();
+            List<PowerupTestScript> powerupScripts = new List<PowerupTestScript>();
 
             Instantiate(cameraPrefab, position + Vector3.back * cameraBackDistance + Vector3.up * cameraUpDistance, Quaternion.Euler(cameraAngle, 0, 0));
-            Instantiate(placementCanvasPrefab);
 
             int num = 0;
             for (int i = 0; i < gamepads.Count; i++) {
@@ -173,6 +173,7 @@ public class PlayerManagerScript : MonoBehaviour {
                     GameObject character = characterSizes[picker.GetCharacter()].prefab;
                     PlayerControllerTestScript script = Instantiate(character, Vector3.zero, Quaternion.identity).GetComponent<PlayerControllerTestScript>();
                     players.Add(script.transform);
+                    powerupScripts.Add(script.GetComponent<PowerupTestScript>());
 
                     script.ChangeGamepad(gamepad.Key, num);
                     script.OnRespawn();
@@ -182,6 +183,7 @@ public class PlayerManagerScript : MonoBehaviour {
                     if (oneController) { 
                         script = Instantiate(character, Vector3.zero, Quaternion.identity).GetComponent<PlayerControllerTestScript>();
                         players.Add(script.transform);
+                        powerupScripts.Add(script.GetComponent<PowerupTestScript>());
 
                         script.ChangeGamepad(gamepad.Key, num);
                         script.OnRespawn();
@@ -190,6 +192,9 @@ public class PlayerManagerScript : MonoBehaviour {
                     }
                 }
             }
+
+            PlacementManagerScript placementScript = Instantiate(placementCanvasPrefab).GetComponent<PlacementManagerScript>();
+            placementScript.Apply(powerupScripts);
 
             onGetPlayers?.Invoke(players);
 

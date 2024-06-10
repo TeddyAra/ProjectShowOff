@@ -574,7 +574,6 @@ public class PlayerControllerTestScript : MonoBehaviour {
     }
 
     public void AddForce(Vector3 direction, float force) {
-        Debug.Log("Added force");
         direction.Normalize();
         rb.AddForce(direction * force);
     }
