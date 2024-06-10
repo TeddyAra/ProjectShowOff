@@ -30,6 +30,7 @@ public class PlacementManagerScript : MonoBehaviour {
     [SerializeField] private RectTransform bar;
 
     private float waitTimer;
+    private List<int> playerIndices;
 
     private List<PowerupTestScript> players;
     private int playerNum;
@@ -40,9 +41,11 @@ public class PlacementManagerScript : MonoBehaviour {
     private void Start() {
         GameObject[] playerObjects = GameObject.FindGameObjectsWithTag("Player");
         players = new List<PowerupTestScript>();
+        playerIndices = new List<int>();
 
         for (int i = 0; i < playerObjects.Length; i++) {
             players.Add(playerObjects[i].GetComponent<PowerupTestScript>());
+            playerIndices.Add(i);
             playerNum++;
 
             playerPoints[i].gameObject.gameObject.SetActive(true);
@@ -65,10 +68,12 @@ public class PlacementManagerScript : MonoBehaviour {
         }
     }
 
-    private void OnShowUI() { 
+    private void OnShowUI() {
+        playerIndices.OrderBy(x => players[x].GetPoints());
+
         for (int i = 0; i < playerNum; i++) {
             gameObject.SetActive(true);
-            playerPoints[i].SetInformation(i, players[i].GetPoints());
+            playerPoints[i].SetInformation(playerIndices.IndexOf(i), players[i].GetPoints());
         }
     }
 

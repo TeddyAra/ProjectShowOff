@@ -104,7 +104,10 @@ public class PlayerManagerScript : MonoBehaviour {
     [SerializeField] private string gameSceneName;
     [SerializeField] private bool oneController;
     [SerializeField] private GameObject cameraPrefab;
-    [SerializeField] private GameObject placementCanvasPrefab;  
+    [SerializeField] private GameObject placementCanvasPrefab;
+    [SerializeField] private float cameraBackDistance;
+    [SerializeField] private float cameraUpDistance;
+    [SerializeField] private float cameraAngle;
 
     private Dictionary<Gamepad, bool> gamepads;
     private List<bool> lastJoysticks;
@@ -154,7 +157,7 @@ public class PlayerManagerScript : MonoBehaviour {
             Vector3 position = GameObject.FindGameObjectWithTag("SpawnPoint").transform.position;
             List<Transform> players = new List<Transform>();
 
-            Instantiate(cameraPrefab, position + Vector3.back * 14 + Vector3.up * 6, Quaternion.Euler(7, 0, 0));
+            Instantiate(cameraPrefab, position + Vector3.back * cameraBackDistance + Vector3.up * cameraUpDistance, Quaternion.Euler(cameraAngle, 0, 0));
             Instantiate(placementCanvasPrefab);
 
             int num = 0;
