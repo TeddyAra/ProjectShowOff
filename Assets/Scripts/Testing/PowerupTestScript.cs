@@ -150,7 +150,7 @@ public class PowerupTestScript : MonoBehaviour {
     [SerializeField] private TrailRenderer trailRenderer;
 
     private float maxSpeed;
-    private int points;
+    [SerializeField] private int points;
 
     // ---------------------------------------------------------------------------------
 
