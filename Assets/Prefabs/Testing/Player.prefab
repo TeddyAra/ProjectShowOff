@@ -868,6 +868,7 @@ MonoBehaviour:
   animator: {fileID: 0}
   characterVisualBody: {fileID: 0}
   isFacingRight: 1
+  minRunAnimSpeed: 3
   currentStunState: 0
   sleepVFX: {fileID: 9171247944685282459}
 --- !u!114 &8867031693499356766
@@ -953,6 +954,7 @@ MonoBehaviour:
   fartSound: {fileID: 8300000, guid: f00683d119994a547a74fc1918e692a3, type: 3}
   windBlastSound: {fileID: 8300000, guid: 1ffde073fe4279b41afe422f40f09bba, type: 3}
   trailRenderer: {fileID: 2795186136762503016}
+  points: 0
   fartVFX: {fileID: 2379728208613114877}
   windBlastVFX: {fileID: 7644112097741115345}
   snowFlightVFX: {fileID: 1559517843825957494}
@@ -1005,7 +1007,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 5160594011a4ca447bc3f771fa7ea779, type: 3}
   - {fileID: 8300000, guid: 0fbd38cc544dcd749b9cf5106bd807fd, type: 3}
   jumpLanding: {fileID: 8300000, guid: f4258fac36938464cb9af7229fa65990, type: 3}
-  stepSoundInterval: 0.4
+  stepSoundInterval: 0.2
 --- !u!82 &2805207236966669795
 AudioSource:
   m_ObjectHideFlags: 0

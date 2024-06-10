@@ -186,6 +186,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
     [SerializeField] Animator animator;
     [SerializeField] GameObject characterVisualBody;
     public bool isFacingRight = true;
+    [SerializeField] private float minRunAnimSpeed; 
 
     // Stun States (for animations and VFX) 
 
@@ -246,7 +247,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
         // Animator Controller Stuff
 
-        animator.SetFloat("Speed", 1 + Mathf.Abs(rb.velocity.x / maxSpeed)); 
+        animator.SetFloat("Speed", minRunAnimSpeed + Mathf.Abs(rb.velocity.x / maxSpeed)); 
         animator.SetFloat("FallSpeed", rb.velocity.y); 
         
         if (grounded) {
