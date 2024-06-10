@@ -238,11 +238,6 @@ PrefabInstance:
       propertyPath: currentAbilityIcon
       value: 
       objectReference: {fileID: 2775069271607796163}
-    - target: {fileID: 7109046090878984745, guid: 30c3a72b2eb017c46adbe50fe420054d,
-        type: 3}
-      propertyPath: ultimates.Array.data[1].powerup
-      value: 7
-      objectReference: {fileID: 0}
     - target: {fileID: 7811866136357044301, guid: 30c3a72b2eb017c46adbe50fe420054d,
         type: 3}
       propertyPath: animator
