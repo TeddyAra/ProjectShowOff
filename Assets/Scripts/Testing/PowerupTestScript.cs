@@ -328,7 +328,8 @@ public class PowerupTestScript : MonoBehaviour {
     private void Scare() {
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
 
-        scareVFX.SetActive(true); 
+        scareVFX.SetActive(true);
+        sfxManager.Play("Scare");
         StartCoroutine(ScareVFXDelay()); 
 
         foreach (GameObject player in players) {
