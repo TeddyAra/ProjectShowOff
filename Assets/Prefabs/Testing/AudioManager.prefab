@@ -219,12 +219,12 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: FireballBounce
     clip: {fileID: 8300000, guid: a733db83c11f82e4dadcc9b45802ad66, type: 3}
-    volume: 1
+    volume: 0.6
     pitch: 1
     source: {fileID: 0}
   - name: FireballSizzle
     clip: {fileID: 8300000, guid: a1bbd0e34ff9400488c18ad615ae9f51, type: 3}
-    volume: 1
+    volume: 0.23
     pitch: 1
     source: {fileID: 0}
   - name: WindBlast
