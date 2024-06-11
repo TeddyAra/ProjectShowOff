@@ -208,8 +208,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   soundEffects:
   - name: SnowFlight
-    clip: {fileID: 8300000, guid: 69696a6001f06f041a286ed438b95a37, type: 3}
-    volume: 1
+    clip: {fileID: 8300000, guid: 26fa07df3ce984e469aba4d6b1ad46fd, type: 3}
+    volume: 0.3
     pitch: 1
     source: {fileID: 0}
   - name: FireballSpawn

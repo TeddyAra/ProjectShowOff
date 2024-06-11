@@ -21,7 +21,9 @@ public class SFXManager : MonoBehaviour
 
     public void Play(string name)
     {
-        SoundEffect s = Array.Find(soundEffects, sound => sound.name == name); 
+        SoundEffect s = Array.Find(soundEffects, sound => sound.name == name);
+        if (s == null)
+            return; 
         s.source.Play(); 
     }
 }
