@@ -1,19 +1,23 @@
 using UnityEngine.Audio; 
 using System; 
 using UnityEngine;
-
+using System.Security.Cryptography;
 
 public class SFXManager : MonoBehaviour
 {
     public SoundEffect[] soundEffects;
 
-    public static SFXManager instance; 
+    private void Start()
+    {
+        DontDestroyOnLoad(gameObject); 
+    }
 
     void Awake()
     {
 
         foreach (SoundEffect s in soundEffects)
         {
+
             s.source = gameObject.AddComponent<AudioSource>();
             s.source.clip = s.clip; 
 
@@ -28,6 +32,14 @@ public class SFXManager : MonoBehaviour
         if (s == null)
         {
             return; 
+        }
+        if (s.source == null) 
+        {
+            s.source = gameObject.AddComponent<AudioSource>();
+            s.source.clip = s.clip; 
+
+            s.source.volume = s.volume; 
+            s.source.pitch = s.pitch; 
         }
         s.source.Play(); 
     }

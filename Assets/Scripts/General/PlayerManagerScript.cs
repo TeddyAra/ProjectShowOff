@@ -105,6 +105,7 @@ public class PlayerManagerScript : MonoBehaviour {
     [SerializeField] private bool oneController;
     [SerializeField] private GameObject cameraPrefab;
     [SerializeField] private GameObject placementCanvasPrefab;
+    [SerializeField] private GameObject AudioManagerPrefab; 
     [SerializeField] private float cameraBackDistance;
     [SerializeField] private float cameraUpDistance;
     [SerializeField] private float cameraAngle;
@@ -159,6 +160,7 @@ public class PlayerManagerScript : MonoBehaviour {
             List<PowerupTestScript> powerupScripts = new List<PowerupTestScript>();
 
             Instantiate(cameraPrefab, position + Vector3.back * cameraBackDistance + Vector3.up * cameraUpDistance, Quaternion.Euler(cameraAngle, 0, 0));
+            Instantiate(AudioManagerPrefab, transform.position, transform.rotation); 
 
             int num = 0;
             for (int i = 0; i < gamepads.Count; i++) {
