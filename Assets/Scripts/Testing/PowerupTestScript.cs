@@ -144,11 +144,8 @@ public class PowerupTestScript : MonoBehaviour {
 
     [Header("Audio")]
 
-    [SerializeField] private AudioClip speedBoostSound;
-    [SerializeField] private AudioClip throwSound;
-    [SerializeField] private AudioClip fireballSpawn;
-    [SerializeField] private AudioClip fartSound;
-    [SerializeField] private AudioClip windBlastSound; 
+    SFXManager sfxManager; 
+
     [SerializeField] private TrailRenderer trailRenderer;
     
 
@@ -217,6 +214,7 @@ public class PowerupTestScript : MonoBehaviour {
         playerControllerScript = GetComponent<PlayerControllerTestScript>();
 
         audioSource = GetComponent<AudioSource>();  
+        sfxManager = FindObjectOfType<SFXManager>(); 
 
         throwDirection.Normalize();
         spawnDirection.Normalize();
@@ -288,7 +286,7 @@ public class PowerupTestScript : MonoBehaviour {
 
     private void SpawnFireball() {
         Debug.Log("Spawned!");
-        audioSource.PlayOneShot(fireballSpawn);
+        sfxManager.Play("FireballSpawn"); 
 
         FireballScript fireball = Instantiate(fireballPrefab, sleepBombSpawnPoint.position, Quaternion.Euler(0, 90, 0)).GetComponent<FireballScript>();
         fireball.ApplyVariables(maxBounces, burnTime, fireballGravity);
@@ -302,6 +300,7 @@ public class PowerupTestScript : MonoBehaviour {
     private void SnowFlight() {
         StartCoroutine(playerControllerScript.Fly(flyDuration, maxFlySpeed, flyForce, iceDuration));
         snowFlightVFX.SetActive(true);
+        sfxManager.Play("SnowFlight"); 
         StartCoroutine(SnowFlightDelay()); 
     }
 
@@ -321,7 +320,7 @@ public class PowerupTestScript : MonoBehaviour {
 
         GetComponent<PlayerControllerTestScript>().AddForce(Vector3.right, blastBoost);
         windBlastVFX.SetActive(true);
-        audioSource.PlayOneShot(windBlastSound); 
+        sfxManager.Play("WindBlast"); 
         StartCoroutine(WindBlastVFXDelay());
     }
 
@@ -345,22 +344,22 @@ public class PowerupTestScript : MonoBehaviour {
         fartScript.ApplyVariables(stunTime, fartCloudTime, startupTime);
         playerControllerScript.AddForce(new Vector3(forceDirection.x, forceDirection.y, 0), force);
         fartVFX.SetActive(true);
-        audioSource.PlayOneShot(fartSound); 
+        sfxManager.Play("Fart"); 
         StartCoroutine(FartVFXDelay()); 
     }
 
     private void SpawnSleepBomb() {
-        audioSource.PlayOneShot(throwSound);
+        sfxManager.Play("Throw"); 
 
         Rigidbody bomb = Instantiate(sleepBombPrefab, sleepBombSpawnPoint.position, Quaternion.identity).GetComponent<Rigidbody>();
         bomb.AddForce(new Vector3(throwDirection.x, throwDirection.y, 0) * throwForce);
         SleepBombTestScript bombScript = bomb.GetComponent<SleepBombTestScript>();
         bombScript.ApplyVariables(explosionRange, minStun, maxStun); 
-        bombScript.audioSource = audioSource;
+
     }
 
     private IEnumerator SpeedUp() {
-        audioSource.PlayOneShot(speedBoostSound); 
+        sfxManager.Play("SpeedBoost"); 
         speedBoostVFX.SetActive(true);
 
         // Speed the player up

@@ -97,7 +97,6 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
     [SerializeField] private float playerDistance;
 
-    [SerializeField] private AudioClip jumpLanding;
 
     // ----------------------------------------------------------------------------------
 
@@ -178,8 +177,8 @@ public class PlayerControllerTestScript : MonoBehaviour {
     private List<Transform> icePlatforms;
 
     // Sound stuff
-    private AudioSource audioSource;
 
+    SFXManager sfxManager; 
     private bool windDraft;
 
     // Animation stuff
@@ -206,7 +205,8 @@ public class PlayerControllerTestScript : MonoBehaviour {
     private void Start() {
         DontDestroyOnLoad(gameObject);
 
-        audioSource = GetComponent<AudioSource>();
+        sfxManager = FindObjectOfType<SFXManager>();
+
         rb = GetComponent<Rigidbody>();
         groundMaskInt = LayerMask.GetMask(groundMask);
         bouncePadMaskInt = LayerMask.GetMask(bouncePadMask); 
@@ -299,7 +299,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
         // Check if the player is grounded or not
         if (Physics.CheckSphere(checkPoint.position, groundCheckSize, groundMaskInt)) {
             if (grounded == false) {
-                audioSource.PlayOneShot(jumpLanding);
+                sfxManager.Play("JumpLanding"); 
             }
             grounded = true;
         } else {

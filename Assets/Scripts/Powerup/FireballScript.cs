@@ -9,20 +9,14 @@ public class FireballScript : MonoBehaviour {
     private float gravity;
     private Rigidbody rb;
 
-    AudioSource playerAudio;
+    SFXManager sfxManager; 
 
-    [SerializeField] private AudioClip fireballBounce;
-    [SerializeField] private AudioClip fireballSizzle;
-    GameObject audioSourceObject;
-    AudioSource audioSource;
 
     private void Start() {
         rb = GetComponent<Rigidbody>();
 
-        playerAudio = GetComponent<AudioSource>();
+        sfxManager = FindObjectOfType<SFXManager>();
 
-        audioSourceObject = GameObject.FindWithTag("FireballSound");
-        audioSource = audioSourceObject.GetComponent<AudioSource>();
     }
 
     private void FixedUpdate() {
@@ -36,11 +30,11 @@ public class FireballScript : MonoBehaviour {
     }
 
     private void OnCollisionEnter(Collision collision) {
-        playerAudio.PlayOneShot(fireballBounce);
+        sfxManager.Play("FireballBounce"); 
 
         bounceCount++;
         if (bounceCount >= maxBounces) {
-            audioSource.PlayOneShot(fireballSizzle);
+            sfxManager.Play("FireballSizzle"); 
             Destroy(gameObject);
         }
     }
