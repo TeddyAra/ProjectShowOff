@@ -62,7 +62,7 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: FireballSizzle
     clip: {fileID: 8300000, guid: a1bbd0e34ff9400488c18ad615ae9f51, type: 3}
-    volume: 1
+    volume: 0.05
     pitch: 1
     source: {fileID: 0}
   - name: WindBlast
@@ -102,6 +102,11 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: SpeedBoost
     clip: {fileID: 8300000, guid: 7ee4535ea0d3b9940b2a6f75fb6fca2f, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: FireballHurt
+    clip: {fileID: 8300000, guid: 2d627a6e05881d34985fd157179a7de5, type: 3}
     volume: 1
     pitch: 1
     source: {fileID: 0}
