@@ -539,6 +539,8 @@ public class PlayerControllerTestScript : MonoBehaviour {
             // Freeze the player
             frozen = true;
 
+            animator.SetFloat("Speed", 0); 
+
             if (!rb) rb = GetComponent<Rigidbody>();
 
             rb.velocity = Vector3.zero;
