@@ -7,8 +7,11 @@ public class SFXManager : MonoBehaviour
 {
     public SoundEffect[] soundEffects;
 
+    public static SFXManager instance; 
+
     void Awake()
     {
+
         foreach (SoundEffect s in soundEffects)
         {
             s.source = gameObject.AddComponent<AudioSource>();
@@ -23,7 +26,9 @@ public class SFXManager : MonoBehaviour
     {
         SoundEffect s = Array.Find(soundEffects, sound => sound.name == name);
         if (s == null)
+        {
             return; 
+        }
         s.source.Play(); 
     }
 }
