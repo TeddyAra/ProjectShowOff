@@ -227,6 +227,11 @@ MonoBehaviour:
     volume: 0.23
     pitch: 1
     source: {fileID: 0}
+  - name: FireballHurt
+    clip: {fileID: 8300000, guid: 2d627a6e05881d34985fd157179a7de5, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
   - name: WindBlast
     clip: {fileID: 8300000, guid: 1ffde073fe4279b41afe422f40f09bba, type: 3}
     volume: 1
