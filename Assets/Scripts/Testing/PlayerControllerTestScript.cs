@@ -418,12 +418,16 @@ public class PlayerControllerTestScript : MonoBehaviour {
             case StunState.Frozen: 
                 break; 
         }
+
+        animator.SetBool("Stunned", true); 
         
         Debug.Log($"{gameObject.name} stunned for " + stunTime);
         ignoreInput = true;
         yield return new WaitForSeconds(stunTime);
         Debug.Log($"{gameObject.name} no longer stunned");
         ignoreInput = false;
+
+        animator.SetBool("Stunned", false); 
 
         switch (currentStunState) {
             case StunState.None: 
