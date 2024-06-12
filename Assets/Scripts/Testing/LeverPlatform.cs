@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class LeverPlatform : MonoBehaviour
 {
@@ -17,6 +18,8 @@ public class LeverPlatform : MonoBehaviour
         {
             Debug.Log("Levering!"); 
             Destroy(vine); 
+            Collider collider = gameObject.GetComponent<Collider>();
+            collider.enabled = false;
             StartCoroutine(DoorRotation()); 
         }
     }
