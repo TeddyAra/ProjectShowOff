@@ -321,7 +321,7 @@ public class PowerupTestScript : MonoBehaviour {
     }
 
     private void SpawnFireball() {
-        //audioSource.PlayOneShot(fireballSpawn);
+        sfxManager.Play("FireballSpawn"); 
 
 
         FireballScript fireball = Instantiate(fireballPrefab, sleepBombSpawnPoint.position, Quaternion.Euler(0, 90, 0)).GetComponent<FireballScript>();

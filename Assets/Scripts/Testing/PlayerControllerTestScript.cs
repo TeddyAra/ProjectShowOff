@@ -485,6 +485,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
             // The player reached the finish line
             case "Finish":
+                sfxManager.Play("VictorySound"); 
                 onFinish?.Invoke();
                 break;
             case "Lever":
