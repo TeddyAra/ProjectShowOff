@@ -289,6 +289,7 @@ public class PowerupTestScript : MonoBehaviour {
         sfxManager.Play("FireballSpawn"); 
         animator.SetTrigger("CatfireAbility"); 
 
+
         FireballScript fireball = Instantiate(fireballPrefab, sleepBombSpawnPoint.position, Quaternion.Euler(0, 90, 0)).GetComponent<FireballScript>();
         fireball.ApplyVariables(maxBounces, burnTime, fireballGravity);
 

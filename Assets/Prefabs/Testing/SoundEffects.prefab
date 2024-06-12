@@ -51,7 +51,7 @@ MonoBehaviour:
     pitch: 1
     source: {fileID: 0}
   - name: FireballSpawn
-    clip: {fileID: 8300000, guid: 8dedf6b0f97f552409b995c4effcaec3, type: 3}
+    clip: {fileID: 8300000, guid: 885862f80989dcc46a5f3770505566f2, type: 3}
     volume: 1
     pitch: 1
     source: {fileID: 0}
@@ -71,8 +71,8 @@ MonoBehaviour:
     pitch: 1
     source: {fileID: 0}
   - name: Fart
-    clip: {fileID: 8300000, guid: f00683d119994a547a74fc1918e692a3, type: 3}
-    volume: 1
+    clip: {fileID: 8300000, guid: 20b45b56658e8e94497111135656b9eb, type: 3}
+    volume: 0.92
     pitch: 1
     source: {fileID: 0}
   - name: Scare
@@ -108,5 +108,10 @@ MonoBehaviour:
   - name: FireballHurt
     clip: {fileID: 8300000, guid: 2d627a6e05881d34985fd157179a7de5, type: 3}
     volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: Lever
+    clip: {fileID: 8300000, guid: 2719fa078468d3c4280be3d4c95380c8, type: 3}
+    volume: 0.81
     pitch: 1
     source: {fileID: 0}
