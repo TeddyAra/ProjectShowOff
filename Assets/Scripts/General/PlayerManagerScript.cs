@@ -292,7 +292,7 @@ public class PlayerManagerScript : MonoBehaviour {
 
                 // If the player wants to go back to character selection
                 if (gamepad.Key.buttonEast.wasPressedThisFrame) {
-                    if (index != -1) {
+                    if (index != -1 && picker.isReady) {
                         picker.Play();
                         taken.Remove(picker.GetCharacter());
                         if (oneController) taken.Remove(picker.GetCharacter());

@@ -40,15 +40,6 @@ public class CameraTestScript : MonoBehaviour {
         DontDestroyOnLoad(gameObject);
     }
 
-    IEnumerator StartRace() {
-        yield return new WaitForSeconds(3.05f);
-        starting = false;
-    }
-
-    private void StopRace() {
-        starting = true;
-    }
-
     private void Update() {
         if (starting) return;
 
@@ -134,8 +125,12 @@ public class CameraTestScript : MonoBehaviour {
     }
 
     private void OnStart() {
-        StartCoroutine(StartRace());
         startPosition = transform.position;
+        starting = false;
+    }
+
+    private void StopRace() {
+        starting = true;
     }
 
     private void OnGetPlayers(List<Transform> players) { 
@@ -151,6 +146,7 @@ public class CameraTestScript : MonoBehaviour {
         PlayerManagerScript.onGetPlayers += OnGetPlayers;
         PlacementManagerScript.onRespawn += OnRespawn;
         PlayerControllerTestScript.onFinish += StopRace;
+        PlacementManagerScript.onRespawn += OnRespawn;
     }
 
     private void OnDisable() {
@@ -158,5 +154,6 @@ public class CameraTestScript : MonoBehaviour {
         PlayerManagerScript.onGetPlayers -= OnGetPlayers;
         PlacementManagerScript.onRespawn -= OnRespawn;
         PlayerControllerTestScript.onFinish -= StopRace;
+        PlacementManagerScript.onRespawn -= OnRespawn;
     }
 }
