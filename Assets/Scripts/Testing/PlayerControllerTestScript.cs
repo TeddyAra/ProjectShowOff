@@ -215,7 +215,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
         playerSpeed = maxSpeed;
 
         powerupScript = GetComponent<PowerupTestScript>();
-        powerupScript.ApplyVariables(maxSpeed, character);
+        powerupScript.ApplyVariables(maxSpeed, character, gamepad);
 
         icePlatforms = new List<Transform>();
     }
@@ -227,7 +227,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
         if (gamepad != null) {
             move = gamepad.leftStick.ReadValue();
             holdingJump = gamepad.buttonSouth.isPressed;
-            if (gamepad.buttonSouth.wasPressedThisFrame) jump = true;
+            if (gamepad.buttonSouth.wasPressedThisFrame && !ignoreInput) jump = true;
             if (gamepad.buttonWest.wasPressedThisFrame) powerup = true;
 
         // Keyboard input
@@ -406,7 +406,6 @@ public class PlayerControllerTestScript : MonoBehaviour {
     }
 
     public IEnumerator StunCoroutine(float stunTime) {
-
         switch (currentStunState) {
             case StunState.None: 
                 break; 
@@ -524,6 +523,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
                 (checkPoint.position.x < collision.transform.position.x + collision.transform.localScale.x / 2)) {
                 //StartCoroutine(DisableMaxSpeed());
                 rb.AddForce(Vector3.up * bouncePadForce); 
+                sfxManager.Play("BounceLeaf"); 
                 Debug.Log("Bouncing"); 
                 canBounce = false; 
                 StartCoroutine(BouncePadDelay()); 
@@ -666,7 +666,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
         playerSpeed = maxSpeed;
 
         powerupScript = GetComponent<PowerupTestScript>();
-        powerupScript.ApplyVariables(maxSpeed, character);
+        powerupScript.ApplyVariables(maxSpeed, character, gamepad);
     }
 
     private void OnDisable() {
