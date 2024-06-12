@@ -35,7 +35,7 @@ public class FireballScript : MonoBehaviour {
     }
 
     private void OnCollisionEnter(Collision collision) {
-        sfxManager.Play("FireballBounce"); 
+        //sfxManager.Play("FireballBounce"); 
 
         bounceCount++;
         if (bounceCount >= maxBounces) {

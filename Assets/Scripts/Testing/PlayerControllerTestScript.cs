@@ -199,8 +199,8 @@ public class PlayerControllerTestScript : MonoBehaviour {
     public StunState currentStunState; 
 
     [SerializeField] private GameObject sleepVFX;
-    //[SerializeField] private GameObject freezeVFX;
-    //[SerializeField] private GameObject burnVFX; 
+    [SerializeField] private GameObject freezeVFX;
+    [SerializeField] private GameObject burnVFX; 
 
     private void Start() {
         DontDestroyOnLoad(gameObject);
@@ -413,8 +413,10 @@ public class PlayerControllerTestScript : MonoBehaviour {
                 sleepVFX.SetActive(true); 
                 break; 
             case StunState.Burnt: 
+                burnVFX.SetActive(true);
                 break; 
             case StunState.Frozen: 
+                freezeVFX.SetActive(true);
                 break; 
         }
 
@@ -436,9 +438,11 @@ public class PlayerControllerTestScript : MonoBehaviour {
                 currentStunState = StunState.None;
                 break; 
             case StunState.Burnt: 
+                burnVFX.SetActive(false);
                 currentStunState = StunState.None;
                 break; 
             case StunState.Frozen: 
+                freezeVFX.SetActive(false);
                 currentStunState = StunState.None;
                 break; 
         }

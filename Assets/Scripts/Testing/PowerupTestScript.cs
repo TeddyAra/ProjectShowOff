@@ -364,6 +364,7 @@ public class PowerupTestScript : MonoBehaviour {
     private void Scare() {
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
 
+        animator.SetTrigger("CatnapAbility"); 
         scareVFX.SetActive(true);
         sfxManager.Play("Scare");
         StartCoroutine(ScareVFXDelay()); 
