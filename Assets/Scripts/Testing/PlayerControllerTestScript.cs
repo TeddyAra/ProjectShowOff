@@ -97,7 +97,6 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
     [SerializeField] private float playerDistance;
 
-    [SerializeField] private AudioClip jumpLanding;
 
     // ----------------------------------------------------------------------------------
 
@@ -178,14 +177,15 @@ public class PlayerControllerTestScript : MonoBehaviour {
     private List<Transform> icePlatforms;
 
     // Sound stuff
-    private AudioSource audioSource;
 
+    SFXManager sfxManager; 
     private bool windDraft;
 
     // Animation stuff
     [SerializeField] Animator animator;
     [SerializeField] GameObject characterVisualBody;
     public bool isFacingRight = true;
+    [SerializeField] private float minRunAnimSpeed; 
 
     // Stun States (for animations and VFX) 
 
@@ -205,7 +205,8 @@ public class PlayerControllerTestScript : MonoBehaviour {
     private void Start() {
         DontDestroyOnLoad(gameObject);
 
-        audioSource = GetComponent<AudioSource>();
+        sfxManager = FindObjectOfType<SFXManager>();
+
         rb = GetComponent<Rigidbody>();
         groundMaskInt = LayerMask.GetMask(groundMask);
         bouncePadMaskInt = LayerMask.GetMask(bouncePadMask); 
@@ -246,7 +247,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
         // Animator Controller Stuff
 
-        animator.SetFloat("Speed", 1 + Mathf.Abs(rb.velocity.x / maxSpeed)); 
+        animator.SetFloat("Speed", minRunAnimSpeed + Mathf.Abs(rb.velocity.x / maxSpeed)); 
         animator.SetFloat("FallSpeed", rb.velocity.y); 
         
         if (grounded) {
@@ -298,7 +299,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
         // Check if the player is grounded or not
         if (Physics.CheckSphere(checkPoint.position, groundCheckSize, groundMaskInt)) {
             if (grounded == false) {
-                audioSource.PlayOneShot(jumpLanding);
+                sfxManager.Play("JumpLanding"); 
             }
             grounded = true;
         } else {
@@ -417,12 +418,16 @@ public class PlayerControllerTestScript : MonoBehaviour {
             case StunState.Frozen: 
                 break; 
         }
+
+        animator.SetBool("Stunned", true); 
         
         Debug.Log($"{gameObject.name} stunned for " + stunTime);
         ignoreInput = true;
         yield return new WaitForSeconds(stunTime);
         Debug.Log($"{gameObject.name} no longer stunned");
         ignoreInput = false;
+
+        animator.SetBool("Stunned", false); 
 
         switch (currentStunState) {
             case StunState.None: 
@@ -537,6 +542,8 @@ public class PlayerControllerTestScript : MonoBehaviour {
         if (!frozen) {
             // Freeze the player
             frozen = true;
+
+            animator.SetFloat("Speed", 0); 
 
             if (!rb) rb = GetComponent<Rigidbody>();
 

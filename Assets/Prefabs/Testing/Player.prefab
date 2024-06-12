@@ -860,7 +860,6 @@ MonoBehaviour:
   icePrefab: {fileID: 8415167979898979819, guid: 722fe90b28b701a438c77c43a4744a82,
     type: 3}
   playerDistance: 2
-  jumpLanding: {fileID: 8300000, guid: f4258fac36938464cb9af7229fa65990, type: 3}
   grounded: 0
   character: 0
   readyImage: {fileID: 4803595635778081888}
@@ -868,6 +867,7 @@ MonoBehaviour:
   animator: {fileID: 0}
   characterVisualBody: {fileID: 0}
   isFacingRight: 1
+  minRunAnimSpeed: 3
   currentStunState: 0
   sleepVFX: {fileID: 9171247944685282459}
 --- !u!114 &8867031693499356766
@@ -950,9 +950,6 @@ MonoBehaviour:
   ultimatePoints: 10
   pointTime: 1
   lifePoints: 1
-  speedBoostSound: {fileID: 8300000, guid: 7ee4535ea0d3b9940b2a6f75fb6fca2f, type: 3}
-  throwSound: {fileID: 8300000, guid: 6d3912bc3d4080748987b4bba8f2737a, type: 3}
-  fireballSpawn: {fileID: 0}
   trailRenderer: {fileID: 2795186136762503016}
   abilityPoints: 0
   racePoints: 0
@@ -978,7 +975,7 @@ MonoBehaviour:
   - character: 0
     powerup: 6
   - character: 1
-    powerup: 0
+    powerup: 7
   - character: 2
     powerup: 4
   - character: 3
@@ -1008,7 +1005,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 5160594011a4ca447bc3f771fa7ea779, type: 3}
   - {fileID: 8300000, guid: 0fbd38cc544dcd749b9cf5106bd807fd, type: 3}
   jumpLanding: {fileID: 8300000, guid: f4258fac36938464cb9af7229fa65990, type: 3}
-  stepSoundInterval: 0.4
+  stepSoundInterval: 0.2
 --- !u!82 &2805207236966669795
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1791,12 +1788,12 @@ PrefabInstance:
     - target: {fileID: 4092333050279707049, guid: 8d786a70800aeb34e8d0b8c1a2d8b5cf,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5.25
+      value: 0.428
       objectReference: {fileID: 0}
     - target: {fileID: 4092333050279707049, guid: 8d786a70800aeb34e8d0b8c1a2d8b5cf,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4092333050279707049, guid: 8d786a70800aeb34e8d0b8c1a2d8b5cf,
         type: 3}

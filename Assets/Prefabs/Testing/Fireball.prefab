@@ -133,7 +133,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 32
+  m_Constraints: 40
   m_CollisionDetection: 0
 --- !u!114 &-6107788875272424862
 MonoBehaviour:
@@ -147,10 +147,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 986799c8abb56f343919cd4ac81a41eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fireballBounce: {fileID: 8300000, guid: a733db83c11f82e4dadcc9b45802ad66, type: 3}
-  fireballSizzle: {fileID: 8300000, guid: a1bbd0e34ff9400488c18ad615ae9f51, type: 3}
-  audioSource: {fileID: 6967004309078467706, guid: cb9af0b87f359c94c8e8ed98f168ad8c,
-    type: 3}
 --- !u!82 &8866349629320237219
 AudioSource:
   m_ObjectHideFlags: 0

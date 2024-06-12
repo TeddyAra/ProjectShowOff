@@ -1,0 +1,112 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3652181529269447241
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6224300491618063212}
+  - component: {fileID: 8694558355544408086}
+  m_Layer: 0
+  m_Name: SoundEffects
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6224300491618063212
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3652181529269447241}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8694558355544408086
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3652181529269447241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f81a6648ff52468489673d7616c5cf68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundEffects:
+  - name: SnowFlight
+    clip: {fileID: 8300000, guid: 26fa07df3ce984e469aba4d6b1ad46fd, type: 3}
+    volume: 0.3
+    pitch: 1
+    source: {fileID: 0}
+  - name: FireballSpawn
+    clip: {fileID: 8300000, guid: 8dedf6b0f97f552409b995c4effcaec3, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: FireballBounce
+    clip: {fileID: 8300000, guid: a733db83c11f82e4dadcc9b45802ad66, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: FireballSizzle
+    clip: {fileID: 8300000, guid: a1bbd0e34ff9400488c18ad615ae9f51, type: 3}
+    volume: 0.05
+    pitch: 1
+    source: {fileID: 0}
+  - name: WindBlast
+    clip: {fileID: 8300000, guid: 1ffde073fe4279b41afe422f40f09bba, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: Fart
+    clip: {fileID: 8300000, guid: f00683d119994a547a74fc1918e692a3, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: Scare
+    clip: {fileID: 8300000, guid: 0230bd408b532b043b219cd596ff867f, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: Throw
+    clip: {fileID: 8300000, guid: 6d3912bc3d4080748987b4bba8f2737a, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: SleepBombHit
+    clip: {fileID: 8300000, guid: 70327070ec63dc04cbf5a08f40758759, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: SleepBombNoHit
+    clip: {fileID: 8300000, guid: 8bc92e2b0b5296a4ca6a89b4f58f56f7, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: JumpLanding
+    clip: {fileID: 8300000, guid: f4258fac36938464cb9af7229fa65990, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: SpeedBoost
+    clip: {fileID: 8300000, guid: 7ee4535ea0d3b9940b2a6f75fb6fca2f, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: FireballHurt
+    clip: {fileID: 8300000, guid: 2d627a6e05881d34985fd157179a7de5, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}

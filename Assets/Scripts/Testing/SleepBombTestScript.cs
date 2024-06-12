@@ -13,11 +13,12 @@ public class SleepBombTestScript : MonoBehaviour {
 
 
     // Audio
-    public AudioSource audioSource;
-    [SerializeField] AudioClip sleepBombExplode; 
-    [SerializeField] AudioClip sleepBombNoHit; 
+    SFXManager sfxManager;
 
-    
+    private void Start()
+    {
+        sfxManager = FindObjectOfType<SFXManager>();
+    }
 
     public void ApplyVariables(float explosionRange, float minStun, float maxStun) { 
         this.explosionRange = explosionRange;
@@ -26,14 +27,14 @@ public class SleepBombTestScript : MonoBehaviour {
     }
 
     private void OnCollisionEnter(Collision collision) {
-        audioSource.PlayOneShot(sleepBombNoHit);
+        sfxManager.Play("SleepBombNoHit"); 
         Instantiate(bombVfx, transform.position, transform.rotation);
         Explode();
     }
 
     private void OnTriggerEnter(Collider other) {
         if (other.tag == "PlayerTrigger") {
-            audioSource.PlayOneShot(sleepBombExplode);
+            sfxManager.Play("SleepBombHit"); 
             Instantiate(bombVfx, transform.position, transform.rotation);
             Explode();
         }
