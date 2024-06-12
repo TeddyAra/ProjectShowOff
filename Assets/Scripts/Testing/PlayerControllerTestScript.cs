@@ -524,6 +524,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
                 (checkPoint.position.x < collision.transform.position.x + collision.transform.localScale.x / 2)) {
                 //StartCoroutine(DisableMaxSpeed());
                 rb.AddForce(Vector3.up * bouncePadForce); 
+                sfxManager.Play("BounceLeaf"); 
                 Debug.Log("Bouncing"); 
                 canBounce = false; 
                 StartCoroutine(BouncePadDelay()); 
