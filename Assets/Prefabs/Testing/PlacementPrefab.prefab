@@ -601,7 +601,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!114 &4316871664812249278
 MonoBehaviour:
@@ -660,22 +660,27 @@ MonoBehaviour:
     name: {fileID: 5989647469322713509}
     points: {fileID: 7325364779664742920}
     placement: {fileID: 6417163371099443157}
+    script: {fileID: 0}
   - gameObject: {fileID: 7475912414963750142}
     name: {fileID: 195535551293638768}
     points: {fileID: 5112090278236384116}
     placement: {fileID: 343481265795603880}
+    script: {fileID: 0}
   - gameObject: {fileID: 7382259277327474184}
     name: {fileID: 5525396379244566615}
     points: {fileID: 9070033191158599149}
     placement: {fileID: 4177273374038776918}
+    script: {fileID: 0}
   - gameObject: {fileID: 3637033208509565339}
     name: {fileID: 4223667139604424599}
     points: {fileID: 212957601227803694}
     placement: {fileID: 3055018120743632051}
+    script: {fileID: 0}
   background: {fileID: 6846923764417389004}
   waitTime: 5
   barWidth: 460
   bar: {fileID: 9169440275228238683}
+  placementPoints: 900100002c010000c800000064000000
 --- !u!1 &746879266882447038
 GameObject:
   m_ObjectHideFlags: 0

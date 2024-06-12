@@ -16,9 +16,11 @@ public class PlacementManagerScript : MonoBehaviour {
         public TMP_Text points;
         public TMP_Text placement;
 
-        public void SetInformation(int position, int points) {
+        [HideInInspector] public PowerupTestScript script;
+
+        public void SetInformation(int position) {
             gameObject.anchoredPosition = new Vector2(gameObject.anchoredPosition.x, 550 - position * 200);
-            this.points.text = points.ToString();
+            points.text = script.GetPoints().ToString();
             placement.text = "#" + position.ToString(); ;
         }
     }
@@ -33,28 +35,31 @@ public class PlacementManagerScript : MonoBehaviour {
     [SerializeField] private List<int> placementPoints;
 
     private float waitTimer;
-    private List<int> playerIndices;
-    private List<PowerupTestScript> players;
     private int playerNum;
     private Gamepad current;
 
     public delegate void OnRespawn();
     public static event OnRespawn onRespawn;
 
+    private void Start() {
+        DontDestroyOnLoad(gameObject);
+    }
+
     public void Apply(List<PowerupTestScript> players) {
-        playerIndices = new List<int>();
-        this.players = players;
         playerNum = players.Count;
 
         for (int i = 0; i < playerNum; i++) {
-            playerIndices.Add(i);
-
-            playerPoints[i].gameObject.gameObject.SetActive(true);
-            playerPoints[i].name.text = players[i].GetComponent<PlayerControllerTestScript>().character.ToString();
+            PlayerPoint plr = playerPoints[i];
+            plr.gameObject.gameObject.SetActive(true);
+            plr.name.text = players[i].GetComponent<PlayerControllerTestScript>().character.ToString();
+            plr.script = players[i];
+            playerPoints[i] = plr;
         }
     }
 
     private void Update() {
+        if (!background.activeSelf) return;
+
         if (current == null) {
             if (Gamepad.current.buttonSouth.isPressed) {
                 current = Gamepad.current;
@@ -68,7 +73,7 @@ public class PlacementManagerScript : MonoBehaviour {
                 bar.sizeDelta = new Vector2(width, bar.sizeDelta.y);
 
                 if (waitTimer >= waitTime) {
-                    gameObject.SetActive(false);
+                    background.SetActive(false);
                     onRespawn?.Invoke();
                     SceneManager.LoadScene(SceneManager.GetActiveScene().name);
                     return;
@@ -82,21 +87,24 @@ public class PlacementManagerScript : MonoBehaviour {
     }
 
     private void OnShowUI() {
+        Debug.Log("WOMP WOMP");
         background.SetActive(true);
 
         // Give the players points based on their placement
-        List<PowerupTestScript> playersCopy = players.ToList();
-        playersCopy.OrderBy(x => -x.transform.position.x);
-        for (int i = 0; i < playersCopy.Count; i++) {
-            playersCopy[i].GivePoints(placementPoints[i]);
+        playerPoints = playerPoints.GetRange(0, playerNum).OrderBy(x => x.script.transform.position.x).ToList();
+        for (int i = 0; i < playerPoints.Count; i++) {
+            PlayerPoint plr = playerPoints[i];
+            plr.script.GivePoints(placementPoints[i]);
+            playerPoints[i] = plr;
         }
 
         // Order players by their points
-        playerIndices.OrderBy(x => players[x].GetPoints());
-
+        playerPoints = playerPoints.GetRange(0, playerNum).OrderBy(x => -x.script.GetPoints()).ToList();
         for (int i = 0; i < playerNum; i++) {
-            playerPoints[i].gameObject.gameObject.SetActive(true);
-            playerPoints[i].SetInformation(playerIndices.IndexOf(i) * -1 + playerIndices.Count, players[i].GetPoints());
+            PlayerPoint plr = playerPoints[i];
+            plr.gameObject.gameObject.SetActive(true);
+            plr.SetInformation(i + 1);
+            playerPoints[i] = plr;
         }
     }
 
