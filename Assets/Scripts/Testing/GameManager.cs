@@ -14,7 +14,6 @@ public class GameManager : MonoBehaviour {
     private List<Vector3> checkpoints;
     private int currentCheckpoint;
     private int spawnNum;
-    private RectTransform countdownRect;
 
     public delegate void OnFreeze();
     public static event OnFreeze onFreeze;
@@ -38,8 +37,6 @@ public class GameManager : MonoBehaviour {
 
         // Order them by their x position
         checkpoints = checkpoints.OrderBy(x => x.x).ToList();
-
-        countdownRect = countdown.GetComponent<RectTransform>();
 
         StartCoroutine(Countdown());
 
@@ -90,6 +87,8 @@ public class GameManager : MonoBehaviour {
                 yield return null;
             }
         }
+
+        countdown.text = "";
     }
 
     private void OnCheckpoint() {
@@ -117,8 +116,15 @@ public class GameManager : MonoBehaviour {
     IEnumerator Finish() {
         // Freeze players and show someone has finished
         onFreeze?.Invoke();
-        countdown.text = "Finish!";
-        yield return new WaitForSeconds(3);
+        countdown.text = "Finish!"; 
+        float timer = 0;
+        while (timer <= 0.25f) {
+            timer += Time.deltaTime;
+            countdown.fontSize = Mathf.Sin(timer * 2 * Mathf.PI) * 60;
+            yield return null;
+        }
+
+        yield return new WaitForSeconds(1.75f);
 
         onShowUI?.Invoke();   
     }
