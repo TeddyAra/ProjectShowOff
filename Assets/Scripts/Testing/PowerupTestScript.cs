@@ -381,7 +381,8 @@ public class PowerupTestScript : MonoBehaviour {
         fartScript.ApplyVariables(stunTime, fartCloudTime, startupTime);
         playerControllerScript.AddForce(new Vector3(forceDirection.x, forceDirection.y, 0), force);
         fartVFX.SetActive(true);
-        sfxManager.Play("Fart"); 
+        sfxManager.Play("Fart");
+        animator.SetTrigger("StinkozillaAbility");
         StartCoroutine(FartVFXDelay()); 
     }
 
