@@ -944,11 +944,15 @@ MonoBehaviour:
   burnTime: 2
   maxBounces: 10
   fireballGravity: 39.24
+  fireballTime: 6
+  fireballCooldown: 1
+  fireballMovementSpeed: 30
   ultimatePoints: 10
   pointTime: 1
   lifePoints: 1
   trailRenderer: {fileID: 2795186136762503016}
-  points: 0
+  abilityPoints: 0
+  racePoints: 0
   fartVFX: {fileID: 2379728208613114877}
   windBlastVFX: {fileID: 7644112097741115345}
   snowFlightVFX: {fileID: 1559517843825957494}

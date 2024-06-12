@@ -31,18 +31,10 @@ public class CameraTestScript : MonoBehaviour {
     private bool transitioning;
     private float moveTimer;
     private Vector3 oldPosition;
+    private Vector3 startPosition;
 
     private List<Transform> players;
     private bool starting = true;
-
-    /*private void Start() {
-        players = new List<Transform>();
-
-        GameObject[] playerObjects = GameObject.FindGameObjectsWithTag("Player");
-        foreach (GameObject player in playerObjects) {
-            players.Add(player.transform);
-        }
-    }*/
 
     private void Start () {
         DontDestroyOnLoad(gameObject);
@@ -139,6 +131,7 @@ public class CameraTestScript : MonoBehaviour {
 
     private void OnStart() {
         StartCoroutine(StartRace());
+        startPosition = transform.position;
     }
 
     private void OnGetPlayers(List<Transform> players) { 
@@ -147,7 +140,7 @@ public class CameraTestScript : MonoBehaviour {
 
     private void OnRespawn() {
         Vector3 position = GameObject.FindGameObjectWithTag("SpawnPoint").transform.position;
-        transform.position = position + Vector3.back * 14 + Vector3.up * 6;
+        transform.position = startPosition;
     }
 
     private void OnEnable() {
