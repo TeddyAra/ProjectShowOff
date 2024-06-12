@@ -21,6 +21,11 @@ public class FireballScript : MonoBehaviour {
     private void FixedUpdate() {
         rb.AddForce(Vector3.down * gravity);
         transform.LookAt(transform.position + rb.velocity);
+        if (rb.velocity.x < 0) {
+            Vector3 euler = transform.eulerAngles;
+            euler.z = 180;
+            transform.eulerAngles = euler;
+        }
     }
 
     public void ApplyVariables(int maxBounces, float stunTime, float gravity) { 
