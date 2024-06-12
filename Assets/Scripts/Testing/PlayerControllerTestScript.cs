@@ -487,6 +487,9 @@ public class PlayerControllerTestScript : MonoBehaviour {
             case "Finish":
                 onFinish?.Invoke();
                 break;
+            case "Lever":
+                sfxManager.Play("Lever"); 
+                break; 
         }
 
         //Player enters a wind draft
