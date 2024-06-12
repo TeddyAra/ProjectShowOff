@@ -227,7 +227,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
         if (gamepad != null) {
             move = gamepad.leftStick.ReadValue();
             holdingJump = gamepad.buttonSouth.isPressed;
-            if (gamepad.buttonSouth.wasPressedThisFrame) jump = true;
+            if (gamepad.buttonSouth.wasPressedThisFrame && !ignoreInput) jump = true;
             if (gamepad.buttonWest.wasPressedThisFrame) powerup = true;
 
         // Keyboard input
@@ -406,7 +406,6 @@ public class PlayerControllerTestScript : MonoBehaviour {
     }
 
     public IEnumerator StunCoroutine(float stunTime) {
-
         switch (currentStunState) {
             case StunState.None: 
                 break; 
