@@ -73,7 +73,7 @@ public class PlacementManagerScript : MonoBehaviour {
                 bar.sizeDelta = new Vector2(width, bar.sizeDelta.y);
 
                 if (waitTimer >= waitTime) {
-                    gameObject.SetActive(false);
+                    background.SetActive(false);
                     onRespawn?.Invoke();
                     SceneManager.LoadScene(SceneManager.GetActiveScene().name);
                     return;
@@ -87,6 +87,7 @@ public class PlacementManagerScript : MonoBehaviour {
     }
 
     private void OnShowUI() {
+        Debug.Log("WOMP WOMP");
         background.SetActive(true);
 
         // Give the players points based on their placement
