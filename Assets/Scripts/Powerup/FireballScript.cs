@@ -16,11 +16,11 @@ public class FireballScript : MonoBehaviour {
         rb = GetComponent<Rigidbody>();
 
         sfxManager = FindObjectOfType<SFXManager>();
-
     }
 
     private void FixedUpdate() {
         rb.AddForce(Vector3.down * gravity);
+        transform.LookAt(transform.position + rb.velocity);
     }
 
     public void ApplyVariables(int maxBounces, float stunTime, float gravity) { 
@@ -30,7 +30,7 @@ public class FireballScript : MonoBehaviour {
     }
 
     private void OnCollisionEnter(Collision collision) {
-        sfxManager.Play("FireballBounce"); 
+        //sfxManager.Play("FireballBounce"); 
 
         bounceCount++;
         if (bounceCount >= maxBounces) {

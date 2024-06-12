@@ -302,10 +302,10 @@ public class PowerupTestScript : MonoBehaviour {
         float timer = fireballTime;
         float cooldownTimer = 0;
 
-        while (timer > 0 && gamepad.buttonWest.isPressed) {
+        while (timer > 0) {
             timer -= Time.deltaTime;
             cooldownTimer -= Time.deltaTime;
-            if (cooldownTimer <= 0) {
+            if (cooldownTimer <= 0 && gamepad.buttonWest.isPressed) {
                 cooldownTimer = fireballCooldown;
                 SpawnFireball();
             }
@@ -321,7 +321,7 @@ public class PowerupTestScript : MonoBehaviour {
     }
 
     private void SpawnFireball() {
-        audioSource.PlayOneShot(fireballSpawn);
+        //audioSource.PlayOneShot(fireballSpawn);
 
         FireballScript fireball = Instantiate(fireballPrefab, sleepBombSpawnPoint.position, Quaternion.Euler(0, 90, 0)).GetComponent<FireballScript>();
         fireball.ApplyVariables(maxBounces, burnTime, fireballGravity);
