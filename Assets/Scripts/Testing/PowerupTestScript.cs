@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(PlayerControllerTestScript))]
@@ -124,8 +125,17 @@ public class PowerupTestScript : MonoBehaviour {
     [Tooltip("After how many bounces a fireball should get destroyed")]
     [SerializeField] private int maxBounces;
 
-    [Tooltip("the gravity applied onto the fireball")]
+    [Tooltip("The gravity applied onto the fireball")]
     [SerializeField] private float fireballGravity;
+
+    [Tooltip("For how long the player can throw fireballs")]
+    [SerializeField] private float fireballTime;
+
+    [Tooltip("How long the player has to wait before they can spawn another fireball")]
+    [SerializeField] private float fireballCooldown;
+
+    [Tooltip("The speed of the character while they're using the fireball ability")]
+    [SerializeField] private float fireballMovementSpeed;
 
     // ----------------------------------------------------------------------------------
 
@@ -150,7 +160,8 @@ public class PowerupTestScript : MonoBehaviour {
     [SerializeField] private TrailRenderer trailRenderer;
 
     private float maxSpeed;
-    [SerializeField] private int points;
+    [SerializeField] private int abilityPoints;
+    [SerializeField] private int racePoints;
 
     // ---------------------------------------------------------------------------------
 
@@ -205,6 +216,7 @@ public class PowerupTestScript : MonoBehaviour {
     private Powerup currentPowerup;
     private float pointTimer;
 
+    private Gamepad gamepad;
     private PlayerControllerTestScript playerControllerScript;
     private PlayerControllerTestScript.Character character;
 
@@ -233,9 +245,10 @@ public class PowerupTestScript : MonoBehaviour {
         return currentPowerup;
     }
 
-    public void ApplyVariables(float maxSpeed, PlayerControllerTestScript.Character character) {
+    public void ApplyVariables(float maxSpeed, PlayerControllerTestScript.Character character, Gamepad gamepad) {
         this.maxSpeed = maxSpeed;
         this.character = character;
+        this.gamepad = gamepad;
     }
 
     public void UsePowerup() {
@@ -268,13 +281,13 @@ public class PowerupTestScript : MonoBehaviour {
                 break;
 
             case Powerup.Fireball:
-                SpawnFireball();
+                StartCoroutine(Fireball());
                 break;
         }
 
         foreach (Ultimate ultimate in ultimates) {
             if (ultimate.powerup == currentPowerup) {
-                points = 0;
+                abilityPoints = 0;
                 break;
             }
         }
@@ -283,8 +296,30 @@ public class PowerupTestScript : MonoBehaviour {
         abilityBubble.SetActive(false);
     }
 
+    private IEnumerator Fireball() {
+        playerControllerScript.ChangePlayerSpeed(fireballMovementSpeed);
+        float timer = fireballTime;
+        float cooldownTimer = 0;
+
+        while (timer > 0 && gamepad.buttonWest.isPressed) {
+            timer -= Time.deltaTime;
+            cooldownTimer -= Time.deltaTime;
+            if (cooldownTimer <= 0) {
+                cooldownTimer = fireballCooldown;
+                SpawnFireball();
+            }
+            yield return null;
+        }
+
+        timer = slowDownTime;
+        while (timer > 0) {
+            timer -= Time.deltaTime;
+            playerControllerScript.ChangePlayerSpeed(maxSpeed + (fireballMovementSpeed - maxSpeed) * (timer / slowDownTime));
+            yield return null;
+        }
+    }
+
     private void SpawnFireball() {
-        Debug.Log("Spawned!");
         audioSource.PlayOneShot(fireballSpawn);
 
         FireballScript fireball = Instantiate(fireballPrefab, sleepBombSpawnPoint.position, Quaternion.Euler(0, 90, 0)).GetComponent<FireballScript>();
@@ -373,13 +408,13 @@ public class PowerupTestScript : MonoBehaviour {
     }
 
     public int GetPoints() {
-        return points;
+        return racePoints;
     }
 
     public string GetRandomPowerup() {
         abilityBubble.SetActive(true);
 
-        if (points >= ultimatePoints) {
+        if (abilityPoints >= ultimatePoints) {
             foreach (Ultimate ultimate in ultimates) {
                 if (character == ultimate.character) {
                     currentPowerup = ultimate.powerup;
@@ -480,7 +515,14 @@ public class PowerupTestScript : MonoBehaviour {
     }
 
     private void OnPoints(PlayerControllerTestScript.Character character, int points) {
-        if (this.character == character) this.points += points;
+        if (this.character == character) {
+            abilityPoints += points;
+            racePoints += points;
+        }
+    }
+
+    public void GivePoints(int points) { 
+        OnPoints(character, points);
     }
 
     private void OnEnable() {

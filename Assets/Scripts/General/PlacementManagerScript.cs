@@ -30,6 +30,8 @@ public class PlacementManagerScript : MonoBehaviour {
     [SerializeField] private float barWidth;
     [SerializeField] private RectTransform bar;
 
+    [SerializeField] private List<int> placementPoints;
+
     private float waitTimer;
     private List<int> playerIndices;
     private List<PowerupTestScript> players;
@@ -81,11 +83,19 @@ public class PlacementManagerScript : MonoBehaviour {
 
     private void OnShowUI() {
         background.SetActive(true);
+
+        // Give the players points based on their placement
+        List<PowerupTestScript> playersCopy = players.ToList();
+        playersCopy.OrderBy(x => -x.transform.position.x);
+        for (int i = 0; i < playersCopy.Count; i++) {
+            playersCopy[i].GivePoints(placementPoints[i]);
+        }
+
+        // Order players by their points
         playerIndices.OrderBy(x => players[x].GetPoints());
 
         for (int i = 0; i < playerNum; i++) {
             playerPoints[i].gameObject.gameObject.SetActive(true);
-            Debug.Log(playerIndices.IndexOf(i) * -1 + playerIndices.Count);
             playerPoints[i].SetInformation(playerIndices.IndexOf(i) * -1 + playerIndices.Count, players[i].GetPoints());
         }
     }

@@ -214,7 +214,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
         playerSpeed = maxSpeed;
 
         powerupScript = GetComponent<PowerupTestScript>();
-        powerupScript.ApplyVariables(maxSpeed, character);
+        powerupScript.ApplyVariables(maxSpeed, character, gamepad);
 
         icePlatforms = new List<Transform>();
     }
@@ -656,7 +656,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
         playerSpeed = maxSpeed;
 
         powerupScript = GetComponent<PowerupTestScript>();
-        powerupScript.ApplyVariables(maxSpeed, character);
+        powerupScript.ApplyVariables(maxSpeed, character, gamepad);
     }
 
     private void OnDisable() {
