@@ -45,6 +45,10 @@ public class CameraTestScript : MonoBehaviour {
         starting = false;
     }
 
+    private void StopRace() {
+        starting = true;
+    }
+
     private void Update() {
         if (starting) return;
 
@@ -139,7 +143,6 @@ public class CameraTestScript : MonoBehaviour {
     }
 
     private void OnRespawn() {
-        Vector3 position = GameObject.FindGameObjectWithTag("SpawnPoint").transform.position;
         transform.position = startPosition;
     }
 
@@ -147,11 +150,13 @@ public class CameraTestScript : MonoBehaviour {
         GameManager.onStart += OnStart;
         PlayerManagerScript.onGetPlayers += OnGetPlayers;
         PlacementManagerScript.onRespawn += OnRespawn;
+        PlayerControllerTestScript.onFinish += StopRace;
     }
 
     private void OnDisable() {
         GameManager.onStart -= OnStart;
         PlayerManagerScript.onGetPlayers -= OnGetPlayers;
         PlacementManagerScript.onRespawn -= OnRespawn;
+        PlayerControllerTestScript.onFinish -= StopRace;
     }
 }
