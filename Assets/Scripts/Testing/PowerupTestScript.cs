@@ -343,7 +343,7 @@ public class PowerupTestScript : MonoBehaviour {
     private void SnowFlight() {
         StartCoroutine(playerControllerScript.Fly(flyDuration, maxFlySpeed, flyForce, iceDuration));
         snowFlightVFX.SetActive(true);
-        animator.SetTrigger("IceageAbility");
+        animator.SetBool("IceageAbility", true);
         sfxManager.Play("SnowFlight"); 
         StartCoroutine(SnowFlightDelay()); 
     }
@@ -532,6 +532,7 @@ public class PowerupTestScript : MonoBehaviour {
         yield return new WaitForSeconds(4);
         snowFlightVFX.SetActive(false);
         usingPowerup = false;
+        animator.SetBool("IceageAbility", false);
     }
 
     private void OnPoints(PlayerControllerTestScript.Character character, int points) {
