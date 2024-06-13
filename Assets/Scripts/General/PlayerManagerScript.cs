@@ -11,16 +11,16 @@ using UnityEngine.SceneManagement;
 public class PlayerManagerScript : MonoBehaviour {
     [Serializable]
     struct CharacterPicker {
-        [HideInInspector] public bool isPlaying;                // Whether the character picker is being used
-        [HideInInspector] public bool isReady;                  // Whether the character picker is ready
-        [SerializeField] private GameObject playing;            // The UI for if someone is using the character picker
-        [SerializeField] private GameObject notPlaying;         // The UI for if someone is not using the character picker
-        [SerializeField] private GameObject ready;              // The UI for if someone is ready to play
-        [SerializeField] private Image character;               // The UI for the character
+        [HideInInspector] public bool isPlaying;                    // Whether the character picker is being used
+        [HideInInspector] public bool isReady;                      // Whether the character picker is ready
+        [SerializeField] private GameObject playing;                // The UI for if someone is using the character picker
+        [SerializeField] private GameObject notPlaying;             // The UI for if someone is not using the character picker
+        [SerializeField] private GameObject ready;                  // The UI for if someone is ready to play
+        [SerializeField] private Image character;                   // The UI for the character
 
-        private int index;                                      // The index of the controller
-        private int currentCharacter;                           // The index of the character
-        private Dictionary<Material, Vector2> characterSizes;   // The size of each character
+        private int index;                                          // The index of the controller
+        private int currentCharacter;                               // The index of the character
+        private Dictionary<Material, Vector2> characterSizes;       // The size of each character
 
         // Apply the dictionary and instantiate the character
         public void ApplyCharacterSizes(Dictionary<Material, Vector2> characterSizes) { 
@@ -101,9 +101,14 @@ public class PlayerManagerScript : MonoBehaviour {
     [SerializeField] private RectTransform startBar;
     [SerializeField] private float waitTime;
     [SerializeField] private float barWidth;
-    [SerializeField] private string gameSceneName;
+    [SerializeField] private string[] gameSceneNames;
     [SerializeField] private bool oneController;
     [SerializeField] private GameObject cameraPrefab;
+    [SerializeField] private GameObject placementCanvasPrefab;
+    [SerializeField] private GameObject AudioManagerPrefab; 
+    [SerializeField] private float cameraBackDistance;
+    [SerializeField] private float cameraUpDistance;
+    [SerializeField] private float cameraAngle;
 
     private Dictionary<Gamepad, bool> gamepads;
     private List<bool> lastJoysticks;
@@ -112,6 +117,8 @@ public class PlayerManagerScript : MonoBehaviour {
     private float waitTimer;
     private bool done;
     private int choosing;
+    private string gameSceneName;
+    private System.Random random;
 
     public delegate void OnGetPlayers(List<Transform> players);
     public static event OnGetPlayers onGetPlayers;
@@ -119,6 +126,7 @@ public class PlayerManagerScript : MonoBehaviour {
     private void Start() {
         UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI = false;
         UnityEngine.Rendering.DebugManager.instance.displayRuntimeUI = false;
+        random = new System.Random();
 
         DontDestroyOnLoad(gameObject);
 
@@ -152,8 +160,11 @@ public class PlayerManagerScript : MonoBehaviour {
 
             Vector3 position = GameObject.FindGameObjectWithTag("SpawnPoint").transform.position;
             List<Transform> players = new List<Transform>();
+            List<PowerupTestScript> powerupScripts = new List<PowerupTestScript>();
 
-            Instantiate(cameraPrefab, position + Vector3.back * 14 + Vector3.up * 6, Quaternion.Euler(7, 0, 0));
+            CameraTestScript cam = Instantiate(cameraPrefab, position + Vector3.back * cameraBackDistance + Vector3.up * cameraUpDistance, Quaternion.Euler(cameraAngle, 0, 0)).GetComponent<CameraTestScript>();
+            cam.SetOffset(Vector3.back * cameraBackDistance + Vector3.up * cameraUpDistance);
+            Instantiate(AudioManagerPrefab, transform.position, transform.rotation); 
 
             int num = 0;
             for (int i = 0; i < gamepads.Count; i++) {
@@ -168,6 +179,7 @@ public class PlayerManagerScript : MonoBehaviour {
                     GameObject character = characterSizes[picker.GetCharacter()].prefab;
                     PlayerControllerTestScript script = Instantiate(character, Vector3.zero, Quaternion.identity).GetComponent<PlayerControllerTestScript>();
                     players.Add(script.transform);
+                    powerupScripts.Add(script.GetComponent<PowerupTestScript>());
 
                     script.ChangeGamepad(gamepad.Key, num);
                     script.OnRespawn();
@@ -177,6 +189,7 @@ public class PlayerManagerScript : MonoBehaviour {
                     if (oneController) { 
                         script = Instantiate(character, Vector3.zero, Quaternion.identity).GetComponent<PlayerControllerTestScript>();
                         players.Add(script.transform);
+                        powerupScripts.Add(script.GetComponent<PowerupTestScript>());
 
                         script.ChangeGamepad(gamepad.Key, num);
                         script.OnRespawn();
@@ -185,6 +198,9 @@ public class PlayerManagerScript : MonoBehaviour {
                     }
                 }
             }
+
+            PlacementManagerScript placementScript = Instantiate(placementCanvasPrefab).GetComponent<PlacementManagerScript>();
+            placementScript.Apply(powerupScripts);
 
             onGetPlayers?.Invoke(players);
 
@@ -202,7 +218,6 @@ public class PlayerManagerScript : MonoBehaviour {
 
             // If the first player wants to start the game
             if (firstPlayer.buttonSouth.isPressed && choosing == 0 && taken.Count > 1) {
-                Debug.Log(choosing);
                 waitTimer += Time.deltaTime;
                 float width = Mathf.Clamp(barWidth * (waitTimer / waitTime), 0, barWidth);
                 startBar.sizeDelta = new Vector2(width, startBar.sizeDelta.y);
@@ -215,6 +230,7 @@ public class PlayerManagerScript : MonoBehaviour {
                         return;
                     }
 
+                    gameSceneName = gameSceneNames[random.Next(0, gameSceneNames.Length)];
                     SceneManager.LoadScene(gameSceneName);
                     done = true;
                     return;
@@ -233,30 +249,31 @@ public class PlayerManagerScript : MonoBehaviour {
                 }
 
                 // If the player wants to switch characters
-                Vector2 joystick = gamepad.Key.leftStick.ReadValue();
-                bool left = gamepad.Key.dpad.left.wasPressedThisFrame || (joystick.x < -0.5f && !lastJoysticks[i]);
-                bool right = gamepad.Key.dpad.right.wasPressedThisFrame || (joystick.x > 0.5f && !lastJoysticks[i]);
+                int index = GetCharacterPicker(i);
+                CharacterPicker picker = characterPickers[index];
 
-                if (left != right) {
-                    lastJoysticks[i] = true;
-                    int index = GetCharacterPicker(i);
-                    if (index != -1) {
-                        CharacterPicker picker = characterPickers[index];
-                        picker.ChangeCharacter(right, taken);
-                        characterPickers[index] = picker;
+                if (picker.isPlaying && !picker.isReady) {
+                    Vector2 joystick = gamepad.Key.leftStick.ReadValue();
+                    bool left = gamepad.Key.dpad.left.wasPressedThisFrame || (joystick.x < -0.5f && !lastJoysticks[i]);
+                    bool right = gamepad.Key.dpad.right.wasPressedThisFrame || (joystick.x > 0.5f && !lastJoysticks[i]);
+
+                    if (left != right) {
+                        lastJoysticks[i] = true;
+                        if (index != -1) {
+                            picker.ChangeCharacter(right, taken);
+                            characterPickers[index] = picker;
+                        }
                     }
-                }
 
-                // Let the script check the joystick again if the player put it back to the center
-                if (lastJoysticks[i] && joystick.x > -0.5f && joystick.x < 0.5f) {
-                    lastJoysticks[i] = false;
+                    // Let the script check the joystick again if the player put it back to the center
+                    if (lastJoysticks[i] && joystick.x > -0.5f && joystick.x < 0.5f) {
+                        lastJoysticks[i] = false;
+                    }
                 }
 
                 // If the player wants to confirm their character
                 if (gamepad.Key.buttonSouth.wasPressedThisFrame) {
-                    int index = GetCharacterPicker(i);
                     if (index != -1) {
-                        CharacterPicker picker = characterPickers[index];
                         if (picker.isReady) return;
 
                         choosing--;
@@ -280,11 +297,10 @@ public class PlayerManagerScript : MonoBehaviour {
 
                 // If the player wants to go back to character selection
                 if (gamepad.Key.buttonEast.wasPressedThisFrame) {
-                    int index = GetCharacterPicker(i);
-                    if (index != -1) {
-                        CharacterPicker picker = characterPickers[index];
+                    if (index != -1 && picker.isReady) {
                         picker.Play();
                         taken.Remove(picker.GetCharacter());
+                        if (oneController) taken.Remove(picker.GetCharacter());
                         characterPickers[index] = picker;
                         choosing++;
                     }

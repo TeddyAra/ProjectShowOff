@@ -287,6 +287,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3188617249948763888, guid: 44f8adee21f98354b9e70972ca788849,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3188617249948763888, guid: 44f8adee21f98354b9e70972ca788849,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3188617249948763888, guid: 44f8adee21f98354b9e70972ca788849,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 1.26
+      objectReference: {fileID: 0}
     - target: {fileID: 3468134009132608798, guid: 44f8adee21f98354b9e70972ca788849,
         type: 3}
       propertyPath: gravity
@@ -301,6 +316,11 @@ PrefabInstance:
         type: 3}
       propertyPath: moveDrag
       value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3468134009132608798, guid: 44f8adee21f98354b9e70972ca788849,
+        type: 3}
+      propertyPath: character
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3468134009132608798, guid: 44f8adee21f98354b9e70972ca788849,
         type: 3}
@@ -324,9 +344,73 @@ PrefabInstance:
       objectReference: {fileID: 5089330393902501248}
     - target: {fileID: 4530758235380207482, guid: 44f8adee21f98354b9e70972ca788849,
         type: 3}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 5697985314613425112}
+    - target: {fileID: 4530758235380207482, guid: 44f8adee21f98354b9e70972ca788849,
+        type: 3}
+      propertyPath: iceSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: e238d95ce888f28499c70638687ee11d,
+        type: 3}
+    - target: {fileID: 4530758235380207482, guid: 44f8adee21f98354b9e70972ca788849,
+        type: 3}
+      propertyPath: blastForce
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 4530758235380207482, guid: 44f8adee21f98354b9e70972ca788849,
+        type: 3}
+      propertyPath: fartSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f20811f3653f6094f97978e094dd504e,
+        type: 3}
+    - target: {fileID: 4530758235380207482, guid: 44f8adee21f98354b9e70972ca788849,
+        type: 3}
+      propertyPath: spawnForce
+      value: 1200
+      objectReference: {fileID: 0}
+    - target: {fileID: 4530758235380207482, guid: 44f8adee21f98354b9e70972ca788849,
+        type: 3}
+      propertyPath: flyDuration
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4530758235380207482, guid: 44f8adee21f98354b9e70972ca788849,
+        type: 3}
+      propertyPath: maxRotation
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 4530758235380207482, guid: 44f8adee21f98354b9e70972ca788849,
+        type: 3}
+      propertyPath: scareSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 70be71faac0414f4a81965314437378a,
+        type: 3}
+    - target: {fileID: 4530758235380207482, guid: 44f8adee21f98354b9e70972ca788849,
+        type: 3}
+      propertyPath: animatedBody
+      value: 
+      objectReference: {fileID: 5089330393902501248}
+    - target: {fileID: 4530758235380207482, guid: 44f8adee21f98354b9e70972ca788849,
+        type: 3}
+      propertyPath: abilityBubble
+      value: 
+      objectReference: {fileID: 6487076130138132185}
+    - target: {fileID: 4530758235380207482, guid: 44f8adee21f98354b9e70972ca788849,
+        type: 3}
+      propertyPath: rotationSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4530758235380207482, guid: 44f8adee21f98354b9e70972ca788849,
+        type: 3}
       propertyPath: explosionRange
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 4530758235380207482, guid: 44f8adee21f98354b9e70972ca788849,
+        type: 3}
+      propertyPath: fireBallSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 2b2faef2de29fd849a9965102f8b1a1a,
+        type: 3}
     - target: {fileID: 4530758235380207482, guid: 44f8adee21f98354b9e70972ca788849,
         type: 3}
       propertyPath: speedboostTime
@@ -334,9 +418,32 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4530758235380207482, guid: 44f8adee21f98354b9e70972ca788849,
         type: 3}
+      propertyPath: sleepBombSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 802e8e637aac5bc4a9cb4d404bf88ea0,
+        type: 3}
+    - target: {fileID: 4530758235380207482, guid: 44f8adee21f98354b9e70972ca788849,
+        type: 3}
       propertyPath: speedboostSpeed
       value: 25
       objectReference: {fileID: 0}
+    - target: {fileID: 4530758235380207482, guid: 44f8adee21f98354b9e70972ca788849,
+        type: 3}
+      propertyPath: windBlastSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 845975c4ed84326429c385c566bb5bdd,
+        type: 3}
+    - target: {fileID: 4530758235380207482, guid: 44f8adee21f98354b9e70972ca788849,
+        type: 3}
+      propertyPath: speedBoostSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: ba03f476909755f46a27aa2f7e5acce6,
+        type: 3}
+    - target: {fileID: 4530758235380207482, guid: 44f8adee21f98354b9e70972ca788849,
+        type: 3}
+      propertyPath: currentAbilityIcon
+      value: 
+      objectReference: {fileID: 4883060359792152824}
     - target: {fileID: 4671567364540712202, guid: 44f8adee21f98354b9e70972ca788849,
         type: 3}
       propertyPath: m_Name
@@ -351,6 +458,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5852593184473163242, guid: 44f8adee21f98354b9e70972ca788849,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6452977389268101448, guid: 44f8adee21f98354b9e70972ca788849,
         type: 3}
@@ -377,14 +489,32 @@ PrefabInstance:
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 852988118346177373, guid: 44f8adee21f98354b9e70972ca788849,
         type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1798591534502502333}
+      insertIndex: 7
+      addedObject: {fileID: 5614651368340461370}
     - targetCorrespondingSourceObject: {fileID: 852988118346177373, guid: 44f8adee21f98354b9e70972ca788849,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 5614651368340461370}
+      addedObject: {fileID: 1798591534502502333}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 44f8adee21f98354b9e70972ca788849, type: 3}
+--- !u!114 &4883060359792152824 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1526074589032638124, guid: 44f8adee21f98354b9e70972ca788849,
+    type: 3}
+  m_PrefabInstance: {fileID: 6262722876126377556}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &6487076130138132185 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 931981345468790925, guid: 44f8adee21f98354b9e70972ca788849,
+    type: 3}
+  m_PrefabInstance: {fileID: 6262722876126377556}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6719306231768329481 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 852988118346177373, guid: 44f8adee21f98354b9e70972ca788849,

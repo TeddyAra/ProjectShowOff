@@ -81,7 +81,7 @@ GameObject:
   - component: {fileID: 750186547601602124}
   m_Layer: 0
   m_Name: Lever
-  m_TagString: Untagged
+  m_TagString: Lever
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -164,22 +164,22 @@ PrefabInstance:
     - target: {fileID: 2572513546992561887, guid: ca7709f62a3281e4db039126fea79802,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2572513546992561887, guid: ca7709f62a3281e4db039126fea79802,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2572513546992561887, guid: ca7709f62a3281e4db039126fea79802,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2572513546992561887, guid: ca7709f62a3281e4db039126fea79802,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2572513546992561887, guid: ca7709f62a3281e4db039126fea79802,
         type: 3}
@@ -189,7 +189,7 @@ PrefabInstance:
     - target: {fileID: 2572513546992561887, guid: ca7709f62a3281e4db039126fea79802,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: 180
       objectReference: {fileID: 0}
     - target: {fileID: 2572513546992561887, guid: ca7709f62a3281e4db039126fea79802,
         type: 3}
@@ -429,6 +429,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Wood_Platform (13)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6804773577936154377, guid: 37d02f7bfa92ea14690144ae52f7d73d,
+        type: 3}
+      propertyPath: m_TagString
+      value: IgnoreIce
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

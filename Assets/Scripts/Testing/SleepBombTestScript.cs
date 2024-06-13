@@ -13,11 +13,12 @@ public class SleepBombTestScript : MonoBehaviour {
 
 
     // Audio
-    public AudioSource audioSource;
-    [SerializeField] AudioClip sleepBombExplode; 
-    [SerializeField] AudioClip sleepBombNoHit; 
+    SFXManager sfxManager;
 
-    
+    private void Start()
+    {
+        sfxManager = FindObjectOfType<SFXManager>();
+    }
 
     public void ApplyVariables(float explosionRange, float minStun, float maxStun) { 
         this.explosionRange = explosionRange;
@@ -26,16 +27,17 @@ public class SleepBombTestScript : MonoBehaviour {
     }
 
     private void OnCollisionEnter(Collision collision) {
-        audioSource.PlayOneShot(sleepBombNoHit);
+        sfxManager.Play("SleepBombNoHit"); 
         Instantiate(bombVfx, transform.position, transform.rotation);
         Explode();
     }
 
     private void OnTriggerEnter(Collider other) {
-        if (other.tag == "PlayerTrigger") 
-            audioSource.PlayOneShot(sleepBombExplode);
+        if (other.tag == "PlayerTrigger") {
+            sfxManager.Play("SleepBombHit"); 
             Instantiate(bombVfx, transform.position, transform.rotation);
             Explode();
+        }
     }
 
     private void Explode() {
@@ -49,6 +51,7 @@ public class SleepBombTestScript : MonoBehaviour {
             float distance = (player.transform.position - transform.position).magnitude;
             if (distance <= explosionRange) {
                 float stunTime = Mathf.Lerp(minStun, maxStun, distance / explosionRange);
+                player.currentStunState = PlayerControllerTestScript.StunState.Slept; 
                 player.Stun(stunTime);
             }
         }

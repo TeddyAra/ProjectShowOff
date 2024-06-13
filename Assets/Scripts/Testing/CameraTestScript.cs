@@ -31,26 +31,13 @@ public class CameraTestScript : MonoBehaviour {
     private bool transitioning;
     private float moveTimer;
     private Vector3 oldPosition;
+    private Vector3 offset;
 
     private List<Transform> players;
     private bool starting = true;
 
-    /*private void Start() {
-        players = new List<Transform>();
-
-        GameObject[] playerObjects = GameObject.FindGameObjectsWithTag("Player");
-        foreach (GameObject player in playerObjects) {
-            players.Add(player.transform);
-        }
-    }*/
-
     private void Start () {
         DontDestroyOnLoad(gameObject);
-    }
-
-    IEnumerator StartRace() {
-        yield return new WaitForSeconds(3.05f);
-        starting = false;
     }
 
     private void Update() {
@@ -77,6 +64,10 @@ public class CameraTestScript : MonoBehaviour {
 
             transform.position = oldPosition + averagePosition * (moveTimer / moveTime);
         }
+    }
+
+    public void SetOffset(Vector3 offset) {
+        this.offset = offset;
     }
 
     private Vector3 GetAveragePosition() {
@@ -138,7 +129,11 @@ public class CameraTestScript : MonoBehaviour {
     }
 
     private void OnStart() {
-        StartCoroutine(StartRace());
+        starting = false;
+    }
+
+    private void StopRace() {
+        starting = true;
     }
 
     private void OnGetPlayers(List<Transform> players) { 
@@ -146,19 +141,22 @@ public class CameraTestScript : MonoBehaviour {
     }
 
     private void OnRespawn() {
-        Vector3 position = GameObject.FindGameObjectWithTag("SpawnPoint").transform.position;
-        transform.position = position + Vector3.back * 14 + Vector3.up * 6;
+        transform.position = GameObject.FindGameObjectWithTag("SpawnPoint").transform.position + offset;
     }
 
     private void OnEnable() {
         GameManager.onStart += OnStart;
         PlayerManagerScript.onGetPlayers += OnGetPlayers;
-        GameManager.onRespawn += OnRespawn;
+        PlacementManagerScript.onRespawn += OnRespawn;
+        PlayerControllerTestScript.onFinish += StopRace;
+        PlacementManagerScript.onRespawn += OnRespawn;
     }
 
     private void OnDisable() {
         GameManager.onStart -= OnStart;
         PlayerManagerScript.onGetPlayers -= OnGetPlayers;
-        GameManager.onRespawn -= OnRespawn;
+        PlacementManagerScript.onRespawn -= OnRespawn;
+        PlayerControllerTestScript.onFinish -= StopRace;
+        PlacementManagerScript.onRespawn -= OnRespawn;
     }
 }

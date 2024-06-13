@@ -22,6 +22,12 @@ public class PlayerControllerTestScript : MonoBehaviour {
     [Tooltip("The maximum speed the player can reach")]
     [SerializeField] private float maxSpeed;
 
+    [Tooltip("Speed of player when they enter draft")]
+    [SerializeField] private float draftSpeed;
+
+    [Tooltip("How long does it take for the player to slow down again")]
+    [SerializeField] private float slowDownTime;
+
     [Tooltip("The maximum speed the player can fall")]
     [SerializeField] private float maxFallSpeed;
 
@@ -29,6 +35,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
     [SerializeField] private bool ignoreInput;
 
     // ----------------------------------------------------------------------------------
+
     [Header("Jumping")]
 
     [Tooltip("The force that should be applied to the player when they jump")]
@@ -50,6 +57,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
     [SerializeField] private float gravity;
 
     // ----------------------------------------------------------------------------------
+
     [Header("Ground checking")]
 
     [Tooltip("The point where the ground should be checked")]
@@ -65,9 +73,20 @@ public class PlayerControllerTestScript : MonoBehaviour {
     [SerializeField] private string bouncePadMask;
 
     [Tooltip("The size of the bounce pad Check")]
-    [SerializeField] private float bounceCheckSize; 
+    [SerializeField] private float bounceCheckSize;
 
     // ----------------------------------------------------------------------------------
+
+    [Header("Points")]
+
+    [Tooltip("How many points should be deducted for dying")]
+    [SerializeField] private int deathPoints;
+
+    [Tooltip("How many points you get when you reach a checkpoint")]
+    [SerializeField] private int checkpointPoints;
+
+    // ----------------------------------------------------------------------------------
+
     [Header("Extra")]
 
     [Tooltip("The amount of time the player is invincible after they're respawned")]
@@ -76,9 +95,11 @@ public class PlayerControllerTestScript : MonoBehaviour {
     [Tooltip("The layer mask of the players")]
     [SerializeField] private LayerMask playerLayer;
 
+    [Tooltip("The prefab of the ice")]
+    [SerializeField] private GameObject icePrefab;
+
     [SerializeField] private float playerDistance;
 
-    [SerializeField] private AudioClip jumpLanding;
 
     // ----------------------------------------------------------------------------------
 
@@ -126,29 +147,68 @@ public class PlayerControllerTestScript : MonoBehaviour {
     public delegate void OnPowerup(PlayerControllerTestScript player, string powerup);
     public static event OnPowerup onPowerup;
 
-    public delegate void OnReady(PlayerControllerTestScript player);
-    public static event OnReady onReady;
+    // When a player has done something to get or lose points
+    public delegate void OnPoints(Character character, int points);
+    public static event OnPoints onPoints;
 
     private float playerSpeed;
+    private float baseSpeed;
     private bool isColliding;
     private int playerNum;
 
-    [SerializeField] private Image readyImage;
+    [Serializable]
+    public enum Character { 
+        Iceage,
+        Catfire,
+        Catnap,
+        Stinkozila,
+        Pinguino
+    }
+
+    [Header("Extra")]
+
+    public Character character;
     [SerializeField] private TMP_Text readyText;
     private bool isStarting;
 
+    private bool flying;
+    private Transform lastIcePlatform;
+    private Vector3 firstIcePosition;
+    private Vector3 lastIcePosition;
+    private Transform ice;
+    private List<Transform> icePlatforms;
+
     // Sound stuff
-    private AudioSource audioSource;
+
+    SFXManager sfxManager; 
+    private bool windDraft;
 
     // Animation stuff
     [SerializeField] Animator animator;
-    [SerializeField] GameObject characterVisualBody; 
-    private bool isFacingRight = true; 
-    
+    [SerializeField] GameObject characterVisualBody;
+    public bool isFacingRight = true;
+    [SerializeField] private float minRunAnimSpeed; 
+
+    // Stun States (for animations and VFX) 
+
+    public enum StunState {
+        None, 
+        Slept,
+        Frozen, 
+        Burnt
+    }
+
+    public StunState currentStunState; 
+
+    [SerializeField] private GameObject sleepVFX;
+    [SerializeField] private GameObject freezeVFX;
+    [SerializeField] private GameObject burnVFX; 
+
     private void Start() {
         DontDestroyOnLoad(gameObject);
 
-        audioSource = GetComponent<AudioSource>();
+        sfxManager = FindObjectOfType<SFXManager>();
+
         rb = GetComponent<Rigidbody>();
         groundMaskInt = LayerMask.GetMask(groundMask);
         bouncePadMaskInt = LayerMask.GetMask(bouncePadMask); 
@@ -157,7 +217,9 @@ public class PlayerControllerTestScript : MonoBehaviour {
         playerSpeed = maxSpeed;
 
         powerupScript = GetComponent<PowerupTestScript>();
-        powerupScript.ApplyVariables(maxSpeed);
+        powerupScript.ApplyVariables(maxSpeed, character, gamepad);
+
+        icePlatforms = new List<Transform>();
     }
 
     private void Update() {
@@ -167,7 +229,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
         if (gamepad != null) {
             move = gamepad.leftStick.ReadValue();
             holdingJump = gamepad.buttonSouth.isPressed;
-            if (gamepad.buttonSouth.wasPressedThisFrame) jump = true;
+            if (gamepad.buttonSouth.wasPressedThisFrame && !ignoreInput) jump = true;
             if (gamepad.buttonWest.wasPressedThisFrame) powerup = true;
 
         // Keyboard input
@@ -187,25 +249,19 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
         // Animator Controller Stuff
 
-        animator.SetFloat("Speed", 1 + Mathf.Abs(rb.velocity.x / maxSpeed)); 
+        animator.SetFloat("Speed", minRunAnimSpeed + Mathf.Abs(rb.velocity.x / maxSpeed)); 
         animator.SetFloat("FallSpeed", rb.velocity.y); 
         
-        if (grounded)
-        {
+        if (grounded) {
             animator.SetBool("Grounded", true); 
-        }
-        else
-        {
+        } else {
             animator.SetBool("Grounded", false); 
         }
 
     }
 
     private void FixedUpdate() {
-
-        Flip(); 
-
-        if (!grounded) {
+        if (!grounded && !flying) {
             rb.AddForce(Vector3.down * gravity);
         }
         
@@ -228,7 +284,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
         if (!isReady || !isStarting) return;*/
 
-        if (isStarting) return;
+        if (isStarting || flying) return;
 
         // Update timers
         coyoteTimer--;
@@ -242,15 +298,10 @@ public class PlayerControllerTestScript : MonoBehaviour {
             }
         }
 
-        if (ignoreInput || frozen) return;
-
-        // Get the rigid body's velocity
-        velocity = rb.velocity;
-
         // Check if the player is grounded or not
         if (Physics.CheckSphere(checkPoint.position, groundCheckSize, groundMaskInt)) {
             if (grounded == false) {
-                audioSource.PlayOneShot(jumpLanding); 
+                sfxManager.Play("JumpLanding"); 
             }
             grounded = true;
         } else {
@@ -259,6 +310,11 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
             grounded = false;
         }
+
+        if (ignoreInput || frozen) return;
+
+        // Get the rigid body's velocity
+        velocity = rb.velocity;
 
         // Apply input
         if (move != Vector2.zero) {
@@ -323,6 +379,8 @@ public class PlayerControllerTestScript : MonoBehaviour {
         // Reset input variables
         jump = false;
         powerup = false;
+
+        Flip(); 
     }
 
     private IEnumerator BouncePadDelay() {
@@ -350,11 +408,53 @@ public class PlayerControllerTestScript : MonoBehaviour {
     }
 
     public IEnumerator StunCoroutine(float stunTime) {
+        switch (currentStunState) {
+            case StunState.None: 
+                break; 
+            case StunState.Slept: 
+                sleepVFX.SetActive(true); 
+                break; 
+            case StunState.Burnt: 
+                burnVFX.SetActive(true);
+                break; 
+            case StunState.Frozen: 
+                freezeVFX.SetActive(true);
+                break; 
+        }
+
+        animator.SetBool("Stunned", true); 
+        
         Debug.Log($"{gameObject.name} stunned for " + stunTime);
         ignoreInput = true;
         yield return new WaitForSeconds(stunTime);
         Debug.Log($"{gameObject.name} no longer stunned");
         ignoreInput = false;
+
+        animator.SetBool("Stunned", false); 
+
+        switch (currentStunState) {
+            case StunState.None: 
+                break; 
+            case StunState.Slept: 
+                sleepVFX.SetActive(false); 
+                currentStunState = StunState.None;
+                break; 
+            case StunState.Burnt: 
+                burnVFX.SetActive(false);
+                currentStunState = StunState.None;
+                break; 
+            case StunState.Frozen: 
+                freezeVFX.SetActive(false);
+                currentStunState = StunState.None;
+                break; 
+        }
+    }
+
+    private void OnTriggerStay(Collider other) {
+        if (other.tag == "Ice" && character != Character.Iceage) {
+            currentStunState = StunState.Frozen; 
+            Stun(1f);
+        }
     }
 
     private void OnTriggerEnter(Collider other) {
@@ -363,6 +463,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
         switch (other.tag) {
             // The player went too far left
             case "Death":
+                onPoints?.Invoke(character, deathPoints);
                 frozen = true;
                 transform.position = (Vector3)getCheckpoint?.Invoke();
                 tag = "Untagged";
@@ -376,12 +477,13 @@ public class PlayerControllerTestScript : MonoBehaviour {
                 if (!isColliding) {
                     onCheckpoint?.Invoke();
                     isColliding = true;
+                    powerupScript.GivePoints(checkpointPoints);
                 }
                 break;
 
             // The player got a powerup
             case "Powerup":
-                if (powerupScript.GetCurrentPowerup() != PowerupTestScript.Powerup.None) return;
+                if (powerupScript.GetCurrentPowerup() != PowerupTestScript.Powerup.None || powerupScript.UsingPowerup()) return;
                 string powerup = powerupScript.GetRandomPowerup();
                 onPowerup?.Invoke(this, powerup);
                 Destroy(other.gameObject);
@@ -389,8 +491,34 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
             // The player reached the finish line
             case "Finish":
+                sfxManager.Play("VictorySound"); 
                 onFinish?.Invoke();
                 break;
+            case "Lever":
+                sfxManager.Play("Lever"); 
+                break; 
+        }
+
+        //Player enters a wind draft
+        if (other.gameObject.CompareTag("WindDraft") && !windDraft) {
+            Debug.Log("wind draft be happening");
+            playerSpeed = draftSpeed;
+            windDraft = true;
+            StartCoroutine(ResetWindraft(1));
+        }
+    }
+
+    IEnumerator ResetWindraft(float resetTime) {
+        yield return new WaitForSeconds(resetTime);
+        ChangePlayerSpeed(baseSpeed);
+        windDraft = false;
+
+        // Slowly make the player slow down again
+        float timer = slowDownTime;
+        while (timer > 0) {
+            timer -= Time.deltaTime;
+            ChangePlayerSpeed(maxSpeed + (draftSpeed - maxSpeed) * (timer / slowDownTime));
+            yield return null;
         }
     }
 
@@ -403,6 +531,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
                 (checkPoint.position.x < collision.transform.position.x + collision.transform.localScale.x / 2)) {
                 //StartCoroutine(DisableMaxSpeed());
                 rb.AddForce(Vector3.up * bouncePadForce); 
+                sfxManager.Play("BounceLeaf"); 
                 Debug.Log("Bouncing"); 
                 canBounce = false; 
                 StartCoroutine(BouncePadDelay()); 
@@ -425,6 +554,8 @@ public class PlayerControllerTestScript : MonoBehaviour {
             // Freeze the player
             frozen = true;
 
+            animator.SetFloat("Speed", 0); 
+
             if (!rb) rb = GetComponent<Rigidbody>();
 
             rb.velocity = Vector3.zero;
@@ -441,6 +572,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
             // Unfreeze the player
             frozen = false;
             rb.useGravity = true;
+            jump = false;
 
             // Include the player again
             tag = "Player";
@@ -451,26 +583,85 @@ public class PlayerControllerTestScript : MonoBehaviour {
         }
     }
 
-    private void OnStart() {
-        readyImage.transform.parent.gameObject.SetActive(false);
-    }
-
     public void OnRespawn() {
-        Vector3 spawnPoint = GameObject.FindGameObjectWithTag("SpawnPoint").transform.position + Vector3.left * playerDistance * playerNum; 
+        Vector3 spawnPoint = GameObject.FindGameObjectWithTag("SpawnPoint").transform.position;// + Vector3.left * playerDistance * playerNum; 
         transform.position = spawnPoint; 
     }
 
     public void AddForce(Vector3 direction, float force) {
-        Debug.Log("Added force");
         direction.Normalize();
         rb.AddForce(direction * force);
+    }
+
+    public IEnumerator Fly(float flyDuration, float maxFlySpeed, float flyForce, float iceDuration) {
+        float timer = flyDuration;
+        flying = true;
+        rb.velocity = Vector3.zero;
+
+        RaycastHit hit;
+        if (Physics.Raycast(checkPoint.position, Vector3.down, out hit, 1000f, groundMaskInt)) { 
+            firstIcePosition = hit.point;
+        }
+
+        while (timer > 0) {
+            timer -= Time.deltaTime;
+
+            if (Physics.Raycast(checkPoint.position, Vector3.down, out hit, 1000f, groundMaskInt)) {
+                if (rb.velocity.x > 0 && hit.transform.tag != "IgnoreIce") {
+                    if (hit.transform != lastIcePlatform || firstIcePosition == null || ice == null) {
+                        firstIcePosition = hit.point;
+                        lastIcePlatform = hit.transform;
+                        ice = Instantiate(icePrefab, Vector3.zero, hit.transform.rotation).transform;
+                        icePlatforms.Add(ice);
+                    }
+
+                    lastIcePosition = hit.point;
+                    ice.position = (firstIcePosition + lastIcePosition) / 2;
+                    Vector3 size = ice.localScale;
+                    size.x = (lastIcePosition - firstIcePosition).magnitude;
+                    ice.localScale = size;
+                } else {
+                    lastIcePlatform = null;
+                }
+            } else {
+                lastIcePlatform = null;
+            }
+
+            rb.AddForce(new Vector3(move.x, move.y, 0) * flyForce);
+            if (rb.velocity.magnitude > maxFlySpeed) {
+                rb.velocity = rb.velocity.normalized * maxFlySpeed;
+            }
+            yield return null;
+        }
+
+        lastIcePlatform = null;
+        lastIcePosition = Vector3.zero;
+        firstIcePosition = Vector3.zero;
+        flying = false;
+
+        yield return new WaitForSeconds(iceDuration);
+
+        for (int i = icePlatforms.ToList().Count - 1; i >= 0; i--) {
+            Debug.Log("dfgjbgfd"); 
+            Destroy(icePlatforms[i].gameObject);
+            icePlatforms.RemoveAt(i);
+        }
+    }
+
+    private void Flip() {
+        if (powerupScript.isCastingWindBlast == true)
+            return; 
+
+        if (isFacingRight && rb.velocity.x < 0 || !isFacingRight && rb.velocity.x > 0) {
+            isFacingRight = !isFacingRight;
+            transform.Rotate(Vector3.up, 180);
+        }
     }
 
     private void OnEnable() {
         GameManager.onFreeze += OnFreeze;
         GameManager.onUnfreeze += OnUnfreeze;
-        GameManager.onStart += OnStart;
-        GameManager.onRespawn += OnRespawn; 
+        PlacementManagerScript.onRespawn += OnRespawn;
 
         rb = GetComponent<Rigidbody>();
         groundMaskInt = LayerMask.GetMask(groundMask);
@@ -479,27 +670,12 @@ public class PlayerControllerTestScript : MonoBehaviour {
         playerSpeed = maxSpeed;
 
         powerupScript = GetComponent<PowerupTestScript>();
-        powerupScript.ApplyVariables(maxSpeed);
+        powerupScript.ApplyVariables(maxSpeed, character, gamepad);
     }
 
     private void OnDisable() {
         GameManager.onFreeze -= OnFreeze;
         GameManager.onUnfreeze -= OnUnfreeze;
-        GameManager.onStart -= OnStart;
-        GameManager.onRespawn -= OnRespawn; 
-    }
-
-    private void Flip()
-    {
-        
-
-        if (isFacingRight && rb.velocity.x < 0 || !isFacingRight && rb.velocity.x > 0)
-        {
-            isFacingRight = !isFacingRight; 
-            Vector3 scaleCopy = characterVisualBody.transform.localScale; 
-            scaleCopy.z *= -1; 
-            characterVisualBody.transform.localScale = scaleCopy;
-        }
-       
+        PlacementManagerScript.onRespawn -= OnRespawn;
     }
 }   

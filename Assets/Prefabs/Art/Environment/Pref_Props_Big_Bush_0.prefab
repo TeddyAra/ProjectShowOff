@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1625030069982853966}
   - component: {fileID: 5302808513423629836}
   - component: {fileID: 2799081506289268690}
+  - component: {fileID: 8620782708705244402}
   m_Layer: 0
   m_Name: Pref_Props_Big_Bush_0
   m_TagString: Untagged
@@ -83,3 +84,22 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!205 &8620782708705244402
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 503616293190252294}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: 0, y: 1.0684305, z: 0}
+  m_Size: 4.7838507
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 2799081506289268690}
+  m_Enabled: 1
