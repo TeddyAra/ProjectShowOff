@@ -583,7 +583,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
     }
 
     public void OnRespawn(List<PlayerControllerTestScript> positions) {
-        Vector3 spawnPoint = GameObject.FindGameObjectWithTag("SpawnPoint").transform.position + Vector3.left * playerDistance * positions.FindIndex(x => x == this); 
+        Vector3 spawnPoint = GameObject.FindGameObjectWithTag("SpawnPoint").transform.position + Vector3.left * playerDistance * playerNum;//positions.FindIndex(x => x == this); 
         transform.position = spawnPoint; 
     }
 
