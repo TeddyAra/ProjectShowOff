@@ -156,7 +156,6 @@ public class PowerupTestScript : MonoBehaviour {
 
     SFXManager sfxManager; 
 
-    [SerializeField] private TrailRenderer trailRenderer;
     
     private float maxSpeed;
     [SerializeField] private int abilityPoints;
