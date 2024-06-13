@@ -856,6 +856,7 @@ MonoBehaviour:
   bouncePadMask: BouncePad
   bounceCheckSize: 1
   deathPoints: -5
+  checkpointPoints: 0
   invincibilityTime: 2
   playerLayer:
     serializedVersion: 2
@@ -954,7 +955,6 @@ MonoBehaviour:
   ultimatePoints: 10
   pointTime: 1
   lifePoints: 1
-  trailRenderer: {fileID: 2795186136762503016}
   abilityPoints: 0
   racePoints: 0
   fartVFX: {fileID: 2379728208613114877}
@@ -1351,7 +1351,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &328695545716911188
 RectTransform:
   m_ObjectHideFlags: 0
