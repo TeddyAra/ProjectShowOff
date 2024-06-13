@@ -56877,6 +56877,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 882770068}
     m_Modifications:
+    - target: {fileID: 202993805962295112, guid: 8d9012d951d68b24eb5c64371a73f52f,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 25.919998
+      objectReference: {fileID: 0}
+    - target: {fileID: 844360696782733816, guid: 8d9012d951d68b24eb5c64371a73f52f,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 37.879997
+      objectReference: {fileID: 0}
     - target: {fileID: 895649410176373297, guid: 8d9012d951d68b24eb5c64371a73f52f,
         type: 3}
       propertyPath: m_LocalPosition.y
@@ -56907,10 +56917,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 9.375
       objectReference: {fileID: 0}
+    - target: {fileID: 1861184005875070573, guid: 8d9012d951d68b24eb5c64371a73f52f,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 25.92
+      objectReference: {fileID: 0}
     - target: {fileID: 1875351669410808063, guid: 8d9012d951d68b24eb5c64371a73f52f,
         type: 3}
       propertyPath: m_Name
       value: DoubleHanging_Wood_Platform (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2448482771007793906, guid: 8d9012d951d68b24eb5c64371a73f52f,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 37.879997
       objectReference: {fileID: 0}
     - target: {fileID: 2922607939399002862, guid: 8d9012d951d68b24eb5c64371a73f52f,
         type: 3}
@@ -56972,6 +56992,11 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 14.029999
       objectReference: {fileID: 0}
+    - target: {fileID: 4707507705271599271, guid: 8d9012d951d68b24eb5c64371a73f52f,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 25.919998
+      objectReference: {fileID: 0}
     - target: {fileID: 5167778558624126266, guid: 8d9012d951d68b24eb5c64371a73f52f,
         type: 3}
       propertyPath: m_LocalRotation.w
@@ -56992,12 +57017,31 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 14.029999
       objectReference: {fileID: 0}
+    - target: {fileID: 6350392808688379450, guid: 8d9012d951d68b24eb5c64371a73f52f,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 25.919998
+      objectReference: {fileID: 0}
+    - target: {fileID: 7081974628672615745, guid: 8d9012d951d68b24eb5c64371a73f52f,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 37.879997
+      objectReference: {fileID: 0}
+    - target: {fileID: 7824200073820409544, guid: 8d9012d951d68b24eb5c64371a73f52f,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 37.879993
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 3566693519594600434, guid: 8d9012d951d68b24eb5c64371a73f52f, type: 3}
     - {fileID: 6108764852809723041, guid: 8d9012d951d68b24eb5c64371a73f52f, type: 3}
     - {fileID: 8110194167495439349, guid: 8d9012d951d68b24eb5c64371a73f52f, type: 3}
     - {fileID: 1885019972247464266, guid: 8d9012d951d68b24eb5c64371a73f52f, type: 3}
+    - {fileID: 7042500061470167114, guid: 8d9012d951d68b24eb5c64371a73f52f, type: 3}
+    - {fileID: 3615574077533665160, guid: 8d9012d951d68b24eb5c64371a73f52f, type: 3}
+    - {fileID: 3123339506849222933, guid: 8d9012d951d68b24eb5c64371a73f52f, type: 3}
+    - {fileID: 595604957509313779, guid: 8d9012d951d68b24eb5c64371a73f52f, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8d9012d951d68b24eb5c64371a73f52f, type: 3}
