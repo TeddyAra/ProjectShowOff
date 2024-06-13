@@ -101,7 +101,7 @@ public class PlayerManagerScript : MonoBehaviour {
     [SerializeField] private RectTransform startBar;
     [SerializeField] private float waitTime;
     [SerializeField] private float barWidth;
-    [SerializeField] private string gameSceneName;
+    [SerializeField] private string[] gameSceneNames;
     [SerializeField] private bool oneController;
     [SerializeField] private GameObject cameraPrefab;
     [SerializeField] private GameObject placementCanvasPrefab;
@@ -117,6 +117,8 @@ public class PlayerManagerScript : MonoBehaviour {
     private float waitTimer;
     private bool done;
     private int choosing;
+    private string gameSceneName;
+    private System.Random random;
 
     public delegate void OnGetPlayers(List<Transform> players);
     public static event OnGetPlayers onGetPlayers;
@@ -124,6 +126,7 @@ public class PlayerManagerScript : MonoBehaviour {
     private void Start() {
         UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI = false;
         UnityEngine.Rendering.DebugManager.instance.displayRuntimeUI = false;
+        random = new System.Random();
 
         DontDestroyOnLoad(gameObject);
 
@@ -226,6 +229,7 @@ public class PlayerManagerScript : MonoBehaviour {
                         return;
                     }
 
+                    gameSceneName = gameSceneNames[random.Next(0, gameSceneNames.Length)];
                     SceneManager.LoadScene(gameSceneName);
                     done = true;
                     return;
@@ -292,7 +296,7 @@ public class PlayerManagerScript : MonoBehaviour {
 
                 // If the player wants to go back to character selection
                 if (gamepad.Key.buttonEast.wasPressedThisFrame) {
-                    if (index != -1) {
+                    if (index != -1 && picker.isReady) {
                         picker.Play();
                         taken.Remove(picker.GetCharacter());
                         if (oneController) taken.Remove(picker.GetCharacter());

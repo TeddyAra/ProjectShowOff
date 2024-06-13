@@ -165,7 +165,6 @@ public class PlayerControllerTestScript : MonoBehaviour {
     [Header("Extra")]
 
     public Character character;
-    [SerializeField] private Image readyImage;
     [SerializeField] private TMP_Text readyText;
     private bool isStarting;
 
@@ -480,7 +479,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
             // The player got a powerup
             case "Powerup":
-                if (powerupScript.GetCurrentPowerup() != PowerupTestScript.Powerup.None) return;
+                if (powerupScript.GetCurrentPowerup() != PowerupTestScript.Powerup.None || powerupScript.UsingPowerup()) return;
                 string powerup = powerupScript.GetRandomPowerup();
                 onPowerup?.Invoke(this, powerup);
                 Destroy(other.gameObject);
@@ -569,6 +568,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
             // Unfreeze the player
             frozen = false;
             rb.useGravity = true;
+            jump = false;
 
             // Include the player again
             tag = "Player";
@@ -577,10 +577,6 @@ public class PlayerControllerTestScript : MonoBehaviour {
             invincibilityTimer = invincibilityTime * 60;
             invincible = true;
         }
-    }
-
-    private void OnStart() {
-        readyImage.transform.parent.gameObject.SetActive(false);
     }
 
     public void OnRespawn() {
@@ -661,7 +657,6 @@ public class PlayerControllerTestScript : MonoBehaviour {
     private void OnEnable() {
         GameManager.onFreeze += OnFreeze;
         GameManager.onUnfreeze += OnUnfreeze;
-        GameManager.onStart += OnStart;
         PlacementManagerScript.onRespawn += OnRespawn;
 
         rb = GetComponent<Rigidbody>();
@@ -677,7 +672,6 @@ public class PlayerControllerTestScript : MonoBehaviour {
     private void OnDisable() {
         GameManager.onFreeze -= OnFreeze;
         GameManager.onUnfreeze -= OnUnfreeze;
-        GameManager.onStart -= OnStart;
         PlacementManagerScript.onRespawn -= OnRespawn;
     }
 }   
