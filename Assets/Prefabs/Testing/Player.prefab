@@ -315,7 +315,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 820ddccb0c6a49c4eab70f69b8266432, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ef215a4e63070504f92eee6cd70423ac, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -722,6 +722,7 @@ Transform:
   - {fileID: 8747037849359220124}
   - {fileID: 6574719695114042771}
   - {fileID: 7768978114536211516}
+  - {fileID: 6926358893894506832}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8861025715118984240
@@ -864,7 +865,6 @@ MonoBehaviour:
   playerDistance: 2
   grounded: 0
   character: 0
-  readyImage: {fileID: 4803595635778081888}
   readyText: {fileID: 2827397316840058104}
   animator: {fileID: 0}
   characterVisualBody: {fileID: 0}
@@ -915,7 +915,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speedboostSpeed: 45
-  speedboostTime: 5
+  speedboostTime: 3
   slowDownTime: 2
   sleepBombPrefab: {fileID: 6144275745787249518, guid: 520bc58c69d39204fb8f98da7cd15b35,
     type: 3}
@@ -938,7 +938,7 @@ MonoBehaviour:
   blastForce: 4000
   blastBoost: 6000
   flyDuration: 5
-  maxFlySpeed: 10
+  maxFlySpeed: 17
   flyForce: 30
   iceDuration: 6
   fireballPrefab: {fileID: 5174555104169828889, guid: 40f4ee648815df54daec54f968df04b0,
@@ -951,7 +951,7 @@ MonoBehaviour:
   fireballTime: 6
   fireballCooldown: 1
   fireballMovementSpeed: 30
-  ultimatePoints: 1
+  ultimatePoints: 10
   pointTime: 1
   lifePoints: 1
   trailRenderer: {fileID: 2795186136762503016}
@@ -962,6 +962,7 @@ MonoBehaviour:
   snowFlightVFX: {fileID: 1559517843825957494}
   scareVFX: {fileID: 8470046850348288639}
   speedBoostVFX: {fileID: 7092412024828704597}
+  catfireTrailVFX: {fileID: 8869632485206311623}
   abilityBubble: {fileID: 931981345468790925}
   currentAbilityIcon: {fileID: 1526074589032638124}
   speedBoostSprite: {fileID: 21300000, guid: ba03f476909755f46a27aa2f7e5acce6, type: 3}
@@ -2025,6 +2026,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 4917528075985478608}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &8869632485206311623 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4551400326823092503, guid: 6cddb2114df4cfa40a3e0632bf11ffe6,
+    type: 3}
+  m_PrefabInstance: {fileID: 4917528075985478608}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6812797401751356538
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2109,6 +2116,85 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3791675021415943083, guid: 9fa8545e2fb9f7344878259a8e0a126d,
     type: 3}
   m_PrefabInstance: {fileID: 6812797401751356538}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &7056692357052379872
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 852988118346177373}
+    m_Modifications:
+    - target: {fileID: 139953506468572080, guid: 31b151aaacaacb54ca5df76141f8c49c,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 139953506468572080, guid: 31b151aaacaacb54ca5df76141f8c49c,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 139953506468572080, guid: 31b151aaacaacb54ca5df76141f8c49c,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 139953506468572080, guid: 31b151aaacaacb54ca5df76141f8c49c,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 139953506468572080, guid: 31b151aaacaacb54ca5df76141f8c49c,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 139953506468572080, guid: 31b151aaacaacb54ca5df76141f8c49c,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 139953506468572080, guid: 31b151aaacaacb54ca5df76141f8c49c,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 139953506468572080, guid: 31b151aaacaacb54ca5df76141f8c49c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 139953506468572080, guid: 31b151aaacaacb54ca5df76141f8c49c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 139953506468572080, guid: 31b151aaacaacb54ca5df76141f8c49c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5519947931397305005, guid: 31b151aaacaacb54ca5df76141f8c49c,
+        type: 3}
+      propertyPath: m_Name
+      value: TrailCatfire
+      objectReference: {fileID: 0}
+    - target: {fileID: 5519947931397305005, guid: 31b151aaacaacb54ca5df76141f8c49c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 31b151aaacaacb54ca5df76141f8c49c, type: 3}
+--- !u!4 &6926358893894506832 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 139953506468572080, guid: 31b151aaacaacb54ca5df76141f8c49c,
+    type: 3}
+  m_PrefabInstance: {fileID: 7056692357052379872}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8193656448374954590
 PrefabInstance:
