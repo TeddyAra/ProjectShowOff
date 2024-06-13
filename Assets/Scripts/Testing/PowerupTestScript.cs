@@ -170,7 +170,8 @@ public class PowerupTestScript : MonoBehaviour {
     [SerializeField] private GameObject windBlastVFX;
     [SerializeField] private GameObject snowFlightVFX;
     [SerializeField] private GameObject scareVFX;
-    [SerializeField] private GameObject speedBoostVFX; 
+    [SerializeField] private GameObject speedBoostVFX;
+    [SerializeField] private GameObject catfireTrailVFX; 
 
     // Ability UI Tooltip
 
@@ -305,6 +306,8 @@ public class PowerupTestScript : MonoBehaviour {
         float timer = fireballTime;
         float cooldownTimer = 0;
 
+        catfireTrailVFX.SetActive(true);
+
         while (timer > 0) {
             timer -= Time.deltaTime;
             cooldownTimer -= Time.deltaTime;
@@ -321,6 +324,8 @@ public class PowerupTestScript : MonoBehaviour {
             playerControllerScript.ChangePlayerSpeed(maxSpeed + (fireballMovementSpeed - maxSpeed) * (timer / slowDownTime));
             yield return null;
         }
+
+        catfireTrailVFX.SetActive(false);
 
         usingPowerup = false;
     }
