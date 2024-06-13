@@ -42,6 +42,8 @@ public class PlacementManagerScript : MonoBehaviour {
     private Gamepad current;
     private System.Random random;
     private int roundCount;
+    private bool respawning;
+    private string gameSceneName;
 
     public delegate void OnRespawn();
     public static event OnRespawn onRespawn;
@@ -64,6 +66,13 @@ public class PlacementManagerScript : MonoBehaviour {
     }
 
     private void Update() {
+        if (respawning) {
+            if (SceneManager.GetSceneByName(gameSceneName).isLoaded) {
+                onRespawn?.Invoke();
+                respawning = false;
+            }
+        }
+
         if (!background.activeSelf) return;
 
         if (current == null) {
@@ -93,9 +102,10 @@ public class PlacementManagerScript : MonoBehaviour {
                         Destroy(gameObject);
                     } else {
                         background.SetActive(false);
-                        onRespawn?.Invoke();
-                        string gameSceneName = gameSceneNames[random.Next(0, gameSceneNames.Length)];
+                        gameSceneName = gameSceneNames[random.Next(0, gameSceneNames.Length)];
                         SceneManager.LoadScene(gameSceneName);
+
+                        respawning = true;
                     }
                     return;
                 }

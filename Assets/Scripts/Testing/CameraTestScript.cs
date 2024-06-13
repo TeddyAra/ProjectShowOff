@@ -31,7 +31,7 @@ public class CameraTestScript : MonoBehaviour {
     private bool transitioning;
     private float moveTimer;
     private Vector3 oldPosition;
-    private Vector3 startPosition;
+    private Vector3 offset;
 
     private List<Transform> players;
     private bool starting = true;
@@ -64,6 +64,10 @@ public class CameraTestScript : MonoBehaviour {
 
             transform.position = oldPosition + averagePosition * (moveTimer / moveTime);
         }
+    }
+
+    public void SetOffset(Vector3 offset) {
+        this.offset = offset;
     }
 
     private Vector3 GetAveragePosition() {
@@ -125,7 +129,6 @@ public class CameraTestScript : MonoBehaviour {
     }
 
     private void OnStart() {
-        startPosition = transform.position;
         starting = false;
     }
 
@@ -138,7 +141,7 @@ public class CameraTestScript : MonoBehaviour {
     }
 
     private void OnRespawn() {
-        transform.position = startPosition;
+        transform.position = GameObject.FindGameObjectWithTag("SpawnPoint").transform.position + offset;
     }
 
     private void OnEnable() {

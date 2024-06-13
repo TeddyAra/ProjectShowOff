@@ -162,7 +162,8 @@ public class PlayerManagerScript : MonoBehaviour {
             List<Transform> players = new List<Transform>();
             List<PowerupTestScript> powerupScripts = new List<PowerupTestScript>();
 
-            Instantiate(cameraPrefab, position + Vector3.back * cameraBackDistance + Vector3.up * cameraUpDistance, Quaternion.Euler(cameraAngle, 0, 0));
+            CameraTestScript cam = Instantiate(cameraPrefab, position + Vector3.back * cameraBackDistance + Vector3.up * cameraUpDistance, Quaternion.Euler(cameraAngle, 0, 0)).GetComponent<CameraTestScript>();
+            cam.SetOffset(Vector3.back * cameraBackDistance + Vector3.up * cameraUpDistance);
             Instantiate(AudioManagerPrefab, transform.position, transform.rotation); 
 
             int num = 0;

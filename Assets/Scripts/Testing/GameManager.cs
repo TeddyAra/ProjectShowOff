@@ -126,7 +126,8 @@ public class GameManager : MonoBehaviour {
 
         yield return new WaitForSeconds(1.75f);
 
-        onShowUI?.Invoke();   
+        onShowUI?.Invoke();
+        countdown.text = "";
     }
 
     private void OnEnable() {
