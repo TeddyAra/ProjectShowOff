@@ -82,6 +82,9 @@ public class PlayerControllerTestScript : MonoBehaviour {
     [Tooltip("How many points should be deducted for dying")]
     [SerializeField] private int deathPoints;
 
+    [Tooltip("How many points you get when you reach a checkpoint")]
+    [SerializeField] private int checkpointPoints;
+
     // ----------------------------------------------------------------------------------
 
     [Header("Extra")]
@@ -474,6 +477,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
                 if (!isColliding) {
                     onCheckpoint?.Invoke();
                     isColliding = true;
+                    powerupScript.GivePoints(checkpointPoints);
                 }
                 break;
 
@@ -580,7 +584,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
     }
 
     public void OnRespawn() {
-        Vector3 spawnPoint = GameObject.FindGameObjectWithTag("SpawnPoint").transform.position + Vector3.left * playerDistance * playerNum; 
+        Vector3 spawnPoint = GameObject.FindGameObjectWithTag("SpawnPoint").transform.position;// + Vector3.left * playerDistance * playerNum; 
         transform.position = spawnPoint; 
     }
 
