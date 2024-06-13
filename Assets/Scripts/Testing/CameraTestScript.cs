@@ -140,7 +140,7 @@ public class CameraTestScript : MonoBehaviour {
         this.players = players;
     }
 
-    private void OnRespawn() {
+    private void OnRespawn(List<PlayerControllerTestScript> positions) {
         transform.position = GameObject.FindGameObjectWithTag("SpawnPoint").transform.position + offset;
     }
 

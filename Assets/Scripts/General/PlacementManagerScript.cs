@@ -45,7 +45,7 @@ public class PlacementManagerScript : MonoBehaviour {
     private bool respawning;
     private string gameSceneName;
 
-    public delegate void OnRespawn();
+    public delegate void OnRespawn(List<PlayerControllerTestScript> positions);
     public static event OnRespawn onRespawn;
 
     private void Start() {
@@ -68,7 +68,20 @@ public class PlacementManagerScript : MonoBehaviour {
     private void Update() {
         if (respawning) {
             if (SceneManager.GetSceneByName(gameSceneName).isLoaded) {
-                onRespawn?.Invoke();
+                PlayerControllerTestScript[] players = FindObjectsOfType<PlayerControllerTestScript>();
+                List<int> nums = new List<int>();
+                for (int i = 0; i < players.Length; i++) {
+                    nums.Add(i);
+                }
+
+                List<PlayerControllerTestScript> positions = new List<PlayerControllerTestScript>();
+                for (int i = 0; i < nums.Count; i++) {
+                    int index = random.Next(nums.Count);
+                    positions.Add(players[index]);
+                    nums.Remove(index);
+                }
+
+                onRespawn?.Invoke(positions);
                 respawning = false;
             }
         }

@@ -164,7 +164,9 @@ public class PlayerManagerScript : MonoBehaviour {
 
             CameraTestScript cam = Instantiate(cameraPrefab, position + Vector3.back * cameraBackDistance + Vector3.up * cameraUpDistance, Quaternion.Euler(cameraAngle, 0, 0)).GetComponent<CameraTestScript>();
             cam.SetOffset(Vector3.back * cameraBackDistance + Vector3.up * cameraUpDistance);
-            Instantiate(AudioManagerPrefab, transform.position, transform.rotation); 
+            Instantiate(AudioManagerPrefab, transform.position, transform.rotation);
+
+            List<PlayerControllerTestScript> scripts = new List<PlayerControllerTestScript>();
 
             int num = 0;
             for (int i = 0; i < gamepads.Count; i++) {
@@ -178,24 +180,28 @@ public class PlayerManagerScript : MonoBehaviour {
                     CharacterPicker picker = characterPickers[index];
                     GameObject character = characterSizes[picker.GetCharacter()].prefab;
                     PlayerControllerTestScript script = Instantiate(character, Vector3.zero, Quaternion.identity).GetComponent<PlayerControllerTestScript>();
+                    scripts.Add(script);
                     players.Add(script.transform);
                     powerupScripts.Add(script.GetComponent<PowerupTestScript>());
 
                     script.ChangeGamepad(gamepad.Key, num);
-                    script.OnRespawn();
                     script.OnFreeze();
                     num++;
 
                     if (oneController) { 
                         script = Instantiate(character, Vector3.zero, Quaternion.identity).GetComponent<PlayerControllerTestScript>();
+                        scripts.Add(script);
                         players.Add(script.transform);
                         powerupScripts.Add(script.GetComponent<PowerupTestScript>());
 
                         script.ChangeGamepad(gamepad.Key, num);
-                        script.OnRespawn();
                         script.OnFreeze();
                         num++;
                     }
+                }
+
+                foreach (PlayerControllerTestScript scr in scripts) {
+                    scr.OnRespawn(scripts);
                 }
             }
 

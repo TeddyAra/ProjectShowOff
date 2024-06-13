@@ -248,7 +248,6 @@ public class PlayerControllerTestScript : MonoBehaviour {
         isColliding = false;
 
         // Animator Controller Stuff
-
         animator.SetFloat("Speed", minRunAnimSpeed + Mathf.Abs(rb.velocity.x / maxSpeed)); 
         animator.SetFloat("FallSpeed", rb.velocity.y); 
         
@@ -583,8 +582,8 @@ public class PlayerControllerTestScript : MonoBehaviour {
         }
     }
 
-    public void OnRespawn() {
-        Vector3 spawnPoint = GameObject.FindGameObjectWithTag("SpawnPoint").transform.position;// + Vector3.left * playerDistance * playerNum; 
+    public void OnRespawn(List<PlayerControllerTestScript> positions) {
+        Vector3 spawnPoint = GameObject.FindGameObjectWithTag("SpawnPoint").transform.position + Vector3.left * playerDistance * positions.FindIndex(x => x == this); 
         transform.position = spawnPoint; 
     }
 
