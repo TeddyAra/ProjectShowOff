@@ -34649,6 +34649,23 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 4452025444542425342, guid: 652bbbeefc936cf42b84c16d5d9550be,
+        type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: a6291578658651d4492ff8b1743db239,
+        type: 2}
+    - target: {fileID: 4452025444542425342, guid: 652bbbeefc936cf42b84c16d5d9550be,
+        type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2165939611609055312, guid: a6291578658651d4492ff8b1743db239,
+        type: 2}
+    - target: {fileID: 4452025444542425342, guid: 652bbbeefc936cf42b84c16d5d9550be,
+        type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
