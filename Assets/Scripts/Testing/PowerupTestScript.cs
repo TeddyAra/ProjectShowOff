@@ -156,9 +156,7 @@ public class PowerupTestScript : MonoBehaviour {
 
     SFXManager sfxManager; 
 
-    [SerializeField] private TrailRenderer trailRenderer;
     
-
     private float maxSpeed;
     [SerializeField] private int abilityPoints;
     [SerializeField] private int racePoints;
@@ -171,7 +169,8 @@ public class PowerupTestScript : MonoBehaviour {
     [SerializeField] private GameObject windBlastVFX;
     [SerializeField] private GameObject snowFlightVFX;
     [SerializeField] private GameObject scareVFX;
-    [SerializeField] private GameObject speedBoostVFX; 
+    [SerializeField] private GameObject speedBoostVFX;
+    [SerializeField] private GameObject catfireTrailVFX; 
 
     // Ability UI Tooltip
 
@@ -215,6 +214,7 @@ public class PowerupTestScript : MonoBehaviour {
 
     private Powerup currentPowerup;
     private float pointTimer;
+    private bool usingPowerup;
 
     private Gamepad gamepad;
     private PlayerControllerTestScript playerControllerScript;
@@ -258,6 +258,7 @@ public class PowerupTestScript : MonoBehaviour {
                 break;
 
             case Powerup.Speedboost:
+                usingPowerup = true;
                 StartCoroutine(SpeedUp());
                 break;
 
@@ -278,10 +279,12 @@ public class PowerupTestScript : MonoBehaviour {
                 break;
 
             case Powerup.SnowFlight:
+                usingPowerup = true;
                 SnowFlight();
                 break;
 
             case Powerup.Fireball:
+                usingPowerup = true;
                 StartCoroutine(Fireball());
                 break;
         }
@@ -302,6 +305,8 @@ public class PowerupTestScript : MonoBehaviour {
         float timer = fireballTime;
         float cooldownTimer = 0;
 
+        catfireTrailVFX.SetActive(true);
+
         while (timer > 0) {
             timer -= Time.deltaTime;
             cooldownTimer -= Time.deltaTime;
@@ -318,11 +323,14 @@ public class PowerupTestScript : MonoBehaviour {
             playerControllerScript.ChangePlayerSpeed(maxSpeed + (fireballMovementSpeed - maxSpeed) * (timer / slowDownTime));
             yield return null;
         }
+
+        catfireTrailVFX.SetActive(false);
+
+        usingPowerup = false;
     }
 
     private void SpawnFireball() {
-        //audioSource.PlayOneShot(fireballSpawn);
-
+        sfxManager.Play("FireballSpawn"); 
 
         FireballScript fireball = Instantiate(fireballPrefab, sleepBombSpawnPoint.position, Quaternion.Euler(0, 90, 0)).GetComponent<FireballScript>();
         fireball.ApplyVariables(maxBounces, burnTime, fireballGravity);
@@ -331,11 +339,10 @@ public class PowerupTestScript : MonoBehaviour {
         rb.AddForce(spawnDirection * spawnForce);
     }
 
-
-
     private void SnowFlight() {
         StartCoroutine(playerControllerScript.Fly(flyDuration, maxFlySpeed, flyForce, iceDuration));
         snowFlightVFX.SetActive(true);
+        animator.SetBool("IceageAbility", true);
         sfxManager.Play("SnowFlight"); 
         StartCoroutine(SnowFlightDelay()); 
     }
@@ -364,9 +371,10 @@ public class PowerupTestScript : MonoBehaviour {
     private void Scare() {
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
 
+        animator.SetTrigger("CatnapAbility"); 
         scareVFX.SetActive(true);
         sfxManager.Play("Scare");
-        StartCoroutine(ScareVFXDelay()); 
+        StartCoroutine(ScareVFXDelay());
 
         foreach (GameObject player in players) {
             if (player == gameObject) continue;
@@ -381,12 +389,13 @@ public class PowerupTestScript : MonoBehaviour {
         fartScript.ApplyVariables(stunTime, fartCloudTime, startupTime);
         playerControllerScript.AddForce(new Vector3(forceDirection.x, forceDirection.y, 0), force);
         fartVFX.SetActive(true);
-        sfxManager.Play("Fart"); 
+        sfxManager.Play("Fart");
+        animator.SetTrigger("StinkozillaAbility");
         StartCoroutine(FartVFXDelay()); 
     }
 
     private void SpawnSleepBomb() {
-        sfxManager.Play("Throw"); 
+        sfxManager.Play("Throw");
 
         Rigidbody bomb = Instantiate(sleepBombPrefab, sleepBombSpawnPoint.position, Quaternion.identity).GetComponent<Rigidbody>();
         bomb.AddForce(new Vector3(throwDirection.x, throwDirection.y, 0) * throwForce);
@@ -411,10 +420,16 @@ public class PowerupTestScript : MonoBehaviour {
             playerControllerScript.ChangePlayerSpeed(maxSpeed + (speedboostSpeed - maxSpeed) * (timer / slowDownTime));
             yield return null;
         }
+
+        usingPowerup = false;
     }
 
     public int GetPoints() {
         return racePoints;
+    }
+
+    public bool UsingPowerup() {
+        return usingPowerup;
     }
 
     public string GetRandomPowerup() {
@@ -491,8 +506,7 @@ public class PowerupTestScript : MonoBehaviour {
 
     IEnumerator WindBlastVFXDelay() {
 
-        while (animatedBody.transform.eulerAngles.y < 270)
-        {
+        while (animatedBody.transform.eulerAngles.y < 270) {
             animatedBody.transform.Rotate(Vector3.up, 15); 
             yield return null; 
         }
@@ -501,14 +515,12 @@ public class PowerupTestScript : MonoBehaviour {
 
         windBlastVFX.SetActive(false);
 
-        while (animatedBody.transform.eulerAngles.y > 90)
-        {
+        while (animatedBody.transform.eulerAngles.y > 90) {
             animatedBody.transform.Rotate(Vector3.up, -15); 
             yield return null; 
         }
         
-        if (playerControllerScript.isFacingRight == false)
-        {
+        if (playerControllerScript.isFacingRight == false) {
             playerControllerScript.isFacingRight = true; 
         }
 
@@ -518,12 +530,15 @@ public class PowerupTestScript : MonoBehaviour {
     IEnumerator SnowFlightDelay() {
         yield return new WaitForSeconds(4);
         snowFlightVFX.SetActive(false);
+        usingPowerup = false;
+        animator.SetBool("IceageAbility", false);
     }
 
     private void OnPoints(PlayerControllerTestScript.Character character, int points) {
         if (this.character == character) {
             abilityPoints += points;
             racePoints += points;
+            abilityPoints = Mathf.Clamp(abilityPoints, 0, ultimatePoints);
         }
     }
 

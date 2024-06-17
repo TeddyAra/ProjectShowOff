@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -33,16 +34,23 @@ public class PlacementManagerScript : MonoBehaviour {
     [SerializeField] private RectTransform bar;
 
     [SerializeField] private List<int> placementPoints;
+    [SerializeField] private string[] gameSceneNames;
+    [SerializeField] private int maxRounds;
 
     private float waitTimer;
     private int playerNum;
     private Gamepad current;
+    private System.Random random;
+    private int roundCount;
+    private bool respawning;
+    private string gameSceneName;
 
-    public delegate void OnRespawn();
+    public delegate void OnRespawn(List<PlayerControllerTestScript> positions);
     public static event OnRespawn onRespawn;
 
     private void Start() {
         DontDestroyOnLoad(gameObject);
+        random = new System.Random();
     }
 
     public void Apply(List<PowerupTestScript> players) {
@@ -58,6 +66,26 @@ public class PlacementManagerScript : MonoBehaviour {
     }
 
     private void Update() {
+        if (respawning) {
+            if (SceneManager.GetSceneByName(gameSceneName).isLoaded) {
+                PlayerControllerTestScript[] players = FindObjectsOfType<PlayerControllerTestScript>();
+                List<int> nums = new List<int>();
+                for (int i = 0; i < players.Length; i++) {
+                    nums.Add(i);
+                }
+
+                List<PlayerControllerTestScript> positions = new List<PlayerControllerTestScript>();
+                for (int i = 0; i < nums.Count; i++) {
+                    int index = random.Next(nums.Count);
+                    positions.Add(players[index]);
+                    nums.Remove(index);
+                }
+
+                onRespawn?.Invoke(positions);
+                respawning = false;
+            }
+        }
+
         if (!background.activeSelf) return;
 
         if (current == null) {
@@ -73,9 +101,25 @@ public class PlacementManagerScript : MonoBehaviour {
                 bar.sizeDelta = new Vector2(width, bar.sizeDelta.y);
 
                 if (waitTimer >= waitTime) {
-                    background.SetActive(false);
-                    onRespawn?.Invoke();
-                    SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                    roundCount++;
+                    if (roundCount >= maxRounds) {
+                        PlayerControllerTestScript[] players = FindObjectsOfType<PlayerControllerTestScript>();
+                        GameObject camera = FindObjectOfType<Camera>().gameObject;
+                        GameObject sfxManager = FindObjectOfType<SFXManager>().gameObject;
+
+                        foreach (PlayerControllerTestScript p in players) Destroy(p.gameObject);
+                        Destroy(camera);
+                        Destroy(sfxManager);
+
+                        SceneManager.LoadScene("CharacterSelectorScene");
+                        Destroy(gameObject);
+                    } else {
+                        background.SetActive(false);
+                        gameSceneName = gameSceneNames[random.Next(0, gameSceneNames.Length)];
+                        SceneManager.LoadScene(gameSceneName);
+
+                        respawning = true;
+                    }
                     return;
                 }
             } else {
@@ -87,7 +131,6 @@ public class PlacementManagerScript : MonoBehaviour {
     }
 
     private void OnShowUI() {
-        Debug.Log("WOMP WOMP");
         background.SetActive(true);
 
         // Give the players points based on their placement

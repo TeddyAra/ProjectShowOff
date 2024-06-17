@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
+using Unity.VisualScripting;
 
 public class GameManager : MonoBehaviour {
     [SerializeField] private Transform checkpoint;
@@ -45,24 +46,47 @@ public class GameManager : MonoBehaviour {
     IEnumerator Countdown() {
         onFreeze?.Invoke();
 
-        countdown.text = "Get ready...";
+        float growSpeed = 0.25f;
 
-        yield return new WaitForSeconds(3);
+        string[] messages = { 
+            "Get ready!",
+            "3",
+            "2",
+            "1",
+            "Go!"
+        };
 
-        onStart?.Invoke();
+        float[] delays = {
+            3.0f,
+            1.0f,
+            1.0f,
+            1.0f,
+            2.0f
+        };
 
-        countdown.text = "3";
-        yield return new WaitForSeconds(1);
+        for (int i = 0; i < messages.Length; i++) {
+            if (i == messages.Length - 1) {
+                onStart?.Invoke();
+                onUnfreeze?.Invoke();
+            }
 
-        countdown.text = "2";
-        yield return new WaitForSeconds(1);
+            countdown.text = messages[i];
+            float timer = 0;
+            while (timer <= growSpeed) {
+                timer += Time.deltaTime;
+                countdown.fontSize = Mathf.Sin(timer * (0.5f / growSpeed) * Mathf.PI) * (60 + i * 10);
+                yield return null;
+            }
 
-        countdown.text = "1";
-        yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(delays[i] - growSpeed * 2);
 
-        countdown.text = "Go!";
-        onUnfreeze?.Invoke();
-        yield return new WaitForSeconds(1);
+            timer = 0;
+            while (timer <= growSpeed) {
+                timer += Time.deltaTime;
+                countdown.fontSize = Mathf.Sin((timer * (0.5f / growSpeed) + 0.5f) * Mathf.PI) * (60 + i * 10);
+                yield return null;
+            }
+        }
 
         countdown.text = "";
     }
@@ -92,10 +116,18 @@ public class GameManager : MonoBehaviour {
     IEnumerator Finish() {
         // Freeze players and show someone has finished
         onFreeze?.Invoke();
-        countdown.text = "Finish!";
-        yield return new WaitForSeconds(3);
+        countdown.text = "Finish!"; 
+        float timer = 0;
+        while (timer <= 0.25f) {
+            timer += Time.deltaTime;
+            countdown.fontSize = Mathf.Sin(timer * 2 * Mathf.PI) * 60;
+            yield return null;
+        }
 
-        onShowUI?.Invoke();   
+        yield return new WaitForSeconds(1.75f);
+
+        onShowUI?.Invoke();
+        countdown.text = "";
     }
 
     private void OnEnable() {

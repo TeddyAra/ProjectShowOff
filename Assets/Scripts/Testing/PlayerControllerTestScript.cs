@@ -82,6 +82,9 @@ public class PlayerControllerTestScript : MonoBehaviour {
     [Tooltip("How many points should be deducted for dying")]
     [SerializeField] private int deathPoints;
 
+    [Tooltip("How many points you get when you reach a checkpoint")]
+    [SerializeField] private int checkpointPoints;
+
     // ----------------------------------------------------------------------------------
 
     [Header("Extra")]
@@ -165,7 +168,6 @@ public class PlayerControllerTestScript : MonoBehaviour {
     [Header("Extra")]
 
     public Character character;
-    [SerializeField] private Image readyImage;
     [SerializeField] private TMP_Text readyText;
     private bool isStarting;
 
@@ -199,8 +201,8 @@ public class PlayerControllerTestScript : MonoBehaviour {
     public StunState currentStunState; 
 
     [SerializeField] private GameObject sleepVFX;
-    //[SerializeField] private GameObject freezeVFX;
-    //[SerializeField] private GameObject burnVFX; 
+    [SerializeField] private GameObject freezeVFX;
+    [SerializeField] private GameObject burnVFX; 
 
     private void Start() {
         DontDestroyOnLoad(gameObject);
@@ -246,7 +248,6 @@ public class PlayerControllerTestScript : MonoBehaviour {
         isColliding = false;
 
         // Animator Controller Stuff
-
         animator.SetFloat("Speed", minRunAnimSpeed + Mathf.Abs(rb.velocity.x / maxSpeed)); 
         animator.SetFloat("FallSpeed", rb.velocity.y); 
         
@@ -413,8 +414,10 @@ public class PlayerControllerTestScript : MonoBehaviour {
                 sleepVFX.SetActive(true); 
                 break; 
             case StunState.Burnt: 
+                burnVFX.SetActive(true);
                 break; 
             case StunState.Frozen: 
+                freezeVFX.SetActive(true);
                 break; 
         }
 
@@ -436,9 +439,11 @@ public class PlayerControllerTestScript : MonoBehaviour {
                 currentStunState = StunState.None;
                 break; 
             case StunState.Burnt: 
+                burnVFX.SetActive(false);
                 currentStunState = StunState.None;
                 break; 
             case StunState.Frozen: 
+                freezeVFX.SetActive(false);
                 currentStunState = StunState.None;
                 break; 
         }
@@ -471,12 +476,13 @@ public class PlayerControllerTestScript : MonoBehaviour {
                 if (!isColliding) {
                     onCheckpoint?.Invoke();
                     isColliding = true;
+                    powerupScript.GivePoints(checkpointPoints);
                 }
                 break;
 
             // The player got a powerup
             case "Powerup":
-                if (powerupScript.GetCurrentPowerup() != PowerupTestScript.Powerup.None) return;
+                if (powerupScript.GetCurrentPowerup() != PowerupTestScript.Powerup.None || powerupScript.UsingPowerup()) return;
                 string powerup = powerupScript.GetRandomPowerup();
                 onPowerup?.Invoke(this, powerup);
                 Destroy(other.gameObject);
@@ -484,6 +490,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
             // The player reached the finish line
             case "Finish":
+                sfxManager.Play("VictorySound"); 
                 onFinish?.Invoke();
                 break;
             case "Lever":
@@ -564,6 +571,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
             // Unfreeze the player
             frozen = false;
             rb.useGravity = true;
+            jump = false;
 
             // Include the player again
             tag = "Player";
@@ -574,12 +582,8 @@ public class PlayerControllerTestScript : MonoBehaviour {
         }
     }
 
-    private void OnStart() {
-        readyImage.transform.parent.gameObject.SetActive(false);
-    }
-
-    public void OnRespawn() {
-        Vector3 spawnPoint = GameObject.FindGameObjectWithTag("SpawnPoint").transform.position + Vector3.left * playerDistance * playerNum; 
+    public void OnRespawn(List<PlayerControllerTestScript> positions) {
+        Vector3 spawnPoint = GameObject.FindGameObjectWithTag("SpawnPoint").transform.position + Vector3.left * playerDistance * playerNum;//positions.FindIndex(x => x == this); 
         transform.position = spawnPoint; 
     }
 
@@ -656,7 +660,6 @@ public class PlayerControllerTestScript : MonoBehaviour {
     private void OnEnable() {
         GameManager.onFreeze += OnFreeze;
         GameManager.onUnfreeze += OnUnfreeze;
-        GameManager.onStart += OnStart;
         PlacementManagerScript.onRespawn += OnRespawn;
 
         rb = GetComponent<Rigidbody>();
@@ -672,7 +675,6 @@ public class PlayerControllerTestScript : MonoBehaviour {
     private void OnDisable() {
         GameManager.onFreeze -= OnFreeze;
         GameManager.onUnfreeze -= OnUnfreeze;
-        GameManager.onStart -= OnStart;
         PlacementManagerScript.onRespawn -= OnRespawn;
     }
 }   

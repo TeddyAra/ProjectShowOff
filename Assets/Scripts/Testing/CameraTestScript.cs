@@ -31,22 +31,13 @@ public class CameraTestScript : MonoBehaviour {
     private bool transitioning;
     private float moveTimer;
     private Vector3 oldPosition;
-    private Vector3 startPosition;
+    private Vector3 offset;
 
     private List<Transform> players;
     private bool starting = true;
 
     private void Start () {
         DontDestroyOnLoad(gameObject);
-    }
-
-    IEnumerator StartRace() {
-        yield return new WaitForSeconds(3.05f);
-        starting = false;
-    }
-
-    private void StopRace() {
-        starting = true;
     }
 
     private void Update() {
@@ -73,6 +64,10 @@ public class CameraTestScript : MonoBehaviour {
 
             transform.position = oldPosition + averagePosition * (moveTimer / moveTime);
         }
+    }
+
+    public void SetOffset(Vector3 offset) {
+        this.offset = offset;
     }
 
     private Vector3 GetAveragePosition() {
@@ -134,16 +129,19 @@ public class CameraTestScript : MonoBehaviour {
     }
 
     private void OnStart() {
-        StartCoroutine(StartRace());
-        startPosition = transform.position;
+        starting = false;
+    }
+
+    private void StopRace() {
+        starting = true;
     }
 
     private void OnGetPlayers(List<Transform> players) { 
         this.players = players;
     }
 
-    private void OnRespawn() {
-        transform.position = startPosition;
+    private void OnRespawn(List<PlayerControllerTestScript> positions) {
+        transform.position = GameObject.FindGameObjectWithTag("SpawnPoint").transform.position + offset;
     }
 
     private void OnEnable() {
@@ -151,6 +149,7 @@ public class CameraTestScript : MonoBehaviour {
         PlayerManagerScript.onGetPlayers += OnGetPlayers;
         PlacementManagerScript.onRespawn += OnRespawn;
         PlayerControllerTestScript.onFinish += StopRace;
+        PlacementManagerScript.onRespawn += OnRespawn;
     }
 
     private void OnDisable() {
@@ -158,5 +157,6 @@ public class CameraTestScript : MonoBehaviour {
         PlayerManagerScript.onGetPlayers -= OnGetPlayers;
         PlacementManagerScript.onRespawn -= OnRespawn;
         PlayerControllerTestScript.onFinish -= StopRace;
+        PlacementManagerScript.onRespawn -= OnRespawn;
     }
 }
