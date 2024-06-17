@@ -148,7 +148,7 @@ public class CameraTestScript : MonoBehaviour {
         GameManager.onStart += OnStart;
         PlayerManagerScript.onGetPlayers += OnGetPlayers;
         PlacementManagerScript.onRespawn += OnRespawn;
-        PlayerControllerTestScript.onFinish += StopRace;
+        GameManager.onFinish += StopRace;
         PlacementManagerScript.onRespawn += OnRespawn;
     }
 
@@ -156,7 +156,7 @@ public class CameraTestScript : MonoBehaviour {
         GameManager.onStart -= OnStart;
         PlayerManagerScript.onGetPlayers -= OnGetPlayers;
         PlacementManagerScript.onRespawn -= OnRespawn;
-        PlayerControllerTestScript.onFinish -= StopRace;
+        GameManager.onFinish -= StopRace;
         PlacementManagerScript.onRespawn -= OnRespawn;
     }
 }

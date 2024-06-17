@@ -127,6 +127,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
     private CapsuleCollider col;
     private float invincibilityTimer;
     private bool invincible;
+    private bool finishing;
 
     // Powerup script
     private PowerupTestScript powerupScript;
@@ -263,25 +264,6 @@ public class PlayerControllerTestScript : MonoBehaviour {
         if (!grounded && !flying) {
             rb.AddForce(Vector3.down * gravity);
         }
-        
-        /*if (!isStarting) {
-            if (holdingJump) {
-                if (!isReady) {
-                    isReady = true;
-                    onReady?.Invoke(this);
-                    readyText.text = "Ready!";
-                    Debug.Log("Ready!");
-                }
-
-                readyImage.color = Color.white;
-            } else {
-                readyImage.color = new Color(1.0f, 1.0f, 1.0f, 0.25f);
-            }
-
-            jump = false;
-        }
-
-        if (!isReady || !isStarting) return;*/
 
         if (isStarting || flying) return;
 
@@ -490,8 +472,10 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
             // The player reached the finish line
             case "Finish":
-                sfxManager.Play("VictorySound"); 
+                if (finishing) return;
+                finishing = true;
                 onFinish?.Invoke();
+                OnFreeze();
                 break;
             case "Lever":
                 sfxManager.Play("Lever"); 
@@ -584,7 +568,8 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
     public void OnRespawn(List<PlayerControllerTestScript> positions) {
         Vector3 spawnPoint = GameObject.FindGameObjectWithTag("SpawnPoint").transform.position + Vector3.left * playerDistance * playerNum;//positions.FindIndex(x => x == this); 
-        transform.position = spawnPoint; 
+        transform.position = spawnPoint;
+        finishing = false;
     }
 
     public void AddForce(Vector3 direction, float force) {
