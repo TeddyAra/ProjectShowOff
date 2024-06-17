@@ -5,7 +5,6 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
 using Unity.VisualScripting;
-using UnityEngine.VFX;
 
 public class GameManager : MonoBehaviour {
     [SerializeField] private Transform checkpoint;
@@ -15,9 +14,6 @@ public class GameManager : MonoBehaviour {
     private List<Vector3> checkpoints;
     private int currentCheckpoint;
     private int spawnNum;
-    private int playerNum;
-    private int playerCounter;
-    private SFXManager sfxManager;
 
     public delegate void OnFreeze();
     public static event OnFreeze onFreeze;
@@ -30,9 +26,6 @@ public class GameManager : MonoBehaviour {
 
     public delegate void OnShowUI();
     public static event OnShowUI onShowUI;
-
-    public delegate void OnFinish();
-    public static event OnFinish onFinish;
 
     private void Start() {
         // Get all checkpoints
@@ -48,10 +41,6 @@ public class GameManager : MonoBehaviour {
         StartCoroutine(Countdown());
 
         checkpoint.position = checkpoints[0];
-
-        sfxManager = FindObjectOfType<SFXManager>();
-        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-        playerNum = players.Count();
     }
 
     IEnumerator Countdown() {
@@ -120,19 +109,14 @@ public class GameManager : MonoBehaviour {
         return checkpoint.position + Vector3.left * spawnNum * spawnDistance;
     }
 
-    private void OnPlayerFinish() {
-        playerCounter++;
-        Debug.Log(playerCounter + " " + playerNum);
-        if (playerCounter >= playerNum) StartCoroutine(Finish());
+    private void OnFinish() {
+        StartCoroutine(Finish());
     }
 
     IEnumerator Finish() {
         // Freeze players and show someone has finished
-        onFinish?.Invoke();
-        playerCounter = 0;
         onFreeze?.Invoke();
-        countdown.text = "Finish!";
-        //sfxManager.Play("VictorySound");
+        countdown.text = "Finish!"; 
         float timer = 0;
         while (timer <= 0.25f) {
             timer += Time.deltaTime;
@@ -149,12 +133,12 @@ public class GameManager : MonoBehaviour {
     private void OnEnable() {
         PlayerControllerTestScript.onCheckpoint += OnCheckpoint;
         PlayerControllerTestScript.getCheckpoint += GetCheckpoint;
-        PlayerControllerTestScript.onFinish += OnPlayerFinish;
+        PlayerControllerTestScript.onFinish += OnFinish;
     }
 
     private void OnDisable() {
         PlayerControllerTestScript.onCheckpoint -= OnCheckpoint;
         PlayerControllerTestScript.getCheckpoint -= GetCheckpoint;
-        PlayerControllerTestScript.onFinish -= OnPlayerFinish;
+        PlayerControllerTestScript.onFinish -= OnFinish;
     }
 }
