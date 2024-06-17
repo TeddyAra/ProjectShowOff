@@ -119,6 +119,7 @@ public class PlayerManagerScript : MonoBehaviour {
     private int choosing;
     private string gameSceneName;
     private System.Random random;
+    private bool usingKeyboard;
 
     public delegate void OnGetPlayers(List<Transform> players);
     public static event OnGetPlayers onGetPlayers;
@@ -153,6 +154,13 @@ public class PlayerManagerScript : MonoBehaviour {
     }
 
     private void Update() {
+        if (Input.GetKeyDown(KeyCode.E)) {
+            gameSceneName = gameSceneNames[random.Next(0, gameSceneNames.Length)];
+            SceneManager.LoadScene(gameSceneName);
+            usingKeyboard = true;
+            done = true;
+        }
+
         // If the game is ready to start
         if (done) {
             // Wait for the game scene to load
@@ -169,27 +177,18 @@ public class PlayerManagerScript : MonoBehaviour {
             List<PlayerControllerTestScript> scripts = new List<PlayerControllerTestScript>();
 
             int num = 0;
-            for (int i = 0; i < gamepads.Count; i++) {
-                KeyValuePair<Gamepad, bool> gamepad = gamepads.ElementAt(i);
-                if (!gamepad.Value) return;
+            if (!usingKeyboard) {
+                for (int i = 0; i < gamepads.Count; i++) {
+                    KeyValuePair<Gamepad, bool> gamepad = gamepads.ElementAt(i);
+                    if (!gamepad.Value) return;
 
-                // If the controller has a character selected
-                int index = GetCharacterPicker(i);
-                if (index != -1) {
-                    // Spawn the character
-                    CharacterPicker picker = characterPickers[index];
-                    GameObject character = characterSizes[picker.GetCharacter()].prefab;
-                    PlayerControllerTestScript script = Instantiate(character, Vector3.zero, Quaternion.identity).GetComponent<PlayerControllerTestScript>();
-                    scripts.Add(script);
-                    players.Add(script.transform);
-                    powerupScripts.Add(script.GetComponent<PowerupTestScript>());
-
-                    script.ChangeGamepad(gamepad.Key, num);
-                    script.OnFreeze();
-                    num++;
-
-                    if (oneController) { 
-                        script = Instantiate(character, Vector3.zero, Quaternion.identity).GetComponent<PlayerControllerTestScript>();
+                    // If the controller has a character selected
+                    int index = GetCharacterPicker(i);
+                    if (index != -1) {
+                        // Spawn the character
+                        CharacterPicker picker = characterPickers[index];
+                        GameObject character = characterSizes[picker.GetCharacter()].prefab;
+                        PlayerControllerTestScript script = Instantiate(character, Vector3.zero, Quaternion.identity).GetComponent<PlayerControllerTestScript>();
                         scripts.Add(script);
                         players.Add(script.transform);
                         powerupScripts.Add(script.GetComponent<PowerupTestScript>());
@@ -197,7 +196,34 @@ public class PlayerManagerScript : MonoBehaviour {
                         script.ChangeGamepad(gamepad.Key, num);
                         script.OnFreeze();
                         num++;
+
+                        if (oneController) {
+                            script = Instantiate(character, Vector3.zero, Quaternion.identity).GetComponent<PlayerControllerTestScript>();
+                            scripts.Add(script);
+                            players.Add(script.transform);
+                            powerupScripts.Add(script.GetComponent<PowerupTestScript>());
+
+                            script.ChangeGamepad(gamepad.Key, num);
+                            script.OnFreeze();
+                            num++;
+                        }
                     }
+
+                    foreach (PlayerControllerTestScript scr in scripts) {
+                        scr.OnRespawn(scripts);
+                    }
+                }
+            } else {
+                for (int i = 0; i < 2; i++) {
+                    GameObject character = characterSizes[random.Next(0, 5)].prefab;
+                    PlayerControllerTestScript script = Instantiate(character, Vector3.zero, Quaternion.identity).GetComponent<PlayerControllerTestScript>();
+                    scripts.Add(script);
+                    players.Add(script.transform);
+                    powerupScripts.Add(script.GetComponent<PowerupTestScript>());
+
+                    script.ChangeGamepad(null, num);
+                    script.OnFreeze();
+                    num++;
                 }
 
                 foreach (PlayerControllerTestScript scr in scripts) {

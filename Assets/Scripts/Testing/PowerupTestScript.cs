@@ -310,7 +310,7 @@ public class PowerupTestScript : MonoBehaviour {
         while (timer > 0) {
             timer -= Time.deltaTime;
             cooldownTimer -= Time.deltaTime;
-            if (cooldownTimer <= 0 && gamepad.buttonWest.isPressed) {
+            if (cooldownTimer <= 0 && (gamepad == null ? Input.GetKeyDown(KeyCode.E) : gamepad.buttonWest.isPressed)) {
                 cooldownTimer = fireballCooldown;
                 SpawnFireball();
             }
@@ -546,11 +546,18 @@ public class PowerupTestScript : MonoBehaviour {
         OnPoints(character, points);
     }
 
+    private void OnFinish() {
+        currentPowerup = Powerup.None;
+        abilityBubble.SetActive(false);
+    }
+
     private void OnEnable() {
         PlayerControllerTestScript.onPoints += OnPoints;
+        PlayerControllerTestScript.onFinish += OnFinish;
     }
 
     private void OnDisable() {
         PlayerControllerTestScript.onPoints -= OnPoints;
+        PlayerControllerTestScript.onFinish -= OnFinish;
     }
 }
