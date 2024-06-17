@@ -8,6 +8,8 @@ public class SleepBombTestScript : MonoBehaviour {
     private float minStun;
     private float maxStun;
 
+    private bool hitting; 
+
     // VFX
     [SerializeField] private GameObject bombVfx; 
 
@@ -27,16 +29,22 @@ public class SleepBombTestScript : MonoBehaviour {
     }
 
     private void OnCollisionEnter(Collision collision) {
+
+        if (hitting)
+            return; 
         sfxManager.Play("SleepBombNoHit"); 
+        Debug.Log("Hitting nothing XD!");
         Instantiate(bombVfx, transform.position, transform.rotation);
         Explode();
+        hitting = true;
     }
 
     private void OnTriggerEnter(Collider other) {
-        if (other.tag == "PlayerTrigger") {
+        if (other.tag == "PlayerTrigger" && !hitting) {
             sfxManager.Play("SleepBombHit"); 
             Instantiate(bombVfx, transform.position, transform.rotation);
             Explode();
+            hitting = true; 
         }
     }
 
