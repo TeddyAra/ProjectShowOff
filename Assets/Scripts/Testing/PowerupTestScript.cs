@@ -546,11 +546,18 @@ public class PowerupTestScript : MonoBehaviour {
         OnPoints(character, points);
     }
 
+    private void OnFinish() {
+        currentPowerup = Powerup.None;
+        abilityBubble.SetActive(false);
+    }
+
     private void OnEnable() {
         PlayerControllerTestScript.onPoints += OnPoints;
+        PlayerControllerTestScript.onFinish += OnFinish;
     }
 
     private void OnDisable() {
         PlayerControllerTestScript.onPoints -= OnPoints;
+        PlayerControllerTestScript.onFinish -= OnFinish;
     }
 }
