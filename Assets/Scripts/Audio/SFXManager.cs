@@ -42,5 +42,6 @@ public class SFXManager : MonoBehaviour
             s.source.pitch = s.pitch; 
         }
         s.source.Play(); 
+        
     }
 }
