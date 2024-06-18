@@ -721,7 +721,7 @@ Transform:
   - {fileID: 410386672699156844}
   - {fileID: 8747037849359220124}
   - {fileID: 6574719695114042771}
-  - {fileID: 7768978114536211516}
+  - {fileID: 4191878324136442090}
   - {fileID: 6926358893894506832}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -874,7 +874,7 @@ MonoBehaviour:
   currentStunState: 0
   sleepVFX: {fileID: 9171247944685282459}
   freezeVFX: {fileID: 5515458167258020073}
-  burnVFX: {fileID: 8387794202623923309}
+  burnVFX: {fileID: 0}
 --- !u!114 &8867031693499356766
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2439,15 +2439,9 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2476f9a0308bf00458979caed8318b73, type: 3}
---- !u!4 &7768978114536211516 stripped
+--- !u!4 &4191878324136442090 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 1664244731472011847, guid: 2476f9a0308bf00458979caed8318b73,
-    type: 3}
-  m_PrefabInstance: {fileID: 8991544042944947835}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &8387794202623923309 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 625736233460019734, guid: 2476f9a0308bf00458979caed8318b73,
+  m_CorrespondingSourceObject: {fileID: 5108465758553022097, guid: 2476f9a0308bf00458979caed8318b73,
     type: 3}
   m_PrefabInstance: {fileID: 8991544042944947835}
   m_PrefabAsset: {fileID: 0}
