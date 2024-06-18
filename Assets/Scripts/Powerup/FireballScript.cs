@@ -47,7 +47,11 @@ public class FireballScript : MonoBehaviour {
     private void OnTriggerEnter(Collider other) {
         if (other.tag == "PlayerTrigger") {
             sfxManager.Play("FireballHurt");
-            other.transform.parent.GetComponent<PlayerControllerTestScript>().Stun(stunTime);
+            PlayerControllerTestScript controllerScript = other.transform.parent.GetComponent<PlayerControllerTestScript>(); 
+            controllerScript.currentStunState = PlayerControllerTestScript.StunState.Burnt; 
+            controllerScript.Stun(stunTime);
+            
+            
             Destroy(gameObject);
         }
     }
