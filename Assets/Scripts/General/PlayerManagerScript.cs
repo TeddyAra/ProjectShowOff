@@ -93,7 +93,12 @@ public class PlayerManagerScript : MonoBehaviour {
 
 
     [SerializeField] private List<CharacterPicker> characterPickers;
-    [SerializeField] private List<AudioClip> characterSounds; 
+
+    // Sounds
+
+    [SerializeField] private List<AudioClip> characterSounds;
+    [SerializeField] private AudioClip characterScroll; 
+    [SerializeField] private AudioClip characterSelect; 
 
     AudioSource audioSource; 
 
@@ -305,6 +310,7 @@ public class PlayerManagerScript : MonoBehaviour {
                         if (index != -1) {
                             picker.ChangeCharacter(right, taken);
                             characterPickers[index] = picker;
+                            audioSource.PlayOneShot(characterScroll); 
                         }
                     }
 
@@ -344,6 +350,7 @@ public class PlayerManagerScript : MonoBehaviour {
                 if (gamepad.Key.buttonEast.wasPressedThisFrame) {
                     if (index != -1 && picker.isReady) {
                         picker.Play();
+                        audioSource.PlayOneShot(characterSelect); 
                         taken.Remove(picker.GetCharacter());
                         if (oneController) taken.Remove(picker.GetCharacter());
                         characterPickers[index] = picker;
@@ -359,6 +366,7 @@ public class PlayerManagerScript : MonoBehaviour {
                         CharacterPicker picker = characterPickers[j];
                         if (!picker.isPlaying && !picked) {
                             picker.Play();
+                            audioSource.PlayOneShot(characterSelect); 
                             picker.SetIndex(i);
                             picked = true;
                             picker.ChangeCharacter(true, taken);

@@ -1211,6 +1211,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: b973414f510ca2343807c6dd412a8477, type: 3}
   - {fileID: 8300000, guid: d2f06f9e8c9bafc4e88d60a7c3e5cb92, type: 3}
   - {fileID: 8300000, guid: d5d35c4c225823c4bbdbeddbb66fd73c, type: 3}
+  characterScroll: {fileID: 8300000, guid: 04d519afc4d9def41994f62498c8d79d, type: 3}
+  characterSelect: {fileID: 8300000, guid: 96cb6a8b25a325e428bf4f75b10eb354, type: 3}
   characterSizes:
   - character: {fileID: 2100000, guid: ff40066a441e9414b85b27ec0104241a, type: 2}
     size: {x: 25, y: 35}
@@ -1304,7 +1306,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.499
   m_Pitch: 1
   Loop: 0
   Mute: 0

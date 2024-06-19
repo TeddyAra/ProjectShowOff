@@ -525,6 +525,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
                 string powerup = powerupScript.GetRandomPowerup();
                 onPowerup?.Invoke(this, powerup);
                 Destroy(other.gameObject);
+                sfxManager.Play("PowerupPickup"); 
                 break;
 
             // The player reached the finish line
@@ -715,7 +716,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
         if (isFacingRight && rb.velocity.x < 0 || !isFacingRight && rb.velocity.x > 0) {
             isFacingRight = !isFacingRight;
-            transform.Rotate(Vector3.up, 180);
+            characterVisualBody.transform.Rotate(Vector3.up, 180);
         }
     }
 
