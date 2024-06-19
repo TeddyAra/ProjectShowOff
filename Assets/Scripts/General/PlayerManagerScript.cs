@@ -22,6 +22,13 @@ public class PlayerManagerScript : MonoBehaviour {
         private int currentCharacter;                               // The index of the character
         private Dictionary<Material, Vector2> characterSizes;       // The size of each character
 
+        AudioSource audioSource;
+        [SerializeField] AudioClip catfireReady; 
+        [SerializeField] AudioClip catnapReady; 
+        [SerializeField] AudioClip stinkozilaReady; 
+        [SerializeField] AudioClip pinguinoReady; 
+        [SerializeField] AudioClip iceageReady; 
+
         // Apply the dictionary and instantiate the character
         public void ApplyCharacterSizes(Dictionary<Material, Vector2> characterSizes) { 
             this.characterSizes = characterSizes;

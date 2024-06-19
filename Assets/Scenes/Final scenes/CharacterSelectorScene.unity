@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 7366.206, g: 7481.3564, b: 8187.5557, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1156,7 +1156,7 @@ MonoBehaviour:
   gameSceneNames:
   - Level1
   - Level2
-  oneController: 0
+  oneController: 1
   cameraPrefab: {fileID: 964433617227404582, guid: 3e9178c070e2518438ef54b51545aa36,
     type: 3}
   placementCanvasPrefab: {fileID: 695124521095176337, guid: bb51a34bdc473ce4f91b0899b18cf164,

@@ -305,6 +305,7 @@ public class PowerupTestScript : MonoBehaviour {
         float timer = fireballTime;
         float cooldownTimer = 0;
 
+        sfxManager.Play("catfireFireball"); 
         catfireTrailVFX.SetActive(true);
 
         while (timer > 0) {
@@ -342,6 +343,7 @@ public class PowerupTestScript : MonoBehaviour {
     private void SnowFlight() {
         StartCoroutine(playerControllerScript.Fly(flyDuration, maxFlySpeed, flyForce, iceDuration));
         snowFlightVFX.SetActive(true);
+        sfxManager.Play("iceageAbility"); 
         animator.SetBool("IceageAbility", true);
         sfxManager.Play("SnowFlight"); 
         StartCoroutine(SnowFlightDelay()); 
@@ -350,6 +352,7 @@ public class PowerupTestScript : MonoBehaviour {
     private void Windblast() {
         isCastingWindBlast = true; 
         animator.SetTrigger("PinguinoAbility"); 
+
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
         foreach (GameObject player in players) {
             if (player == gameObject) continue;
@@ -363,7 +366,8 @@ public class PowerupTestScript : MonoBehaviour {
 
         GetComponent<PlayerControllerTestScript>().AddForce(Vector3.right, blastBoost);
         windBlastVFX.SetActive(true);
-        sfxManager.Play("WindBlast"); 
+        sfxManager.Play("WindBlast");
+        sfxManager.Play("pinguinoWoah"); 
         StartCoroutine(WindBlastVFXDelay());
     }
 
@@ -374,6 +378,7 @@ public class PowerupTestScript : MonoBehaviour {
         animator.SetTrigger("CatnapAbility"); 
         scareVFX.SetActive(true);
         sfxManager.Play("Scare");
+        sfxManager.Play("catnapAbility"); 
         StartCoroutine(ScareVFXDelay());
 
         foreach (GameObject player in players) {
@@ -389,6 +394,7 @@ public class PowerupTestScript : MonoBehaviour {
         fartScript.ApplyVariables(stunTime, fartCloudTime, startupTime);
         playerControllerScript.AddForce(new Vector3(forceDirection.x, forceDirection.y, 0), force);
         fartVFX.SetActive(true);
+        sfxManager.Play("stinkozilaAbility"); 
         sfxManager.Play("Fart");
         animator.SetTrigger("StinkozillaAbility");
         StartCoroutine(FartVFXDelay()); 
@@ -406,6 +412,26 @@ public class PowerupTestScript : MonoBehaviour {
 
     private IEnumerator SpeedUp() {
         sfxManager.Play("SpeedBoost"); 
+        
+        switch (character)
+        {
+            case PlayerControllerTestScript.Character.Catfire:
+                sfxManager.Play("catfireSpeedboost");
+                break; 
+            case PlayerControllerTestScript.Character.Pinguino:
+                sfxManager.Play("pinguinoSpeedboost");
+                break; 
+            case PlayerControllerTestScript.Character.Catnap:
+                sfxManager.Play("catnapSpeedboost");
+                break; 
+            case PlayerControllerTestScript.Character.Stinkozila:
+                sfxManager.Play("stinkozilaSpeedboost");
+                break; 
+            case PlayerControllerTestScript.Character.Iceage:
+                sfxManager.Play("iceageSpeedboost");
+                break; 
+        }
+
         speedBoostVFX.SetActive(true);
 
         // Speed the player up
