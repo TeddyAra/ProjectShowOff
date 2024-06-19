@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class FartCloudScript : MonoBehaviour {
     private float stunTime;
+    SFXManager sfxManager;
+
+    private void Start()
+    {
+        sfxManager = FindObjectOfType<SFXManager>();
+    }
 
     public void ApplyVariables(float stunTime, float fartCloudTime, float startupTime) { 
         this.stunTime = stunTime;
@@ -23,6 +29,7 @@ public class FartCloudScript : MonoBehaviour {
         if (other.tag == "Player") {
             Debug.Log("Player!");
             other.GetComponent<PlayerControllerTestScript>().Stun(stunTime);
+            sfxManager.Play("stinkozilaWompwomp"); 
         }
     }
 }

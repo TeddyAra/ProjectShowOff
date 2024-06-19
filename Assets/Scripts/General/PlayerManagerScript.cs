@@ -105,13 +105,23 @@ public class PlayerManagerScript : MonoBehaviour {
         }
     }
 
+
     [SerializeField] private List<CharacterPicker> characterPickers;
+
+    // Sounds
+
+    [SerializeField] private List<AudioClip> characterSounds;
+    [SerializeField] private AudioClip characterScroll; 
+    [SerializeField] private AudioClip characterSelect; 
+
+    AudioSource audioSource; 
 
     [Serializable]
     struct CharacterSize {
         public Material character;
         public Vector2 size;
         public GameObject prefab;
+        public AudioClip characterSound;
     }
 
     [SerializeField] private List<CharacterSize> characterSizes;
@@ -142,6 +152,8 @@ public class PlayerManagerScript : MonoBehaviour {
     public static event OnGetPlayers onGetPlayers;
 
     private void Start() {
+        audioSource = GetComponent<AudioSource>();  
+
         UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI = false;
         UnityEngine.Rendering.DebugManager.instance.displayRuntimeUI = false;
         random = new System.Random();
@@ -151,11 +163,13 @@ public class PlayerManagerScript : MonoBehaviour {
         Dictionary<Material, Vector2> dict = new Dictionary<Material, Vector2>();
         foreach (CharacterSize characterSize in characterSizes) {
             dict.Add(characterSize.character, characterSize.size);
+            characterSounds.Add(characterSize.characterSound);  
         }
 
         for (int i = 0; i < characterPickers.Count; i++) {
             CharacterPicker picker = characterPickers[i];
             picker.SetIndex(-1);
+            picker.ApplyCharacterSizes(dict);
             characterPickers[i] = picker;
         }
 
@@ -310,6 +324,7 @@ public class PlayerManagerScript : MonoBehaviour {
                         if (index != -1) {
                             picker.ChangeCharacter(right, taken);
                             characterPickers[index] = picker;
+                            audioSource.PlayOneShot(characterScroll); 
                         }
                     }
 
@@ -329,6 +344,8 @@ public class PlayerManagerScript : MonoBehaviour {
                         if (oneController) taken.Add(picker.GetCharacter());
                         picker.Ready();
 
+                        audioSource.PlayOneShot(characterSounds[picker.GetCharacter()]); 
+
                         characterPickers[index] = picker;
 
                         for (int k = 0; k < characterPickers.Count; k++) {
@@ -347,6 +364,7 @@ public class PlayerManagerScript : MonoBehaviour {
                 if (gamepad.Key.buttonEast.wasPressedThisFrame) {
                     if (index != -1 && picker.isReady) {
                         picker.Play();
+                        audioSource.PlayOneShot(characterSelect); 
                         taken.Remove(picker.GetCharacter());
                         if (oneController) taken.Remove(picker.GetCharacter());
                         characterPickers[index] = picker;
@@ -362,6 +380,7 @@ public class PlayerManagerScript : MonoBehaviour {
                         CharacterPicker picker = characterPickers[j];
                         if (!picker.isPlaying && !picked) {
                             picker.Play();
+                            audioSource.PlayOneShot(characterSelect); 
                             picker.SetIndex(i);
                             picked = true;
                             picker.ChangeCharacter(true, taken);
