@@ -17,14 +17,17 @@ public class PlayerManagerScript : MonoBehaviour {
         [SerializeField] private GameObject notPlaying;             // The UI for if someone is not using the character picker
         [SerializeField] private GameObject ready;                  // The UI for if someone is ready to play
         [SerializeField] private Image character;                   // The UI for the character
+        [SerializeField] private Image characterHead;               // The UI for the character's head
 
         private int index;                                          // The index of the controller
         private int currentCharacter;                               // The index of the character
         private Dictionary<Material, Vector2> characterSizes;       // The size of each character
+        private List<Material> characterHeads;                      // The heads of all the characters
 
         // Apply the dictionary and instantiate the character
-        public void ApplyCharacterSizes(Dictionary<Material, Vector2> characterSizes) { 
+        public void ApplyCharacterSizes(Dictionary<Material, Vector2> characterSizes, List<Material> characterHeads) { 
             this.characterSizes = characterSizes;
+            this.characterHeads = characterHeads;   
         }
 
         // Change the character by either moving back or forth in the list
@@ -40,7 +43,9 @@ public class PlayerManagerScript : MonoBehaviour {
                 }
             } while (taken.Contains(currentCharacter));
 
-            // Apply the image material and size
+            // Apply the image materials and size
+            characterHead.material = characterHeads.ElementAt(currentCharacter);
+
             character.material = characterSizes.ElementAt(currentCharacter).Key;
             character.rectTransform.sizeDelta = characterSizes.ElementAt(currentCharacter).Value;
         }
@@ -93,6 +98,7 @@ public class PlayerManagerScript : MonoBehaviour {
     [Serializable]
     struct CharacterSize {
         public Material character;
+        public Material characterHead;
         public Vector2 size;
         public GameObject prefab;
     }
@@ -132,14 +138,16 @@ public class PlayerManagerScript : MonoBehaviour {
         DontDestroyOnLoad(gameObject);
 
         Dictionary<Material, Vector2> dict = new Dictionary<Material, Vector2>();
+        List<Material> list = new List<Material>();
         foreach (CharacterSize characterSize in characterSizes) {
             dict.Add(characterSize.character, characterSize.size);
+            list.Add(characterSize.characterHead);
         }
 
         for (int i = 0; i < characterPickers.Count; i++) {
             CharacterPicker picker = characterPickers[i];
             picker.SetIndex(-1);
-            picker.ApplyCharacterSizes(dict);
+            picker.ApplyCharacterSizes(dict, list);
             characterPickers[i] = picker;
         }
 
