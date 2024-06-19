@@ -962,8 +962,7 @@ MonoBehaviour:
   snowFlightVFX: {fileID: 1559517843825957494}
   scareVFX: {fileID: 8470046850348288639}
   speedBoostVFX: {fileID: 7092412024828704597}
-  catfireTrailVFX: {fileID: 5519947931397305005, guid: 31b151aaacaacb54ca5df76141f8c49c,
-    type: 3}
+  catfireTrailVFX: {fileID: 3275422230909321293}
   abilityBubble: {fileID: 931981345468790925}
   currentAbilityIcon: {fileID: 1526074589032638124}
   speedBoostSprite: {fileID: 21300000, guid: e2e54d98e07bf7e468240d8e516dbdef, type: 3}
@@ -2185,6 +2184,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 31b151aaacaacb54ca5df76141f8c49c, type: 3}
+--- !u!1 &3275422230909321293 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5519947931397305005, guid: 31b151aaacaacb54ca5df76141f8c49c,
+    type: 3}
+  m_PrefabInstance: {fileID: 7056692357052379872}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6926358893894506832 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 139953506468572080, guid: 31b151aaacaacb54ca5df76141f8c49c,
