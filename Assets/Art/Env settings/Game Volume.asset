@@ -164,7 +164,7 @@ MonoBehaviour:
   active: 1
   rotation:
     m_OverrideState: 1
-    m_Value: 360
+    m_Value: 275
   skyIntensityMode:
     m_OverrideState: 1
     m_Value: 0
@@ -207,9 +207,9 @@ MonoBehaviour:
   scrollOrientation:
     m_OverrideState: 0
     m_Value:
-      mode: 1
+      mode: 0
       customValue: 0
-      additiveValue: 0
+      additiveValue: -3
       multiplyValue: 1
   scrollSpeed:
     m_OverrideState: 0

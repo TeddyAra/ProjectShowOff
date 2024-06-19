@@ -264,25 +264,6 @@ public class PlayerControllerTestScript : MonoBehaviour {
         if (!grounded && !flying) {
             rb.AddForce(Vector3.down * gravity);
         }
-        
-        /*if (!isStarting) {
-            if (holdingJump) {
-                if (!isReady) {
-                    isReady = true;
-                    onReady?.Invoke(this);
-                    readyText.text = "Ready!";
-                    Debug.Log("Ready!");
-                }
-
-                readyImage.color = Color.white;
-            } else {
-                readyImage.color = new Color(1.0f, 1.0f, 1.0f, 0.25f);
-            }
-
-            jump = false;
-        }
-
-        if (!isReady || !isStarting) return;*/
 
         if (isStarting || flying) return;
 

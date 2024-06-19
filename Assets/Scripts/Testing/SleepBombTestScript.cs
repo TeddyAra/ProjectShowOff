@@ -33,7 +33,6 @@ public class SleepBombTestScript : MonoBehaviour {
         if (hitting)
             return; 
         sfxManager.Play("SleepBombNoHit"); 
-        Debug.Log("Hitting nothing XD!");
         Instantiate(bombVfx, transform.position, transform.rotation);
         Explode();
         hitting = true;

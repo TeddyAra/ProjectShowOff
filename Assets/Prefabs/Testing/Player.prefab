@@ -962,10 +962,11 @@ MonoBehaviour:
   snowFlightVFX: {fileID: 1559517843825957494}
   scareVFX: {fileID: 8470046850348288639}
   speedBoostVFX: {fileID: 7092412024828704597}
-  catfireTrailVFX: {fileID: 8869632485206311623}
+  catfireTrailVFX: {fileID: 5519947931397305005, guid: 31b151aaacaacb54ca5df76141f8c49c,
+    type: 3}
   abilityBubble: {fileID: 931981345468790925}
   currentAbilityIcon: {fileID: 1526074589032638124}
-  speedBoostSprite: {fileID: 21300000, guid: ba03f476909755f46a27aa2f7e5acce6, type: 3}
+  speedBoostSprite: {fileID: 21300000, guid: e2e54d98e07bf7e468240d8e516dbdef, type: 3}
   sleepBombSprite: {fileID: 21300000, guid: 802e8e637aac5bc4a9cb4d404bf88ea0, type: 3}
   fireBallSprite: {fileID: 21300000, guid: 2b2faef2de29fd849a9965102f8b1a1a, type: 3}
   windBlastSprite: {fileID: 21300000, guid: 845975c4ed84326429c385c566bb5bdd, type: 3}
@@ -2023,12 +2024,6 @@ PrefabInstance:
 --- !u!4 &6336181382696349512 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1427697014062238872, guid: 6cddb2114df4cfa40a3e0632bf11ffe6,
-    type: 3}
-  m_PrefabInstance: {fileID: 4917528075985478608}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &8869632485206311623 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4551400326823092503, guid: 6cddb2114df4cfa40a3e0632bf11ffe6,
     type: 3}
   m_PrefabInstance: {fileID: 4917528075985478608}
   m_PrefabAsset: {fileID: 0}

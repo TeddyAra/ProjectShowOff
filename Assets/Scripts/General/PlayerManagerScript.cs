@@ -47,7 +47,7 @@ public class PlayerManagerScript : MonoBehaviour {
                 }
             } while (taken.Contains(currentCharacter));
 
-            // Apply the image material and size
+            // Apply the image materials and size
             character.material = characterSizes.ElementAt(currentCharacter).Key;
             character.rectTransform.sizeDelta = characterSizes.ElementAt(currentCharacter).Value;
         }
@@ -71,6 +71,7 @@ public class PlayerManagerScript : MonoBehaviour {
             isPlaying = true;
             isReady = false;
 
+            character.gameObject.SetActive(true);
             playing.SetActive(true);
             notPlaying.SetActive(false);
             ready.SetActive(false);
@@ -80,6 +81,7 @@ public class PlayerManagerScript : MonoBehaviour {
             isPlaying = true;
             isReady = true;
 
+            character.gameObject.SetActive(true);
             playing.SetActive(false);
             notPlaying.SetActive(false);
             ready.SetActive(true);
@@ -89,6 +91,7 @@ public class PlayerManagerScript : MonoBehaviour {
             isPlaying = false;
             isReady = false;
 
+            character.gameObject.SetActive(false);
             playing.SetActive(false);
             notPlaying.SetActive(true);
             ready.SetActive(false);
