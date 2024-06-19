@@ -7,6 +7,7 @@ using Unity.VisualScripting;
 using System.Linq;
 using System;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class PlayerManagerScript : MonoBehaviour {
     [Serializable]
@@ -17,14 +18,27 @@ public class PlayerManagerScript : MonoBehaviour {
         [SerializeField] private GameObject notPlaying;             // The UI for if someone is not using the character picker
         [SerializeField] private GameObject ready;                  // The UI for if someone is ready to play
         [SerializeField] private Image character;                   // The UI for the character
+        [SerializeField] private TMP_Text characterName;            // The UI for the name of the character
 
         private int index;                                          // The index of the controller
         private int currentCharacter;                               // The index of the character
         private Dictionary<Material, Vector2> characterSizes;       // The size of each character
+        private List<string> characterNames;                        // The name of each character
 
         // Apply the dictionary and instantiate the character
         public void ApplyCharacterSizes(Dictionary<Material, Vector2> characterSizes) { 
             this.characterSizes = characterSizes;
+
+            foreach (Material mat in characterSizes.Keys) {
+                string name = mat.name.ElementAt(0).ToString();
+                for (int i = 1; i < name.Length - 8; i++) {
+                    if (Char.IsUpper(mat.name.ElementAt(i))) {
+                        name += " "; 
+                    }
+
+                    name += mat.name.ElementAt(i);
+                }
+            }
         }
 
         // Change the character by either moving back or forth in the list
