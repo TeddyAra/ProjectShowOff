@@ -121,7 +121,202 @@ MonoBehaviour:
     pitch: 1
     source: {fileID: 0}
   - name: VictorySound
-    clip: {fileID: 8300000, guid: d1986913a48483e49a71fbdf1254f2a7, type: 3}
+    clip: {fileID: 8300000, guid: e9d193c03cd20c1438a62f14b002ac86, type: 3}
     volume: 0.81
+    pitch: 1
+    source: {fileID: 0}
+  - name: catfireJump
+    clip: {fileID: 8300000, guid: d28c23514d8d1154dba33519c77cdc1e, type: 3}
+    volume: 0.21
+    pitch: 1
+    source: {fileID: 0}
+  - name: catfireHit
+    clip: {fileID: 8300000, guid: 6bc43798147c93443a1350f716871044, type: 3}
+    volume: 0.21
+    pitch: 1
+    source: {fileID: 0}
+  - name: catfireFireball
+    clip: {fileID: 8300000, guid: 372981888f4f78c43b22ee48af2ee4f8, type: 3}
+    volume: 0.21
+    pitch: 1
+    source: {fileID: 0}
+  - name: catfireName
+    clip: {fileID: 8300000, guid: fc58ead647d8a4c4fa27d2225c42af7b, type: 3}
+    volume: 0.21
+    pitch: 1
+    source: {fileID: 0}
+  - name: catfireOof
+    clip: {fileID: 8300000, guid: bc8192f753e96214691ceb1163ccbb84, type: 3}
+    volume: 0.21
+    pitch: 1
+    source: {fileID: 0}
+  - name: catfireSpeedboost
+    clip: {fileID: 8300000, guid: a79911aea1ba32b4cb47353d98d27d85, type: 3}
+    volume: 0.21
+    pitch: 1
+    source: {fileID: 0}
+  - name: catfireWin
+    clip: {fileID: 8300000, guid: 91a543c93218db74dbc7e05727377776, type: 3}
+    volume: 0.7
+    pitch: 1
+    source: {fileID: 0}
+  - name: catfireYeah
+    clip: {fileID: 8300000, guid: 390ed34a30d9d52478160f2f273839e5, type: 3}
+    volume: 0.21
+    pitch: 1
+    source: {fileID: 0}
+  - name: catnapAbility
+    clip: {fileID: 8300000, guid: e0b1f53fc926e31448154a2e3dff6384, type: 3}
+    volume: 0.21
+    pitch: 1
+    source: {fileID: 0}
+  - name: catnapHit
+    clip: {fileID: 8300000, guid: 99996e3193a14f747a071da18a65b31b, type: 3}
+    volume: 0.21
+    pitch: 1
+    source: {fileID: 0}
+  - name: catnapName
+    clip: {fileID: 8300000, guid: bc9685ba11126544bb286f6306b3f37e, type: 3}
+    volume: 0.21
+    pitch: 1
+    source: {fileID: 0}
+  - name: catnapJump
+    clip: {fileID: 8300000, guid: f97c20db7cc49ce4c83a1c7b383af154, type: 3}
+    volume: 0.21
+    pitch: 1
+    source: {fileID: 0}
+  - name: catnapOof
+    clip: {fileID: 8300000, guid: 1bbac57402d6dfa4997ee51b675a93c8, type: 3}
+    volume: 0.21
+    pitch: 1
+    source: {fileID: 0}
+  - name: catnapSpeedboost
+    clip: {fileID: 8300000, guid: 2e4dd1c33e736c34793c3fdad5e0cb63, type: 3}
+    volume: 0.21
+    pitch: 1
+    source: {fileID: 0}
+  - name: catnapWin
+    clip: {fileID: 8300000, guid: 4053a7a1cfcb61a4bbd2dbe18347fad9, type: 3}
+    volume: 0.7
+    pitch: 1
+    source: {fileID: 0}
+  - name: catnapYeah
+    clip: {fileID: 8300000, guid: 863763e11d97f8e42a662a37dc8c0300, type: 3}
+    volume: 0.21
+    pitch: 1
+    source: {fileID: 0}
+  - name: iceageAbility
+    clip: {fileID: 8300000, guid: c0912882cb3e2c64facb847914cde4e0, type: 3}
+    volume: 0.21
+    pitch: 1
+    source: {fileID: 0}
+  - name: iceageJump
+    clip: {fileID: 8300000, guid: 88754d3e603a2114386b31d0670f98a5, type: 3}
+    volume: 0.21
+    pitch: 1
+    source: {fileID: 0}
+  - name: iceageName
+    clip: {fileID: 8300000, guid: b973414f510ca2343807c6dd412a8477, type: 3}
+    volume: 0.21
+    pitch: 1
+    source: {fileID: 0}
+  - name: iceageOof
+    clip: {fileID: 8300000, guid: 247ad681c35160b4ea42f9c606d482b6, type: 3}
+    volume: 0.21
+    pitch: 1
+    source: {fileID: 0}
+  - name: iceageOuch
+    clip: {fileID: 8300000, guid: 0d2be1754514f7846acbda3ad29b3ed0, type: 3}
+    volume: 0.21
+    pitch: 1
+    source: {fileID: 0}
+  - name: iceageSpeedboost
+    clip: {fileID: 8300000, guid: 832b967958495c94cb02bf79c7228b76, type: 3}
+    volume: 0.21
+    pitch: 1
+    source: {fileID: 0}
+  - name: iceageWin
+    clip: {fileID: 8300000, guid: 64c57d410b5589d4f98a567869d11844, type: 3}
+    volume: 0.7
+    pitch: 1
+    source: {fileID: 0}
+  - name: iceageYippee
+    clip: {fileID: 8300000, guid: bc2266f0c5869b941bf6ff045149a772, type: 3}
+    volume: 0.21
+    pitch: 1
+    source: {fileID: 0}
+  - name: pinguinoHit
+    clip: {fileID: 8300000, guid: 2922df1e8beb84c48b899f10c9715d74, type: 3}
+    volume: 0.21
+    pitch: 1
+    source: {fileID: 0}
+  - name: pinguinoIdidit
+    clip: {fileID: 8300000, guid: 3febf552d9e729043af47df1ededdfbb, type: 3}
+    volume: 0.34
+    pitch: 1
+    source: {fileID: 0}
+  - name: pinguinoJump
+    clip: {fileID: 8300000, guid: e2f0c9d991479b64e854b71b9678d752, type: 3}
+    volume: 0.21
+    pitch: 1
+    source: {fileID: 0}
+  - name: pinguinoName
+    clip: {fileID: 8300000, guid: d2f06f9e8c9bafc4e88d60a7c3e5cb92, type: 3}
+    volume: 0.21
+    pitch: 1
+    source: {fileID: 0}
+  - name: pinguinoOof
+    clip: {fileID: 8300000, guid: 6fad81f9507ddb143a615ff3b316b048, type: 3}
+    volume: 0.21
+    pitch: 1
+    source: {fileID: 0}
+  - name: pinguinoSpeedboost
+    clip: {fileID: 8300000, guid: 4d280f4e4ee8d904c93d892a8d1b6122, type: 3}
+    volume: 0.21
+    pitch: 1
+    source: {fileID: 0}
+  - name: pinguinoWoah
+    clip: {fileID: 8300000, guid: 0c4558b48aa2ac54ca9fff3a518c380e, type: 3}
+    volume: 0.21
+    pitch: 1
+    source: {fileID: 0}
+  - name: stinkozilaHit
+    clip: {fileID: 8300000, guid: 0c582797aed01544aba993749cbfba18, type: 3}
+    volume: 0.21
+    pitch: 1
+    source: {fileID: 0}
+  - name: stinkozilaJump
+    clip: {fileID: 8300000, guid: b0e586376a1b99b4bb71e6dfe2f9c7e1, type: 3}
+    volume: 0.21
+    pitch: 1
+    source: {fileID: 0}
+  - name: stinkozilaName
+    clip: {fileID: 8300000, guid: d5d35c4c225823c4bbdbeddbb66fd73c, type: 3}
+    volume: 0.21
+    pitch: 1
+    source: {fileID: 0}
+  - name: stinkozilaSpeedboost
+    clip: {fileID: 8300000, guid: 2a437d7d50618094bb739f477066b7a2, type: 3}
+    volume: 0.21
+    pitch: 1
+    source: {fileID: 0}
+  - name: stinkozilaUgh
+    clip: {fileID: 8300000, guid: cc2a3e632df940542b25f574f5c70d40, type: 3}
+    volume: 0.21
+    pitch: 1
+    source: {fileID: 0}
+  - name: stinkozilaWin
+    clip: {fileID: 8300000, guid: 9f91fce6e79002443937f100e52a0caf, type: 3}
+    volume: 0.7
+    pitch: 1
+    source: {fileID: 0}
+  - name: stinkozilaWompwomp
+    clip: {fileID: 8300000, guid: 0b89640ce6434c74d9e3c09efb0795f0, type: 3}
+    volume: 0.21
+    pitch: 1
+    source: {fileID: 0}
+  - name: stinkozilaYeah
+    clip: {fileID: 8300000, guid: 40885a96ed564ae4293b975b25e724f5, type: 3}
+    volume: 0.21
     pitch: 1
     source: {fileID: 0}

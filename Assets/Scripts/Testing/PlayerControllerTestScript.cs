@@ -182,6 +182,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
     SFXManager sfxManager; 
     private bool windDraft;
+    private bool canPlayStun = true; 
 
     // Animation stuff
     [SerializeField] Animator animator;
@@ -334,6 +335,25 @@ public class PlayerControllerTestScript : MonoBehaviour {
             animator.SetTrigger("Jumping"); 
             jumpTimer = jumpTime * 60;
             rb.AddForce(Vector3.up * jumpForce);
+
+            switch (character)
+            {
+                case Character.Catfire:
+                    sfxManager.Play("catfireJump"); 
+                    break; 
+                case Character.Pinguino:
+                    sfxManager.Play("pinguinoJump"); 
+                    break; 
+                case Character.Catnap:
+                    sfxManager.Play("catnapJump"); 
+                    break; 
+                case Character.Stinkozila:
+                    sfxManager.Play("stinkozilaJump");
+                    break; 
+                case Character.Iceage:
+                    sfxManager.Play("iceageJump"); 
+                    break; 
+            }
         }
 
 
@@ -384,10 +404,18 @@ public class PlayerControllerTestScript : MonoBehaviour {
     }
 
     public void Stun(float stunTime) {
-        StartCoroutine(StunCoroutine(stunTime));
+        if (canPlayStun)
+        {
+            StartCoroutine(StunCoroutine(stunTime));
+        }
+        
     }
 
     public IEnumerator StunCoroutine(float stunTime) {
+
+        canPlayStun = false; 
+        // Character VFX stun states
+
         switch (currentStunState) {
             case StunState.None: 
                 break; 
@@ -402,6 +430,32 @@ public class PlayerControllerTestScript : MonoBehaviour {
                 break; 
         }
 
+        // Character stun voicelines
+
+        
+        switch (character)
+        {
+            case Character.Catfire:
+                sfxManager.Play("catfireHit"); 
+                break;
+            case Character.Pinguino:
+                sfxManager.Play("pinguinoHit"); 
+                break; 
+            case Character.Catnap:
+                sfxManager.Play("catnapHit"); 
+                break; 
+            case Character.Stinkozila:
+                sfxManager.Play("stinkozilaHit"); 
+                break; 
+            case Character.Iceage:
+                sfxManager.Play("iceageOuch"); 
+                break;
+        }
+        
+
+        
+        
+
         animator.SetBool("Stunned", true); 
         
         Debug.Log($"{gameObject.name} stunned for " + stunTime);
@@ -411,6 +465,8 @@ public class PlayerControllerTestScript : MonoBehaviour {
         ignoreInput = false;
 
         animator.SetBool("Stunned", false); 
+
+        // Character VFX stun states
 
         switch (currentStunState) {
             case StunState.None: 
@@ -428,6 +484,8 @@ public class PlayerControllerTestScript : MonoBehaviour {
                 currentStunState = StunState.None;
                 break; 
         }
+
+        canPlayStun = true; 
     }
 
     private void OnTriggerStay(Collider other) {
@@ -471,7 +529,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
             // The player reached the finish line
             case "Finish":
-                sfxManager.Play("VictorySound"); 
+                StartCoroutine(FinishLine()); 
                 onFinish?.Invoke();
                 break;
             case "Lever":
@@ -488,6 +546,29 @@ public class PlayerControllerTestScript : MonoBehaviour {
         }
     }
 
+    IEnumerator FinishLine()
+    {
+        switch (character)
+        {
+            case Character.Catfire: 
+                sfxManager.Play("catfireWin"); 
+                break;
+            case Character.Catnap: 
+                sfxManager.Play("catnapWin"); 
+                break;
+            case Character.Pinguino: 
+                sfxManager.Play("pinguinoIdidit"); 
+                break;
+            case Character.Stinkozila: 
+                sfxManager.Play("stinkozilaWin"); 
+                break;
+            case Character.Iceage: 
+                sfxManager.Play("iceageWin"); 
+                break;
+        }
+        yield return new WaitForSeconds(0.5f);
+        sfxManager.Play("VictorySound"); 
+    }
     IEnumerator ResetWindraft(float resetTime) {
         yield return new WaitForSeconds(resetTime);
         ChangePlayerSpeed(baseSpeed);
