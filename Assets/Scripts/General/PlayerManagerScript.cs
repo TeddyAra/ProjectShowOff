@@ -142,6 +142,7 @@ public class PlayerManagerScript : MonoBehaviour {
         for (int i = 0; i < characterPickers.Count; i++) {
             CharacterPicker picker = characterPickers[i];
             picker.SetIndex(-1);
+            picker.ApplyCharacterSizes(dict);
             characterPickers[i] = picker;
         }
 
