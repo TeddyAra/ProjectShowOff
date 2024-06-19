@@ -17,7 +17,6 @@ public class PlayerManagerScript : MonoBehaviour {
         [SerializeField] private GameObject notPlaying;             // The UI for if someone is not using the character picker
         [SerializeField] private GameObject ready;                  // The UI for if someone is ready to play
         [SerializeField] private Image character;                   // The UI for the character
-        [SerializeField] private GameObject spotlight;              // The spotlight for the character
 
         private int index;                                          // The index of the controller
         private int currentCharacter;                               // The index of the character
@@ -65,7 +64,7 @@ public class PlayerManagerScript : MonoBehaviour {
             isPlaying = true;
             isReady = false;
 
-            spotlight.SetActive(true);
+            character.gameObject.SetActive(true);
             playing.SetActive(true);
             notPlaying.SetActive(false);
             ready.SetActive(false);
@@ -75,7 +74,7 @@ public class PlayerManagerScript : MonoBehaviour {
             isPlaying = true;
             isReady = true;
 
-            spotlight.SetActive(true);
+            character.gameObject.SetActive(true);
             playing.SetActive(false);
             notPlaying.SetActive(false);
             ready.SetActive(true);
@@ -85,7 +84,7 @@ public class PlayerManagerScript : MonoBehaviour {
             isPlaying = false;
             isReady = false;
 
-            spotlight.SetActive(false);
+            character.gameObject.SetActive(false);
             playing.SetActive(false);
             notPlaying.SetActive(true);
             ready.SetActive(false);
