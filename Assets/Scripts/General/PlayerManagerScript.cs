@@ -22,13 +22,6 @@ public class PlayerManagerScript : MonoBehaviour {
         private int currentCharacter;                               // The index of the character
         private Dictionary<Material, Vector2> characterSizes;       // The size of each character
 
-        AudioSource audioSource;
-        [SerializeField] AudioClip catfireReady; 
-        [SerializeField] AudioClip catnapReady; 
-        [SerializeField] AudioClip stinkozilaReady; 
-        [SerializeField] AudioClip pinguinoReady; 
-        [SerializeField] AudioClip iceageReady; 
-
         // Apply the dictionary and instantiate the character
         public void ApplyCharacterSizes(Dictionary<Material, Vector2> characterSizes) { 
             this.characterSizes = characterSizes;
@@ -98,13 +91,18 @@ public class PlayerManagerScript : MonoBehaviour {
         }
     }
 
+
     [SerializeField] private List<CharacterPicker> characterPickers;
+    [SerializeField] private List<AudioClip> characterSounds; 
+
+    AudioSource audioSource; 
 
     [Serializable]
     struct CharacterSize {
         public Material character;
         public Vector2 size;
         public GameObject prefab;
+        public AudioClip characterSound;
     }
 
     [SerializeField] private List<CharacterSize> characterSizes;
@@ -135,6 +133,8 @@ public class PlayerManagerScript : MonoBehaviour {
     public static event OnGetPlayers onGetPlayers;
 
     private void Start() {
+        audioSource = GetComponent<AudioSource>();  
+
         UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI = false;
         UnityEngine.Rendering.DebugManager.instance.displayRuntimeUI = false;
         random = new System.Random();
@@ -144,6 +144,7 @@ public class PlayerManagerScript : MonoBehaviour {
         Dictionary<Material, Vector2> dict = new Dictionary<Material, Vector2>();
         foreach (CharacterSize characterSize in characterSizes) {
             dict.Add(characterSize.character, characterSize.size);
+            characterSounds.Add(characterSize.characterSound);  
         }
 
         for (int i = 0; i < characterPickers.Count; i++) {
@@ -322,6 +323,8 @@ public class PlayerManagerScript : MonoBehaviour {
                         taken.Add(picker.GetCharacter());
                         if (oneController) taken.Add(picker.GetCharacter());
                         picker.Ready();
+
+                        audioSource.PlayOneShot(characterSounds[picker.GetCharacter()]); 
 
                         characterPickers[index] = picker;
 
