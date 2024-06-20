@@ -35,13 +35,14 @@ public class CameraTestScript : MonoBehaviour {
 
     private List<Transform> players;
     private bool starting = true;
+    [HideInInspector] public bool finished;
 
     private void Start () {
         DontDestroyOnLoad(gameObject);
     }
 
     private void Update() {
-        if (starting) return;
+        if (starting || finished) return;
 
         if (!transitioning) {
             Vector3 averagePosition = GetAveragePosition();

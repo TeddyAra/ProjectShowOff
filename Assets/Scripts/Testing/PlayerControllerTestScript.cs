@@ -534,6 +534,26 @@ public class PlayerControllerTestScript : MonoBehaviour {
         if (other.gameObject.CompareTag("WindDraft") && !windDraft) {
             playerSpeed = draftSpeed;
             windDraft = true;
+
+            switch (character)
+            {
+                case Character.Catfire:
+                    sfxManager.Play("catfireSpeedboost"); 
+                    break; 
+                case Character.Catnap:
+                    sfxManager.Play("catnapSpeedboost"); 
+                    break; 
+                case Character.Pinguino:
+                    sfxManager.Play("pinguinoSpeedboost"); 
+                    break; 
+                case Character.Iceage:
+                    sfxManager.Play("iceageSpeedboost"); 
+                    break; 
+                case Character.Stinkozila:
+                    sfxManager.Play("stinkozilaSpeedboost"); 
+                    break; 
+            }
+
             StartCoroutine(ResetWindraft(1));
         }
     }
