@@ -803,7 +803,7 @@ MonoBehaviour:
   blastForce: 8000
   blastBoost: 8000
   flyDuration: 3
-  maxFlySpeed: 17
+  maxFlySpeed: 14
   flyForce: 30
   iceDuration: 6
   fireballPrefab: {fileID: 5174555104169828889, guid: 40f4ee648815df54daec54f968df04b0,
@@ -816,6 +816,13 @@ MonoBehaviour:
   fireballTime: 4
   fireballCooldown: 1
   fireballMovementSpeed: 25
+  pointsText: {fileID: 0}
+  minPointsSize: 0
+  maxPointsSize: 0
+  pointsDistance: 0
+  pointsDuration: 0
+  posColour: {r: 0, g: 0, b: 0, a: 0}
+  negColour: {r: 0, g: 0, b: 0, a: 0}
   ultimatePoints: 10
   pointTime: 1
   lifePoints: 1
