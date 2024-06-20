@@ -29,6 +29,8 @@ public class GameManager : MonoBehaviour {
     public delegate void OnShowUI();
     public static event OnShowUI onShowUI;
 
+    SFXManager sfxManager; 
+
     private void Start() {
         // Get all checkpoints
         GameObject[] list = GameObject.FindGameObjectsWithTag("CheckpointPosition");
@@ -44,9 +46,12 @@ public class GameManager : MonoBehaviour {
         checkpoints.Add(last);
 
         StartCoroutine(GetPlayerNum());
+        StartCoroutine(GetSFXManager()); 
         StartCoroutine(Countdown());
 
         checkpoint.position = checkpoints[0];
+
+  
     }
 
     private IEnumerator GetPlayerNum() {
@@ -58,6 +63,15 @@ public class GameManager : MonoBehaviour {
         playerNum = players.Length;
     }
 
+    IEnumerator GetSFXManager()
+    {
+        sfxManager = FindObjectOfType<SFXManager>();  
+        while (sfxManager == null)
+        {
+            sfxManager = FindObjectOfType<SFXManager>();
+            yield return new WaitForSeconds(1.0f);
+        }
+    }
     IEnumerator Countdown() {
         onFreeze?.Invoke();
 
@@ -138,6 +152,7 @@ public class GameManager : MonoBehaviour {
         // Freeze players and show someone has finished
         //onFreeze?.Invoke();
         countdown.text = "Finish!"; 
+        sfxManager.Play("VictorySound"); 
         float timer = 0;
         while (timer <= 0.25f) {
             timer += Time.deltaTime;

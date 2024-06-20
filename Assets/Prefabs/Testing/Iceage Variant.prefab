@@ -210,6 +210,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4530758235380207482, guid: 44f8adee21f98354b9e70972ca788849,
         type: 3}
+      propertyPath: maxFlySpeed
+      value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 4530758235380207482, guid: 44f8adee21f98354b9e70972ca788849,
+        type: 3}
       propertyPath: scareSprite
       value: 
       objectReference: {fileID: 21300000, guid: 70be71faac0414f4a81965314437378a,
@@ -237,20 +242,10 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 4530758235380207482, guid: 44f8adee21f98354b9e70972ca788849,
         type: 3}
-      propertyPath: speedboostTime
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4530758235380207482, guid: 44f8adee21f98354b9e70972ca788849,
-        type: 3}
       propertyPath: sleepBombSprite
       value: 
       objectReference: {fileID: 21300000, guid: 802e8e637aac5bc4a9cb4d404bf88ea0,
         type: 3}
-    - target: {fileID: 4530758235380207482, guid: 44f8adee21f98354b9e70972ca788849,
-        type: 3}
-      propertyPath: speedboostSpeed
-      value: 25
-      objectReference: {fileID: 0}
     - target: {fileID: 4530758235380207482, guid: 44f8adee21f98354b9e70972ca788849,
         type: 3}
       propertyPath: windBlastSprite

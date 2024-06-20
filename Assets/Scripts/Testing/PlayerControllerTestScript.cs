@@ -577,7 +577,6 @@ public class PlayerControllerTestScript : MonoBehaviour {
                 break;
         }
         yield return new WaitForSeconds(0.5f);
-        sfxManager.Play("VictorySound"); 
     }
     IEnumerator ResetWindraft(float resetTime) {
         yield return new WaitForSeconds(resetTime);
@@ -657,6 +656,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
         Vector3 spawnPoint = GameObject.FindGameObjectWithTag("SpawnPoint").transform.position + Vector3.left * playerDistance * playerNum;//positions.FindIndex(x => x == this); 
         transform.position = spawnPoint;
         ignoreInput = false;
+        finished = false; 
     }
 
     public void AddForce(Vector3 direction, float force) {
