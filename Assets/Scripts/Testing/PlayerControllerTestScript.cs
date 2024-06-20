@@ -148,7 +148,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
     public static event OnPowerup onPowerup;
 
     // When a player has done something to get or lose points
-    public delegate void OnPoints(Character character, int points);
+    public delegate void OnPoints(Character character, int points, bool ignoreUI = false);
     public static event OnPoints onPoints;
 
     private float playerSpeed;
@@ -513,6 +513,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
             // The player reached a checkpoint
             case "Checkpoint":
                 if (!isColliding) {
+                    //onPoints?.Invoke(character, checkpointPoints);
                     onCheckpoint?.Invoke();
                     isColliding = true;
                     powerupScript.GivePoints(checkpointPoints);
@@ -540,17 +541,14 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
         //Player enters a wind draft
         if (other.gameObject.CompareTag("WindDraft") && !windDraft) {
-            Debug.Log("wind draft be happening");
             playerSpeed = draftSpeed;
             windDraft = true;
             StartCoroutine(ResetWindraft(1));
         }
     }
 
-    IEnumerator FinishLine()
-    {
-        switch (character)
-        {
+    IEnumerator FinishLine() {
+        switch (character) {
             case Character.Catfire: 
                 sfxManager.Play("catfireWin"); 
                 break;
@@ -594,7 +592,6 @@ public class PlayerControllerTestScript : MonoBehaviour {
                 //StartCoroutine(DisableMaxSpeed());
                 rb.AddForce(Vector3.up * bouncePadForce); 
                 sfxManager.Play("BounceLeaf"); 
-                Debug.Log("Bouncing"); 
                 canBounce = false; 
                 StartCoroutine(BouncePadDelay()); 
             }
@@ -704,7 +701,6 @@ public class PlayerControllerTestScript : MonoBehaviour {
         yield return new WaitForSeconds(iceDuration);
 
         for (int i = icePlatforms.ToList().Count - 1; i >= 0; i--) {
-            Debug.Log("dfgjbgfd"); 
             Destroy(icePlatforms[i].gameObject);
             icePlatforms.RemoveAt(i);
         }

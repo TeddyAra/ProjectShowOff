@@ -257,7 +257,7 @@ public class PowerupTestScript : MonoBehaviour {
 
         if (pointTimer >= pointTime) {
             pointTimer = 0;
-            OnPoints(character, lifePoints);
+            OnPoints(character, lifePoints, true);
         }
 
     }
@@ -585,7 +585,7 @@ public class PowerupTestScript : MonoBehaviour {
         Vector2 originalPos = pointsRect.anchoredPosition;
         float timer = 0;
         pointsText.color = points > 0 ? posColour : negColour;
-        pointsText.text = points > 0 ? "+" : "" + points;
+        pointsText.text = (points > 0 ? "+" : "") + points.ToString();
 
         while (timer <= pointsDuration) {
             float delta = timer / pointsDuration;
@@ -602,12 +602,13 @@ public class PowerupTestScript : MonoBehaviour {
         pointsText.gameObject.SetActive(false);
     }
 
-    private void OnPoints(PlayerControllerTestScript.Character character, int points) {
+    private void OnPoints(PlayerControllerTestScript.Character character, int points, bool ignoreUI = false) {
         if (this.character == character) {
             abilityPoints += points;
             racePoints += points;
             abilityPoints = Mathf.Clamp(abilityPoints, 0, ultimatePoints);
-            StartCoroutine(ShowPoints(points));
+            if (!ignoreUI) StartCoroutine(ShowPoints(points));
+            Debug.Log(points + " points added!");
         }
     }
 

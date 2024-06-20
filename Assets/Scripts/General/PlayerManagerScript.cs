@@ -28,16 +28,19 @@ public class PlayerManagerScript : MonoBehaviour {
         // Apply the dictionary and instantiate the character
         public void ApplyCharacterSizes(Dictionary<Material, Vector2> characterSizes) { 
             this.characterSizes = characterSizes;
+            characterNames = new List<string>();
 
             foreach (Material mat in characterSizes.Keys) {
                 string name = mat.name.ElementAt(0).ToString();
-                for (int i = 1; i < name.Length - 8; i++) {
+                for (int i = 1; i < mat.name.Length - 8; i++) {
                     if (Char.IsUpper(mat.name.ElementAt(i))) {
                         name += " "; 
                     }
 
                     name += mat.name.ElementAt(i);
                 }
+
+                characterNames.Add(name);
             }
         }
 
@@ -57,6 +60,7 @@ public class PlayerManagerScript : MonoBehaviour {
             // Apply the image materials and size
             character.material = characterSizes.ElementAt(currentCharacter).Key;
             character.rectTransform.sizeDelta = characterSizes.ElementAt(currentCharacter).Value;
+            characterName.text = characterNames[currentCharacter];
         }
 
         public int GetCharacter() { 
@@ -82,6 +86,8 @@ public class PlayerManagerScript : MonoBehaviour {
             playing.SetActive(true);
             notPlaying.SetActive(false);
             ready.SetActive(false);
+
+            characterName.text = characterNames[currentCharacter];
         }
 
         public void Ready() {
@@ -92,6 +98,8 @@ public class PlayerManagerScript : MonoBehaviour {
             playing.SetActive(false);
             notPlaying.SetActive(false);
             ready.SetActive(true);
+
+            characterName.text = characterNames[currentCharacter];
         }
 
         public void NotPlay() {
@@ -102,6 +110,9 @@ public class PlayerManagerScript : MonoBehaviour {
             playing.SetActive(false);
             notPlaying.SetActive(true);
             ready.SetActive(false);
+
+
+            characterName.text = "";
         }
     }
 

@@ -720,7 +720,7 @@ MonoBehaviour:
   bouncePadMask: BouncePad
   bounceCheckSize: 1
   deathPoints: -5
-  checkpointPoints: 0
+  checkpointPoints: 5
   invincibilityTime: 2
   playerLayer:
     serializedVersion: 2
@@ -816,7 +816,7 @@ MonoBehaviour:
   fireballTime: 6
   fireballCooldown: 1
   fireballMovementSpeed: 30
-  pointsText: {fileID: 0}
+  pointsText: {fileID: 1190343304551017381}
   minPointsSize: 0.3
   maxPointsSize: 0.9
   pointsDistance: 1
@@ -1220,7 +1220,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &328695545716911188
 RectTransform:
   m_ObjectHideFlags: 0
