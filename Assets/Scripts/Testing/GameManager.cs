@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour {
     [SerializeField] private TMP_Text countdown;
 
     private List<Vector3> checkpoints;
-    private int currentCheckpoint;
+    private int currentCheckpoint = 0;
     private int spawnNum;
 
     public delegate void OnFreeze();
@@ -37,6 +37,9 @@ public class GameManager : MonoBehaviour {
 
         // Order them by their x position
         checkpoints = checkpoints.OrderBy(x => x.x).ToList();
+        Vector3 last = checkpoints.First();
+        checkpoints.RemoveAt(0);
+        checkpoints.Add(last);
 
         StartCoroutine(Countdown());
 
