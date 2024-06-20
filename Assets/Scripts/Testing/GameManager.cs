@@ -46,11 +46,12 @@ public class GameManager : MonoBehaviour {
         checkpoints.Add(last);
 
         StartCoroutine(GetPlayerNum());
+        StartCoroutine(GetSFXManager()); 
         StartCoroutine(Countdown());
 
         checkpoint.position = checkpoints[0];
 
-        sfxManager = FindObjectOfType<SFXManager>();    
+  
     }
 
     private IEnumerator GetPlayerNum() {
@@ -62,6 +63,15 @@ public class GameManager : MonoBehaviour {
         playerNum = players.Length;
     }
 
+    IEnumerator GetSFXManager()
+    {
+        sfxManager = FindObjectOfType<SFXManager>();  
+        while (sfxManager == null)
+        {
+            sfxManager = FindObjectOfType<SFXManager>();
+            yield return new WaitForSeconds(1.0f);
+        }
+    }
     IEnumerator Countdown() {
         onFreeze?.Invoke();
 

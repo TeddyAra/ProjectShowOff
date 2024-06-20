@@ -656,6 +656,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
         Vector3 spawnPoint = GameObject.FindGameObjectWithTag("SpawnPoint").transform.position + Vector3.left * playerDistance * playerNum;//positions.FindIndex(x => x == this); 
         transform.position = spawnPoint;
         ignoreInput = false;
+        finished = false; 
     }
 
     public void AddForce(Vector3 direction, float force) {

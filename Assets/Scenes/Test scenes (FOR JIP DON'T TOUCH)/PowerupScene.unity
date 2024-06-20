@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 7366.206, g: 7481.3564, b: 8187.5557, a: 1}
+  m_IndirectSpecularColor: {r: 7370.7383, g: 7488.497, b: 8191.786, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -69712,6 +69712,7 @@ MonoBehaviour:
   displacement: {x: 8, y: 6, z: 0}
   moveTime: 0.5
   maxSnapDistance: 2
+  finished: 0
 --- !u!1001 &1313363259
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -70038,6 +70039,37 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1316584579}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1317807618
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1317807619}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: CheckpointPosition
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1317807619
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1317807618}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 64.1, y: 2.0968845, z: -0.6832856}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1318190220
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -111270,3 +111302,4 @@ SceneRoots:
   - {fileID: 569656000}
   - {fileID: 1041936510}
   - {fileID: 1655465256}
+  - {fileID: 1317807619}
