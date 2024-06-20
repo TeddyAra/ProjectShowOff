@@ -935,10 +935,10 @@ MonoBehaviour:
   force: 4000
   scareRange: 8
   scareTime: 4
-  blastRange: 8
-  blastForce: 4000
-  blastBoost: 6000
-  flyDuration: 5
+  blastRange: 10
+  blastForce: 8000
+  blastBoost: 8000
+  flyDuration: 3
   maxFlySpeed: 17
   flyForce: 30
   iceDuration: 6
@@ -947,11 +947,11 @@ MonoBehaviour:
   spawnDirection: {x: 1, y: 1}
   spawnForce: 600
   burnTime: 2
-  maxBounces: 10
+  maxBounces: 8
   fireballGravity: 39.24
-  fireballTime: 6
+  fireballTime: 4
   fireballCooldown: 1
-  fireballMovementSpeed: 30
+  fireballMovementSpeed: 25
   ultimatePoints: 10
   pointTime: 1
   lifePoints: 1
