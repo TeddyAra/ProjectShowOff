@@ -290,7 +290,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
     }
 
     private void FixedUpdate() {
-        if (!grounded && !flying) {
+        if ((!grounded && !flying) || isStarting) {
             rb.AddForce(Vector3.down * gravity);
         }
 
@@ -683,7 +683,6 @@ public class PlayerControllerTestScript : MonoBehaviour {
         ignoreInput = false;
         finished = false;
         isStarting = true;
-        grounded = true;
     }
 
     public void AddForce(Vector3 direction, float force) {
