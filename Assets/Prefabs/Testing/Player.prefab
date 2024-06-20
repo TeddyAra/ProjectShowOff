@@ -779,9 +779,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a95bda0d75aa9c4a871bff3f28534bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speedboostSpeed: 45
-  speedboostTime: 3
-  slowDownTime: 2
+  speedboostSpeed: 25
+  speedboostTime: 2
+  slowDownTime: 1
   sleepBombPrefab: {fileID: 6144275745787249518, guid: 520bc58c69d39204fb8f98da7cd15b35,
     type: 3}
   sleepBombSpawnPoint: {fileID: 3469772550317200731}
