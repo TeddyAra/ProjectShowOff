@@ -577,7 +577,6 @@ public class PlayerControllerTestScript : MonoBehaviour {
                 break;
         }
         yield return new WaitForSeconds(0.5f);
-        sfxManager.Play("VictorySound"); 
     }
     IEnumerator ResetWindraft(float resetTime) {
         yield return new WaitForSeconds(resetTime);
