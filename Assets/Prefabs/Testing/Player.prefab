@@ -805,7 +805,7 @@ MonoBehaviour:
   flyDuration: 3
   maxFlySpeed: 14
   flyForce: 30
-  iceDuration: 6
+  iceDuration: 0.5
   fireballPrefab: {fileID: 5174555104169828889, guid: 40f4ee648815df54daec54f968df04b0,
     type: 3}
   spawnDirection: {x: 1, y: 1}
