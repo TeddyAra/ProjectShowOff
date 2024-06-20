@@ -19,7 +19,7 @@ public class SleepBombTestScript : MonoBehaviour {
 
     private void Start()
     {
-        sfxManager = FindObjectOfType<SFXManager>();
+        
     }
 
     public void ApplyVariables(float explosionRange, float minStun, float maxStun) { 
@@ -32,6 +32,7 @@ public class SleepBombTestScript : MonoBehaviour {
 
         if (hitting)
             return; 
+        sfxManager = FindObjectOfType<SFXManager>();
         sfxManager.Play("SleepBombNoHit"); 
         Instantiate(bombVfx, transform.position, transform.rotation);
         Explode();
@@ -40,15 +41,16 @@ public class SleepBombTestScript : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other) {
         if (other.tag == "PlayerTrigger" && !hitting) {
-            sfxManager.Play("SleepBombHit"); 
+            sfxManager = FindObjectOfType<SFXManager>();
             Instantiate(bombVfx, transform.position, transform.rotation);
             Explode();
+            sfxManager.Play("SleepBombNoHit"); 
             hitting = true; 
         }
     }
 
     private void Explode() {
-        Destroy(gameObject);
+
 
         if (explosionRange == 0) return;
 
@@ -62,5 +64,7 @@ public class SleepBombTestScript : MonoBehaviour {
                 player.Stun(stunTime);
             }
         }
+
+        Destroy(gameObject);
     }
 }
