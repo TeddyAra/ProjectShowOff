@@ -158,6 +158,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Catfire Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 2061705907342551129, guid: 30c3a72b2eb017c46adbe50fe420054d,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 3934396943627330201, guid: 30c3a72b2eb017c46adbe50fe420054d,
         type: 3}
       propertyPath: m_Materials.Array.data[0]

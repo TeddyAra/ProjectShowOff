@@ -799,11 +799,11 @@ MonoBehaviour:
   force: 4000
   scareRange: 8
   scareTime: 4
-  blastRange: 8
-  blastForce: 4000
-  blastBoost: 6000
-  flyDuration: 5
-  maxFlySpeed: 17
+  blastRange: 10
+  blastForce: 8000
+  blastBoost: 8000
+  flyDuration: 3
+  maxFlySpeed: 14
   flyForce: 30
   iceDuration: 6
   fireballPrefab: {fileID: 5174555104169828889, guid: 40f4ee648815df54daec54f968df04b0,
@@ -811,18 +811,18 @@ MonoBehaviour:
   spawnDirection: {x: 1, y: 1}
   spawnForce: 600
   burnTime: 2
-  maxBounces: 10
+  maxBounces: 8
   fireballGravity: 39.24
-  fireballTime: 6
+  fireballTime: 4
   fireballCooldown: 1
-  fireballMovementSpeed: 30
-  pointsText: {fileID: 1190343304551017381}
-  minPointsSize: 0.3
-  maxPointsSize: 0.9
-  pointsDistance: 1
-  pointsDuration: 2
-  posColour: {r: 0, g: 1, b: 0, a: 0}
-  negColour: {r: 1, g: 0, b: 0, a: 0}
+  fireballMovementSpeed: 25
+  pointsText: {fileID: 0}
+  minPointsSize: 0
+  maxPointsSize: 0
+  pointsDistance: 0
+  pointsDuration: 0
+  posColour: {r: 0, g: 0, b: 0, a: 0}
+  negColour: {r: 0, g: 0, b: 0, a: 0}
   ultimatePoints: 10
   pointTime: 1
   lifePoints: 1
