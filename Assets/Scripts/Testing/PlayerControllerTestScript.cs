@@ -109,7 +109,8 @@ public class PlayerControllerTestScript : MonoBehaviour {
     public bool grounded;
     private int groundMaskInt;
     private int bouncePadMaskInt;
-    private bool canBounce = true; 
+    private bool canBounce = true;
+    private bool finished;
     //private bool ignoreMaxSpeed = false; 
 
     // Input variables
@@ -404,18 +405,15 @@ public class PlayerControllerTestScript : MonoBehaviour {
     }
 
     public void Stun(float stunTime) {
-        if (canPlayStun)
-        {
+        if (canPlayStun) {
             StartCoroutine(StunCoroutine(stunTime));
         }
-        
     }
 
     public IEnumerator StunCoroutine(float stunTime) {
-
         canPlayStun = false; 
-        // Character VFX stun states
 
+        // Character VFX stun states
         switch (currentStunState) {
             case StunState.None: 
                 break; 
@@ -431,10 +429,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
         }
 
         // Character stun voicelines
-
-        
-        switch (character)
-        {
+        switch (character) {
             case Character.Catfire:
                 sfxManager.Play("catfireHit"); 
                 break;
@@ -451,17 +446,11 @@ public class PlayerControllerTestScript : MonoBehaviour {
                 sfxManager.Play("iceageOuch"); 
                 break;
         }
-        
-
-        
-        
 
         animator.SetBool("Stunned", true); 
         
-        Debug.Log($"{gameObject.name} stunned for " + stunTime);
         ignoreInput = true;
         yield return new WaitForSeconds(stunTime);
-        Debug.Log($"{gameObject.name} no longer stunned");
         ignoreInput = false;
 
         animator.SetBool("Stunned", false); 
@@ -496,7 +485,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
     }
 
     private void OnTriggerEnter(Collider other) {
-        if (frozen) return;
+        if (frozen || finished) return;
 
         switch (other.tag) {
             // The player went too far left
@@ -531,8 +520,10 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
             // The player reached the finish line
             case "Finish":
-                StartCoroutine(FinishLine()); 
+                StartCoroutine(FinishLine());
                 onFinish?.Invoke();
+                finished = true;
+                ignoreInput = true;
                 break;
             case "Lever":
                 sfxManager.Play("Lever"); 
@@ -644,7 +635,8 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
     public void OnRespawn(List<PlayerControllerTestScript> positions) {
         Vector3 spawnPoint = GameObject.FindGameObjectWithTag("SpawnPoint").transform.position + Vector3.left * playerDistance * playerNum;//positions.FindIndex(x => x == this); 
-        transform.position = spawnPoint; 
+        transform.position = spawnPoint;
+        ignoreInput = false;
     }
 
     public void AddForce(Vector3 direction, float force) {

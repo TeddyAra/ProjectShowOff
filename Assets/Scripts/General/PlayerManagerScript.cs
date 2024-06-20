@@ -60,7 +60,7 @@ public class PlayerManagerScript : MonoBehaviour {
             // Apply the image materials and size
             character.material = characterSizes.ElementAt(currentCharacter).Key;
             character.rectTransform.sizeDelta = characterSizes.ElementAt(currentCharacter).Value;
-            characterName.text = characterNames[currentCharacter];
+            if (isPlaying || isReady) characterName.text = characterNames[currentCharacter];
         }
 
         public int GetCharacter() { 
@@ -110,7 +110,6 @@ public class PlayerManagerScript : MonoBehaviour {
             playing.SetActive(false);
             notPlaying.SetActive(true);
             ready.SetActive(false);
-
 
             characterName.text = "";
         }

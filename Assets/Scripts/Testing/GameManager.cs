@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour {
     private List<Vector3> checkpoints;
     private int currentCheckpoint;
     private int spawnNum;
+    private int playerNum;
+    private int playerCount;
 
     public delegate void OnFreeze();
     public static event OnFreeze onFreeze;
@@ -37,10 +39,23 @@ public class GameManager : MonoBehaviour {
 
         // Order them by their x position
         checkpoints = checkpoints.OrderBy(x => x.x).ToList();
+        Vector3 last = checkpoints.First();
+        checkpoints.RemoveAt(0);
+        checkpoints.Add(last);
 
+        StartCoroutine(GetPlayerNum());
         StartCoroutine(Countdown());
 
         checkpoint.position = checkpoints[0];
+    }
+
+    private IEnumerator GetPlayerNum() {
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        while (players.Length == 0) {
+            players = GameObject.FindGameObjectsWithTag("Player");
+            yield return new WaitForSeconds(1.0f);
+        }
+        playerNum = players.Length;
     }
 
     IEnumerator Countdown() {
@@ -110,12 +125,13 @@ public class GameManager : MonoBehaviour {
     }
 
     private void OnFinish() {
-        StartCoroutine(Finish());
+        playerCount++;
+        if (playerCount >= playerNum) StartCoroutine(Finish());
     }
 
     IEnumerator Finish() {
         // Freeze players and show someone has finished
-        onFreeze?.Invoke();
+        //onFreeze?.Invoke();
         countdown.text = "Finish!"; 
         float timer = 0;
         while (timer <= 0.25f) {

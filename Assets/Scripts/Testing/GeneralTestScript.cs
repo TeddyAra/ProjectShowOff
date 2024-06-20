@@ -25,6 +25,6 @@ public class GeneralTestScript : MonoBehaviour {
 
     private void Respawn() { 
         Vector3 position = GameObject.FindGameObjectWithTag("Player").transform.position;
-        finish.position = position;
+        finish.position = position + Vector3.right * 5.0f;
     }
 }
