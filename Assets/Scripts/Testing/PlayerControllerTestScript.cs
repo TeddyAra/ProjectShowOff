@@ -268,7 +268,6 @@ public class PlayerControllerTestScript : MonoBehaviour {
         } else {
             animator.SetBool("Grounded", false); 
         }
-
     }
 
     private IEnumerator Jump() {
@@ -276,6 +275,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
         rb.AddForce(Vector3.up * jumpForce / 2);
         animator.ResetTrigger("Jumping");
         animator.SetTrigger("Jumping");
+        Quaternion original = characterVisualBody.transform.rotation;
 
         float angle = 0;
         while (angle < 360) {
@@ -284,6 +284,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
             yield return null;
         }
 
+        characterVisualBody.transform.rotation = original;
         jumping = false;
         animator.SetBool("Grounded", true);
     }
@@ -682,6 +683,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
         ignoreInput = false;
         finished = false;
         isStarting = true;
+        grounded = true;
     }
 
     public void AddForce(Vector3 direction, float force) {

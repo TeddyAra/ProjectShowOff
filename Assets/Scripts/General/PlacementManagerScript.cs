@@ -89,8 +89,10 @@ public class PlacementManagerScript : MonoBehaviour {
         if (!background.activeSelf) return;
 
         if (current == null) {
-            if (Gamepad.all.Count != 0 && Gamepad.current.buttonSouth.isPressed) {
-                current = Gamepad.current;
+            for (int i = 0; i < Gamepad.all.Count; i++) {
+                if (Gamepad.all[i].buttonSouth.isPressed) {
+                    current = Gamepad.all[i];
+                }
             }
         }
 
