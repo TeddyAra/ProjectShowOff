@@ -281,68 +281,40 @@ public class PlayerManagerScript : MonoBehaviour {
             return;
         }
 
-        // If there is a first player
-        /*if (firstPlayer != null) {
-            // Reset the start bar if the button is let go
-            if (firstPlayer.buttonSouth.wasReleasedThisFrame) {
-                waitTimer = 0;
-                startBar.sizeDelta = new Vector2(0, startBar.sizeDelta.y);
-            }
-
-            // If the first player wants to start the game
-            if (firstPlayer.buttonSouth.isPressed && choosing == 0 && taken.Count > 1) {
-                waitTimer += Time.deltaTime;
-                float width = Mathf.Clamp(barWidth * (waitTimer / waitTime), 0, barWidth);
-                startBar.sizeDelta = new Vector2(width, startBar.sizeDelta.y);
-
-                // If the game has to start
-                if (waitTimer >= waitTime) {
-                    // Don't start the game if there is not at least two players ready
-                    if (taken.Count < 2) {
-                        waitTimer = 0;
-                        return;
-                    }
-
-                    gameSceneName = gameSceneNames[random.Next(0, gameSceneNames.Length)];
-                    SceneManager.LoadScene(gameSceneName);
-                    done = true;
-                    return;
-                }
-            } 
-        }*/
-
         if (current == null) {
-            if (Gamepad.all.Count != 0 && Gamepad.current.buttonSouth.isPressed) {
+            /*if (Gamepad.current.buttonSouth.isPressed) {
                 current = Gamepad.current;
+            }*/
+
+            for (int i = 0; i < gamepads.Count; i++) {
+                if (gamepads.ElementAt(i).Key.buttonSouth.isPressed) {
+                    current = gamepads.ElementAt(i).Key;
+                }
             }
-        } 
-        
+        }
+
         if (current != null) {
-            // If the first player wants to start the game
-            if (current.buttonSouth.isPressed && choosing == 0 && taken.Count > 1) {
+            if (current.buttonSouth.isPressed) {
                 waitTimer += Time.deltaTime;
                 float width = Mathf.Clamp(barWidth * (waitTimer / waitTime), 0, barWidth);
                 startBar.sizeDelta = new Vector2(width, startBar.sizeDelta.y);
 
-                // If the game has to start
                 if (waitTimer >= waitTime) {
-                    // Don't start the game if there is not at least two players ready
-                    if (taken.Count < 2) {
-                        waitTimer = 0;
-                        return;
-                    }
-
                     gameSceneName = gameSceneNames[random.Next(0, gameSceneNames.Length)];
                     SceneManager.LoadScene(gameSceneName);
                     done = true;
                     return;
                 }
-            }
 
-            if (current.buttonSouth.wasReleasedThisFrame) {
+                if (taken.Count < 2 || choosing != 0) {
+                    current = null;
+                    waitTimer = 0;
+                    startBar.sizeDelta = new Vector2(0, startBar.sizeDelta.y);
+                }
+            } else {
+                current = null;
                 waitTimer = 0;
                 startBar.sizeDelta = new Vector2(0, startBar.sizeDelta.y);
-                current = null;
             }
         }
 

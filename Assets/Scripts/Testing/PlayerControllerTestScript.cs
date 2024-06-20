@@ -100,6 +100,8 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
     [SerializeField] private float playerDistance;
 
+    [SerializeField] private float spinSpeed;
+
 
     // ----------------------------------------------------------------------------------
 
@@ -111,6 +113,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
     private int bouncePadMaskInt;
     private bool canBounce = true;
     private bool finished;
+    private bool jumping;
     //private bool ignoreMaxSpeed = false; 
 
     // Input variables
@@ -170,7 +173,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
     public Character character;
     [SerializeField] private TMP_Text readyText;
-    private bool isStarting;
+    private bool isStarting = true;
 
     private bool flying;
     private Transform lastIcePlatform;
@@ -225,13 +228,20 @@ public class PlayerControllerTestScript : MonoBehaviour {
     }
 
     private void Update() {
-        if ((frozen || ignoreInput) && isStarting) return;
+        if (isStarting) {
+            if (gamepad != null) 
+                if (gamepad.buttonSouth.wasPressedThisFrame) jump = true;
+            else if (Input.GetKeyDown(KeyCode.Space)) jump = true;
+            return;
+        }
+
+        if (frozen || ignoreInput) return;
 
         // Controller input
         if (gamepad != null) {
             move = gamepad.leftStick.ReadValue();
             holdingJump = gamepad.buttonSouth.isPressed;
-            if (gamepad.buttonSouth.wasPressedThisFrame && !ignoreInput) jump = true;
+            if (gamepad.buttonSouth.wasPressedThisFrame) jump = true;
             if (gamepad.buttonWest.wasPressedThisFrame) powerup = true;
 
         // Keyboard input
@@ -261,9 +271,32 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
     }
 
+    private IEnumerator Jump() {
+        jumping = true;
+        rb.AddForce(Vector3.up * jumpForce / 2);
+        animator.ResetTrigger("Jumping");
+        animator.SetTrigger("Jumping");
+
+        float angle = 0;
+        while (angle < 360) {
+            angle += Time.deltaTime * spinSpeed;
+            characterVisualBody.transform.Rotate(Vector3.up, Time.deltaTime * spinSpeed);
+            yield return null;
+        }
+
+        jumping = false;
+        animator.SetBool("Grounded", true);
+    }
+
     private void FixedUpdate() {
         if (!grounded && !flying) {
             rb.AddForce(Vector3.down * gravity);
+        }
+
+        if (jump && isStarting && !jumping) {
+            Debug.Log("Jump!");
+            StartCoroutine(Jump());
+            jump = false;
         }
 
         if (isStarting || flying) return;
@@ -337,8 +370,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
             jumpTimer = jumpTime * 60;
             rb.AddForce(Vector3.up * jumpForce);
 
-            switch (character)
-            {
+            switch (character) {
                 case Character.Catfire:
                     sfxManager.Play("catfireJump"); 
                     break; 
@@ -631,6 +663,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
             frozen = false;
             rb.useGravity = true;
             jump = false;
+            isStarting = false;
 
             // Include the player again
             tag = "Player";
@@ -647,7 +680,8 @@ public class PlayerControllerTestScript : MonoBehaviour {
         isFacingRight = true;
         if (characterVisualBody.transform.rotation.y == 180) characterVisualBody.transform.Rotate(Vector3.up, 180);
         ignoreInput = false;
-        finished = false; 
+        finished = false;
+        isStarting = true;
     }
 
     public void AddForce(Vector3 direction, float force) {
