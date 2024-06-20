@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -141,6 +142,27 @@ public class PowerupTestScript : MonoBehaviour {
 
     [Header("Extra")]
 
+    [Tooltip("The UI that shows gained or lost points")]
+    [SerializeField] private TMP_Text pointsText;
+
+    [Tooltip("The minimum size of the points text")]
+    [SerializeField] private float minPointsSize;
+
+    [Tooltip("The maximum size of the points text")]
+    [SerializeField] private float maxPointsSize;
+
+    [Tooltip("The maximum distance of the points' movement")]
+    [SerializeField] private float pointsDistance;
+
+    [Tooltip("The duration of the points' movement")]
+    [SerializeField] private float pointsDuration;
+
+    [Tooltip("The positive points colour")]
+    [SerializeField] private Color posColour;
+
+    [Tooltip("The negative points colour")]
+    [SerializeField] private Color negColour;
+
     [Tooltip("The maximum amount of points a character needs to have to use their ultimate ability")]
     [SerializeField] private int ultimatePoints;
 
@@ -152,19 +174,16 @@ public class PowerupTestScript : MonoBehaviour {
 
     // ----------------------------------------------------------------------------------
 
-    [Header("Audio")]
+    private SFXManager sfxManager; 
 
-    SFXManager sfxManager; 
-
-    
     private float maxSpeed;
-    [SerializeField] private int abilityPoints;
-    [SerializeField] private int racePoints;
+    private int abilityPoints;
+    private int racePoints;
 
     // ---------------------------------------------------------------------------------
 
     // VFX 
-
+    [Header("VFX")]
     [SerializeField] private GameObject fartVFX;
     [SerializeField] private GameObject windBlastVFX;
     [SerializeField] private GameObject snowFlightVFX;
@@ -173,7 +192,7 @@ public class PowerupTestScript : MonoBehaviour {
     [SerializeField] private GameObject catfireTrailVFX; 
 
     // Ability UI Tooltip
-
+    [Header("Ability")]
     [SerializeField] private GameObject abilityBubble; 
     [SerializeField] private Image currentAbilityIcon;
     [SerializeField] private Sprite speedBoostSprite;
@@ -185,12 +204,11 @@ public class PowerupTestScript : MonoBehaviour {
     [SerializeField] private Sprite iceSprite;
 
     // Animations
-
+    [Header("Animations")]
     [SerializeField] private GameObject animatedBody; 
     [SerializeField] private Animator animator; 
     public bool isCastingWindBlast; 
     
-
     [Serializable]
     public enum Powerup {
         None,
@@ -215,6 +233,7 @@ public class PowerupTestScript : MonoBehaviour {
     private Powerup currentPowerup;
     private float pointTimer;
     private bool usingPowerup;
+    private RectTransform pointsRect;
 
     private Gamepad gamepad;
     private PlayerControllerTestScript playerControllerScript;
@@ -227,6 +246,7 @@ public class PowerupTestScript : MonoBehaviour {
 
         audioSource = GetComponent<AudioSource>();  
         sfxManager = FindObjectOfType<SFXManager>(); 
+        pointsRect = pointsText.GetComponent<RectTransform>();
 
         throwDirection.Normalize();
         spawnDirection.Normalize();
@@ -237,7 +257,7 @@ public class PowerupTestScript : MonoBehaviour {
 
         if (pointTimer >= pointTime) {
             pointTimer = 0;
-            OnPoints(character, lifePoints);
+            OnPoints(character, lifePoints, true);
         }
 
     }
@@ -560,11 +580,35 @@ public class PowerupTestScript : MonoBehaviour {
         animator.SetBool("IceageAbility", false);
     }
 
-    private void OnPoints(PlayerControllerTestScript.Character character, int points) {
+    private IEnumerator ShowPoints(int points) {
+        pointsText.gameObject.SetActive(true);
+        Vector2 originalPos = pointsRect.anchoredPosition;
+        float timer = 0;
+        pointsText.color = points > 0 ? posColour : negColour;
+        pointsText.text = (points > 0 ? "+" : "") + points.ToString();
+
+        while (timer <= pointsDuration) {
+            float delta = timer / pointsDuration;
+            timer += Time.deltaTime;
+            pointsRect.anchoredPosition = originalPos + Vector2.up * delta * pointsDistance;
+            pointsText.fontSize = Mathf.Lerp(minPointsSize, maxPointsSize, -delta + 1);
+            Color textColour = pointsText.color;
+            textColour.a = Mathf.Lerp(0, 1, -delta + 1);
+            pointsText.color = textColour;
+            yield return null;
+        }
+
+        pointsRect.anchoredPosition = originalPos;
+        pointsText.gameObject.SetActive(false);
+    }
+
+    private void OnPoints(PlayerControllerTestScript.Character character, int points, bool ignoreUI = false) {
         if (this.character == character) {
             abilityPoints += points;
             racePoints += points;
             abilityPoints = Mathf.Clamp(abilityPoints, 0, ultimatePoints);
+            if (!ignoreUI) StartCoroutine(ShowPoints(points));
+            Debug.Log(points + " points added!");
         }
     }
 
