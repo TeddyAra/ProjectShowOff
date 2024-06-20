@@ -125,8 +125,13 @@ public class GameManager : MonoBehaviour {
     }
 
     private void OnFinish() {
+        if (playerCount == 0) {
+            CameraTestScript camera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraTestScript>();
+            camera.finished = true;
+        }
+
         playerCount++;
-        if (playerCount >= playerNum) StartCoroutine(Finish());
+        if (playerCount >= playerNum - spawnNum) StartCoroutine(Finish());
     }
 
     IEnumerator Finish() {
