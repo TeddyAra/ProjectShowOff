@@ -157,6 +157,7 @@ public class PlayerManagerScript : MonoBehaviour {
     private string gameSceneName;
     private System.Random random;
     private bool usingKeyboard;
+    private Gamepad current;
 
     public delegate void OnGetPlayers(List<Transform> players);
     public static event OnGetPlayers onGetPlayers;
@@ -281,7 +282,7 @@ public class PlayerManagerScript : MonoBehaviour {
         }
 
         // If there is a first player
-        if (firstPlayer != null) {
+        /*if (firstPlayer != null) {
             // Reset the start bar if the button is let go
             if (firstPlayer.buttonSouth.wasReleasedThisFrame) {
                 waitTimer = 0;
@@ -308,6 +309,41 @@ public class PlayerManagerScript : MonoBehaviour {
                     return;
                 }
             } 
+        }*/
+
+        if (current == null) {
+            if (Gamepad.all.Count != 0 && Gamepad.current.buttonSouth.isPressed) {
+                current = Gamepad.current;
+            }
+        } 
+        
+        if (current != null) {
+            // If the first player wants to start the game
+            if (current.buttonSouth.isPressed && choosing == 0 && taken.Count > 1) {
+                waitTimer += Time.deltaTime;
+                float width = Mathf.Clamp(barWidth * (waitTimer / waitTime), 0, barWidth);
+                startBar.sizeDelta = new Vector2(width, startBar.sizeDelta.y);
+
+                // If the game has to start
+                if (waitTimer >= waitTime) {
+                    // Don't start the game if there is not at least two players ready
+                    if (taken.Count < 2) {
+                        waitTimer = 0;
+                        return;
+                    }
+
+                    gameSceneName = gameSceneNames[random.Next(0, gameSceneNames.Length)];
+                    SceneManager.LoadScene(gameSceneName);
+                    done = true;
+                    return;
+                }
+            }
+
+            if (current.buttonSouth.wasReleasedThisFrame) {
+                waitTimer = 0;
+                startBar.sizeDelta = new Vector2(0, startBar.sizeDelta.y);
+                current = null;
+            }
         }
 
         for (int i = 0; i < gamepads.Count; i++) {
