@@ -134,7 +134,7 @@ public class PlacementManagerScript : MonoBehaviour {
         background.SetActive(true);
 
         // Give the players points based on their placement
-        playerPoints = playerPoints.GetRange(0, playerNum).OrderBy(x => x.script.transform.position.x).ToList();
+        playerPoints = playerPoints.GetRange(0, playerNum).OrderBy(x => -x.script.transform.position.x).ToList();
         for (int i = 0; i < playerPoints.Count; i++) {
             PlayerPoint plr = playerPoints[i];
             plr.script.GivePoints(placementPoints[i]);
