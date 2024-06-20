@@ -357,7 +357,6 @@ public class PlayerControllerTestScript : MonoBehaviour {
             }
         }
 
-
         // Give the player a boost if they're holding the button
         if (holdingJump && jumpTimer > 0) {
             rb.AddForce(Vector3.up * jumpBoost);
@@ -608,16 +607,6 @@ public class PlayerControllerTestScript : MonoBehaviour {
         }
     }
 
-    /*IEnumerator DisableMaxSpeed() {
-        ignoreMaxSpeed = true; 
-
-        while (!grounded) {
-            yield return null; 
-        }
-
-        ignoreMaxSpeed = false; 
-    }*/
-
     public void OnFreeze() {
         if (!frozen) {
             // Freeze the player
@@ -655,6 +644,8 @@ public class PlayerControllerTestScript : MonoBehaviour {
     public void OnRespawn(List<PlayerControllerTestScript> positions) {
         Vector3 spawnPoint = GameObject.FindGameObjectWithTag("SpawnPoint").transform.position + Vector3.left * playerDistance * playerNum;//positions.FindIndex(x => x == this); 
         transform.position = spawnPoint;
+        isFacingRight = true;
+        if (characterVisualBody.transform.rotation.y == 180) characterVisualBody.transform.Rotate(Vector3.up, 180);
         ignoreInput = false;
         finished = false; 
     }
