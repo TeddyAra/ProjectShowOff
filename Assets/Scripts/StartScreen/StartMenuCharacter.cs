@@ -13,6 +13,7 @@ public class StartMenuCharacter : MonoBehaviour
     [SerializeField] List<AudioClip> footSteps = new List<AudioClip>();
     [SerializeField] List<AudioClip> slimeFootSteps = new List<AudioClip>();
 
+    private Vector3 startPosition; 
     private bool canPlayStep = true; 
 
     // Start is called before the first frame update
@@ -20,6 +21,7 @@ public class StartMenuCharacter : MonoBehaviour
     {
         audioSource = GetComponent<AudioSource>();
         rb = GetComponent<Rigidbody>(); 
+        startPosition = transform.position; 
     }
 
     // Update is called once per frame
@@ -30,11 +32,7 @@ public class StartMenuCharacter : MonoBehaviour
 
     private void Update()
     {
-        for (int i = 0; i < Gamepad.current.allControls.Count; i++) {
-            if (Gamepad.current.allControls[i].IsPressed()) {
-                SceneManager.LoadScene("CharacterSelectorScene");
-            }
-        }
+
         var randomStep = Random.Range(0, footSteps.Count);
         var randomJellyStep = Random.Range(0, slimeFootSteps.Count);
 
@@ -46,7 +44,14 @@ public class StartMenuCharacter : MonoBehaviour
         audioSource.PlayOneShot(footSteps[randomStep]); 
         canPlayStep = false; 
         StartCoroutine(StepSoundCooldown()); 
+
+        if (transform.position.x - startPosition.x > 600)
+        {
+            transform.position = startPosition; 
+        }
     }
+
+
 
     IEnumerator StepSoundCooldown()
     {

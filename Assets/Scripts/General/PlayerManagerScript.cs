@@ -124,7 +124,11 @@ public class PlayerManagerScript : MonoBehaviour {
     [SerializeField] private AudioClip characterScroll; 
     [SerializeField] private AudioClip characterSelect; 
 
-    AudioSource audioSource; 
+    AudioSource audioSource;
+
+    // Scene transition
+
+    [SerializeField] private Animator sceneTransition; 
 
     [Serializable]
     struct CharacterSize {
@@ -301,7 +305,9 @@ public class PlayerManagerScript : MonoBehaviour {
 
                 if (waitTimer >= waitTime) {
                     gameSceneName = gameSceneNames[random.Next(0, gameSceneNames.Length)];
-                    SceneManager.LoadScene(gameSceneName);
+                    sceneTransition.SetTrigger("Start"); 
+                    StartCoroutine(LoadLevelDelay()); 
+                    //SceneManager.LoadScene(gameSceneName);
                     done = true;
                     return;
                 }
@@ -414,6 +420,12 @@ public class PlayerManagerScript : MonoBehaviour {
         }
     }
 
+
+    IEnumerator LoadLevelDelay()
+    {
+        yield return new WaitForSeconds(2); 
+        SceneManager.LoadScene(gameSceneName);
+    }
     private int GetCharacterPicker(int index) {
         for (int j = 0; j < characterPickers.Count; j++) {
             if (characterPickers[j].GetIndex() == index) {
