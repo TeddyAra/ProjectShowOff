@@ -1,23 +1,33 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement; 
+
 
 public class MusicManager : MonoBehaviour
 {
-
-    public static MusicManager instance;
-    // Start is called before the first frame update
     private void Awake()
     {
-        if (instance == null)
+        string currentSceneName = SceneManager.GetActiveScene().name;
+        bool isMenuScene = currentSceneName == "StartScreen";
+
+
+        GameObject[] musicObj = GameObject.FindGameObjectsWithTag("MusicPlayer"); 
+
+        if (isMenuScene)
         {
-            instance = this; 
+            if (musicObj.Length > 1)
+            {
+                Destroy(this.gameObject);
+            }
+            DontDestroyOnLoad(this.gameObject);
+
         }
         else
         {
-            Destroy(gameObject); 
+            Destroy(musicObj[0]); 
         }
 
-        DontDestroyOnLoad(gameObject);
     }
+
 }
