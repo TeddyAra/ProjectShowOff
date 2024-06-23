@@ -122,7 +122,13 @@ public class PlayerManagerScript : MonoBehaviour {
 
     [SerializeField] private List<AudioClip> characterSounds;
     [SerializeField] private AudioClip characterScroll; 
-    [SerializeField] private AudioClip characterSelect; 
+    [SerializeField] private AudioClip characterSelect;
+    [SerializeField] private AudioClip barFull; 
+    [SerializeField] private AudioClip catnapYeah; 
+    [SerializeField] private AudioClip catfireYeah; 
+    [SerializeField] private AudioClip stinkozilaYeah; 
+    [SerializeField] private AudioClip iceageYippee; 
+    [SerializeField] private AudioClip pinguinoYippee; 
 
     AudioSource audioSource;
 
@@ -305,7 +311,14 @@ public class PlayerManagerScript : MonoBehaviour {
 
                 if (waitTimer >= waitTime) {
                     gameSceneName = gameSceneNames[random.Next(0, gameSceneNames.Length)];
-                    sceneTransition.SetTrigger("Start"); 
+                    sceneTransition.SetTrigger("Start");
+                    audioSource.PlayOneShot(barFull); 
+                    audioSource.PlayOneShot(catfireYeah); 
+                    audioSource.PlayOneShot(catnapYeah); 
+                    audioSource.PlayOneShot(pinguinoYippee); 
+                    audioSource.PlayOneShot(stinkozilaYeah); 
+                    audioSource.PlayOneShot(iceageYippee); 
+
                     StartCoroutine(LoadLevelDelay()); 
                     //SceneManager.LoadScene(gameSceneName);
                     done = true;

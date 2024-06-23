@@ -23,11 +23,12 @@ public class MusicManager : MonoBehaviour
             DontDestroyOnLoad(this.gameObject);
 
         }
-        else
+        else if (musicObj.Length > 0)
         {
             Destroy(musicObj[0]); 
         }
 
     }
+
 
 }

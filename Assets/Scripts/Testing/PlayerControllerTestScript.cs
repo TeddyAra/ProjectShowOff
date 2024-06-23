@@ -538,6 +538,24 @@ public class PlayerControllerTestScript : MonoBehaviour {
                     onCheckpoint?.Invoke();
                     isColliding = true;
                     powerupScript.GivePoints(checkpointPoints);
+                    switch (character)
+                    {
+                        case Character.Catfire:
+                            sfxManager.Play("catfireYeah");
+                            break;
+                        case Character.Catnap:
+                            sfxManager.Play("catnapYeah");
+                            break;
+                        case Character.Iceage:
+                            sfxManager.Play("iceageYippee");
+                            break;
+                        case Character.Stinkozila:
+                            sfxManager.Play("stinkozilaYeah");
+                            break;
+                        case Character.Pinguino:
+                            sfxManager.Play("pinguinoYippee");
+                            break;
+                    }
                 }
                 break;
 
