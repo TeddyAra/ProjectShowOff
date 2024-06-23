@@ -4,8 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
-public class StartManager : MonoBehaviour
-{
+public class StartManager : MonoBehaviour {
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip startSound;
 
@@ -13,18 +12,18 @@ public class StartManager : MonoBehaviour
 
     private bool canLoadScene = true; 
 
-    void Update()
-    {
-        for (int i = 0; i < Gamepad.current.allControls.Count; i++) {
-            if (Gamepad.current.allControls[i].IsPressed() && canLoadScene == true) {
-                canLoadScene = false;
-                StartCoroutine(LoadLevel()); 
+    void Update() {
+        for (int i = 0; i < Gamepad.all.Count; i++) {
+            for (int j = 0; j < Gamepad.all[i].allControls.Count; j++) {
+                if (Gamepad.all[i].allControls[j].IsPressed() && canLoadScene == true) {
+                    canLoadScene = false;
+                    StartCoroutine(LoadLevel());
+                }
             }
         }
     }
 
-    IEnumerator LoadLevel()
-    {
+    IEnumerator LoadLevel() {
         audioSource.PlayOneShot(startSound);
         sceneTransition.SetTrigger("Start"); 
         yield return new WaitForSeconds(2);

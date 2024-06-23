@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -40,7 +41,6 @@ public class ProgressBarScript : MonoBehaviour {
         PlayerControllerTestScript[] players;
         do {
             players = FindObjectsOfType<PlayerControllerTestScript>();
-            Debug.Log(players.Length);
             yield return new WaitForSeconds(0.1f);
         } while (players.Length == 0);
 
@@ -54,9 +54,14 @@ public class ProgressBarScript : MonoBehaviour {
     }
 
     private void Update() {
-        foreach (var position in playerPositions) {
+        playerPositions = playerPositions.OrderBy(x => x.Value.position.x).ToDictionary(pair => pair.Key, pair => pair.Value);
+
+        for (int i = 0; i < playerPositions.Count; i++) {
+            var position = playerPositions.ElementAt(i);
             float distance = Mathf.Clamp((position.Value.position.x - start) / totalDistance, 0, 1) * totalLength;
             position.Key.anchoredPosition = new Vector2(-totalLength / 2 + distance, position.Key.anchoredPosition.y);
+
+            position.Key.transform.SetAsLastSibling();
         }
     }
 }

@@ -4,40 +4,32 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
-public class StartMenuCharacter : MonoBehaviour
-{
-    Rigidbody rb;
-    AudioSource audioSource; 
+public class StartMenuCharacter : MonoBehaviour {
     [SerializeField] private float moveSpeed; 
     [SerializeField] private float stepSoundInterval; 
     [SerializeField] List<AudioClip> footSteps = new List<AudioClip>();
     [SerializeField] List<AudioClip> slimeFootSteps = new List<AudioClip>();
 
     private Vector3 startPosition; 
-    private bool canPlayStep = true; 
+    private bool canPlayStep = true;
+    private Rigidbody rb;
+    private AudioSource audioSource;
 
-    // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
         audioSource = GetComponent<AudioSource>();
         rb = GetComponent<Rigidbody>(); 
         startPosition = transform.position; 
     }
 
-    // Update is called once per frame
-    void FixedUpdate()
-    {
+    void FixedUpdate() {
         rb.velocity = new Vector3 (moveSpeed * Time.deltaTime, 0, 0);
     }
 
-    private void Update()
-    {
-
+    private void Update() {
         var randomStep = Random.Range(0, footSteps.Count);
         var randomJellyStep = Random.Range(0, slimeFootSteps.Count);
 
         // Play Normal FootSteps
-
         if (!canPlayStep)
             return; 
 
@@ -45,16 +37,12 @@ public class StartMenuCharacter : MonoBehaviour
         canPlayStep = false; 
         StartCoroutine(StepSoundCooldown()); 
 
-        if (transform.position.x - startPosition.x > 600)
-        {
+        if (transform.position.x - startPosition.x > 600) {
             transform.position = startPosition; 
         }
     }
 
-
-
-    IEnumerator StepSoundCooldown()
-    {
+    IEnumerator StepSoundCooldown() {
         yield return new WaitForSeconds(stepSoundInterval); 
         canPlayStep = true; 
     }

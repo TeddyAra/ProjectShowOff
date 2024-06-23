@@ -3755,14 +3755,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6034e56024903ef489698b4fbec01ae7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 600
-  stepSoundInterval: 0.2
+  moveSpeed: 999
+  stepSoundInterval: 0.5
   footSteps:
   - {fileID: 8300000, guid: 93fd23ec86d05fa46b886b492cc452c1, type: 3}
   - {fileID: 8300000, guid: 3899d9a251539b041bcd5ccd747bb7b4, type: 3}
   - {fileID: 8300000, guid: 4c21f2d2d5f663349a602f25fc2021c6, type: 3}
   - {fileID: 8300000, guid: f2c303a07df557a4591ba72fec049a75, type: 3}
-  slimeFootSteps: []
+  slimeFootSteps:
+  - {fileID: 8300000, guid: 429a8e2bfac898d4785457d2789ba5b8, type: 3}
+  - {fileID: 8300000, guid: d4a8d3abfec282b4d90523d8b4f6dc47, type: 3}
+  - {fileID: 8300000, guid: 5160594011a4ca447bc3f771fa7ea779, type: 3}
+  - {fileID: 8300000, guid: 0fbd38cc544dcd749b9cf5106bd807fd, type: 3}
 --- !u!82 &93040622
 AudioSource:
   m_ObjectHideFlags: 0
@@ -47943,14 +47947,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6034e56024903ef489698b4fbec01ae7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 600
-  stepSoundInterval: 0.2
+  moveSpeed: 999
+  stepSoundInterval: 0.5
   footSteps:
   - {fileID: 8300000, guid: 93fd23ec86d05fa46b886b492cc452c1, type: 3}
   - {fileID: 8300000, guid: 3899d9a251539b041bcd5ccd747bb7b4, type: 3}
   - {fileID: 8300000, guid: 4c21f2d2d5f663349a602f25fc2021c6, type: 3}
   - {fileID: 8300000, guid: f2c303a07df557a4591ba72fec049a75, type: 3}
-  slimeFootSteps: []
+  slimeFootSteps:
+  - {fileID: 8300000, guid: 429a8e2bfac898d4785457d2789ba5b8, type: 3}
+  - {fileID: 8300000, guid: d4a8d3abfec282b4d90523d8b4f6dc47, type: 3}
+  - {fileID: 8300000, guid: 5160594011a4ca447bc3f771fa7ea779, type: 3}
+  - {fileID: 8300000, guid: 0fbd38cc544dcd749b9cf5106bd807fd, type: 3}
 --- !u!136 &1397432185
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -51925,14 +51933,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6034e56024903ef489698b4fbec01ae7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 600
-  stepSoundInterval: 0.2
+  moveSpeed: 999
+  stepSoundInterval: 0.5
   footSteps:
   - {fileID: 8300000, guid: 93fd23ec86d05fa46b886b492cc452c1, type: 3}
   - {fileID: 8300000, guid: 3899d9a251539b041bcd5ccd747bb7b4, type: 3}
   - {fileID: 8300000, guid: 4c21f2d2d5f663349a602f25fc2021c6, type: 3}
   - {fileID: 8300000, guid: f2c303a07df557a4591ba72fec049a75, type: 3}
-  slimeFootSteps: []
+  slimeFootSteps:
+  - {fileID: 8300000, guid: 429a8e2bfac898d4785457d2789ba5b8, type: 3}
+  - {fileID: 8300000, guid: d4a8d3abfec282b4d90523d8b4f6dc47, type: 3}
+  - {fileID: 8300000, guid: 5160594011a4ca447bc3f771fa7ea779, type: 3}
+  - {fileID: 8300000, guid: 0fbd38cc544dcd749b9cf5106bd807fd, type: 3}
 --- !u!136 &1502938901
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -55791,14 +55803,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6034e56024903ef489698b4fbec01ae7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 600
-  stepSoundInterval: 0.2
+  moveSpeed: 999
+  stepSoundInterval: 0.5
   footSteps:
   - {fileID: 8300000, guid: 93fd23ec86d05fa46b886b492cc452c1, type: 3}
   - {fileID: 8300000, guid: 3899d9a251539b041bcd5ccd747bb7b4, type: 3}
   - {fileID: 8300000, guid: 4c21f2d2d5f663349a602f25fc2021c6, type: 3}
   - {fileID: 8300000, guid: f2c303a07df557a4591ba72fec049a75, type: 3}
-  slimeFootSteps: []
+  slimeFootSteps:
+  - {fileID: 8300000, guid: 429a8e2bfac898d4785457d2789ba5b8, type: 3}
+  - {fileID: 8300000, guid: d4a8d3abfec282b4d90523d8b4f6dc47, type: 3}
+  - {fileID: 8300000, guid: 5160594011a4ca447bc3f771fa7ea779, type: 3}
+  - {fileID: 8300000, guid: 0fbd38cc544dcd749b9cf5106bd807fd, type: 3}
 --- !u!136 &1610647128
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -66902,14 +66918,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6034e56024903ef489698b4fbec01ae7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 600
-  stepSoundInterval: 0.2
+  moveSpeed: 999
+  stepSoundInterval: 0.5
   footSteps:
   - {fileID: 8300000, guid: 93fd23ec86d05fa46b886b492cc452c1, type: 3}
   - {fileID: 8300000, guid: 3899d9a251539b041bcd5ccd747bb7b4, type: 3}
   - {fileID: 8300000, guid: 4c21f2d2d5f663349a602f25fc2021c6, type: 3}
   - {fileID: 8300000, guid: f2c303a07df557a4591ba72fec049a75, type: 3}
-  slimeFootSteps: []
+  slimeFootSteps:
+  - {fileID: 8300000, guid: 429a8e2bfac898d4785457d2789ba5b8, type: 3}
+  - {fileID: 8300000, guid: d4a8d3abfec282b4d90523d8b4f6dc47, type: 3}
+  - {fileID: 8300000, guid: 5160594011a4ca447bc3f771fa7ea779, type: 3}
+  - {fileID: 8300000, guid: 0fbd38cc544dcd749b9cf5106bd807fd, type: 3}
 --- !u!136 &1873245169
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -69781,8 +69801,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fef77883da91014ebaac56f95b2384c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sizeChange: 0.015
-  sizeChangeSpeed: 3
+  sizeChange: 0
+  sizeChangeSpeed: 0
 --- !u!1001 &1967482295
 PrefabInstance:
   m_ObjectHideFlags: 0
