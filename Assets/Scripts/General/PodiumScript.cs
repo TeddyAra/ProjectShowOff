@@ -66,20 +66,17 @@ public class PodiumScript : MonoBehaviour {
 
     private IEnumerator ShowPlayersCoroutine() {
         while (!SceneManager.GetSceneByName("PodiumScene").isLoaded) {
-            Debug.Log("Waiting");
             yield return null;
         }
 
         cam = FindFirstObjectByType<Camera>().transform;
 
         for (int i = 0; i < players.Count; i++) {
-            Debug.Log("Player added");
             PlayerControllerTestScript script = Instantiate(players[i], GameObject.Find("p" + (i + 1).ToString()).transform.position, Quaternion.Euler(0, 45, 0)).GetComponent<PlayerControllerTestScript>();
             script.OnFreeze();
         }
 
         while (cam.rotation.x >= 0) {
-            Debug.Log("Rotating");
             cam.Rotate(Vector3.right, -Time.deltaTime * cameraTurnSpeed);
             cam.position += Vector3.forward * cameraMoveSpeed;
 

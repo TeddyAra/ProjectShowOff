@@ -232,30 +232,29 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
     private void Update() {
         if (isStarting) {
-            if (gamepad != null) 
+            if (gamepad != null) {
                 if (gamepad.buttonSouth.wasPressedThisFrame) {
                     jump = true;
-                    switch (character)
-                    {
+                    switch (character) {
                         case Character.Catfire:
-                            sfxManager.Play("catfireJump"); 
-                            break; 
+                            sfxManager.Play("catfireJump");
+                            break;
                         case Character.Catnap:
-                            sfxManager.Play("catnapJump"); 
-                            break; 
+                            sfxManager.Play("catnapJump");
+                            break;
                         case Character.Pinguino:
-                            sfxManager.Play("pinguinoJump"); 
-                            break; 
+                            sfxManager.Play("pinguinoJump");
+                            break;
                         case Character.Stinkozila:
-                            sfxManager.Play("stinkozilaJump"); 
-                            break; 
+                            sfxManager.Play("stinkozilaJump");
+                            break;
                         case Character.Iceage:
-                            sfxManager.Play("iceageJump"); 
-                            break; 
+                            sfxManager.Play("iceageJump");
+                            break;
                     }
                 }
-            else if (Input.GetKeyDown(KeyCode.Space)) {
-                    jump = true;
+            } else if (Input.GetKeyDown(KeyCode.Space)) {
+                jump = true;
             }
             return;
         }
