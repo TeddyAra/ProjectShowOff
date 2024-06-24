@@ -3755,8 +3755,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6034e56024903ef489698b4fbec01ae7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 999
-  stepSoundInterval: 0.5
+  moveSpeed: 700
+  stepSoundInterval: 0.2
   footSteps:
   - {fileID: 8300000, guid: 93fd23ec86d05fa46b886b492cc452c1, type: 3}
   - {fileID: 8300000, guid: 3899d9a251539b041bcd5ccd747bb7b4, type: 3}
@@ -47941,8 +47941,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6034e56024903ef489698b4fbec01ae7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 999
-  stepSoundInterval: 0.5
+  moveSpeed: 700
+  stepSoundInterval: 0.2
   footSteps:
   - {fileID: 8300000, guid: 93fd23ec86d05fa46b886b492cc452c1, type: 3}
   - {fileID: 8300000, guid: 3899d9a251539b041bcd5ccd747bb7b4, type: 3}
@@ -51927,8 +51927,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6034e56024903ef489698b4fbec01ae7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 999
-  stepSoundInterval: 0.5
+  moveSpeed: 700
+  stepSoundInterval: 0.2
   footSteps:
   - {fileID: 8300000, guid: 93fd23ec86d05fa46b886b492cc452c1, type: 3}
   - {fileID: 8300000, guid: 3899d9a251539b041bcd5ccd747bb7b4, type: 3}
@@ -55797,8 +55797,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6034e56024903ef489698b4fbec01ae7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 999
-  stepSoundInterval: 0.5
+  moveSpeed: 700
+  stepSoundInterval: 0.2
   footSteps:
   - {fileID: 8300000, guid: 93fd23ec86d05fa46b886b492cc452c1, type: 3}
   - {fileID: 8300000, guid: 3899d9a251539b041bcd5ccd747bb7b4, type: 3}
@@ -67040,8 +67040,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6034e56024903ef489698b4fbec01ae7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 999
-  stepSoundInterval: 0.5
+  moveSpeed: 700
+  stepSoundInterval: 0.2
   footSteps:
   - {fileID: 8300000, guid: 93fd23ec86d05fa46b886b492cc452c1, type: 3}
   - {fileID: 8300000, guid: 3899d9a251539b041bcd5ccd747bb7b4, type: 3}
@@ -69923,8 +69923,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fef77883da91014ebaac56f95b2384c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sizeChange: 0
-  sizeChangeSpeed: 0
+  sizeChange: 0.015
+  sizeChangeSpeed: 3
 --- !u!1001 &1967482295
 PrefabInstance:
   m_ObjectHideFlags: 0

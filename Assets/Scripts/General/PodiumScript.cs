@@ -1,9 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PodiumScript : MonoBehaviour {
     [Serializable]
@@ -21,22 +23,36 @@ public class PodiumScript : MonoBehaviour {
     private Transform cam;
     private bool instantiated;
     private bool done;
+    private bool canContinue = false;
+
+    AudioSource audioSource;
+
+    [SerializeField] private Canvas pressToStart; 
 
     private void Start() {
+        audioSource = GetComponent<AudioSource>();
         UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI = false;
         UnityEngine.Rendering.DebugManager.instance.displayRuntimeUI = false;
+        StartCoroutine(Delay()); 
     }
 
     private void Update() {
         if (!done) return;
 
         for (int i = 0; i < Gamepad.current.allControls.Count; i++) {
-            if (Gamepad.current.allControls[i].IsPressed()) {
+            if (Gamepad.current.allControls[i].IsPressed() && canContinue == true) {
                 StartCoroutine(RemovePlayers());
             }
         }
     }
 
+    IEnumerator Delay()
+    {
+        yield return new WaitForSeconds(3);
+        Instantiate(pressToStart); 
+        audioSource.Play();
+        canContinue = true; 
+    }
     private IEnumerator RemovePlayers() {
         SceneManager.LoadScene("StartScreen");
 
@@ -77,7 +93,7 @@ public class PodiumScript : MonoBehaviour {
         cam = FindFirstObjectByType<Camera>().transform;
 
         for (int i = 0; i < players.Count; i++) {
-            PlayerControllerTestScript script = Instantiate(players[i], GameObject.Find("p" + (i + 1).ToString()).transform.position, Quaternion.Euler(0, 45, 0)).GetComponent<PlayerControllerTestScript>();
+            PlayerControllerTestScript script = Instantiate(players[i], GameObject.Find("p" + (i + 1).ToString()).transform.position, Quaternion.Euler(0, 90, 0)).GetComponent<PlayerControllerTestScript>();
             script.OnFreeze();
         }
 
