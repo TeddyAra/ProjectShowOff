@@ -44,8 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71e53ad05182b274eb79899569d6f1fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraMoveSpeed: 0.03
-  cameraTurnSpeed: 45
+  cameraMoveSpeed: 0.1
+  cameraTurnSpeed: 30
   characters:
   - prefab: {fileID: 2061705907342551129, guid: 30c3a72b2eb017c46adbe50fe420054d,
       type: 3}
@@ -62,4 +62,3 @@ MonoBehaviour:
   - prefab: {fileID: 1602459591494890334, guid: ef5b010eee12e6248b7691eb93b2282d,
       type: 3}
     character: 4
-  waitTime: 5
