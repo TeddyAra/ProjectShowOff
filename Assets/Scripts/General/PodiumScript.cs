@@ -27,12 +27,12 @@ public class PodiumScript : MonoBehaviour {
 
         for (int i = 0; i < Gamepad.current.allControls.Count; i++) {
             if (Gamepad.current.allControls[i].IsPressed()) {
-                StartCoroutine(RemovePlayerS());
+                StartCoroutine(RemovePlayers());
             }
         }
     }
 
-    private IEnumerator RemovePlayerS() {
+    private IEnumerator RemovePlayers() {
         SceneManager.LoadScene("StartScreen");
 
         while (!SceneManager.GetSceneByName("StartScreen").isLoaded) {

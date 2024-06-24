@@ -121,7 +121,7 @@ public class PlacementManagerScript : MonoBehaviour {
                         playerPoints = playerPoints.GetRange(0, playerNum).OrderBy(x => -x.script.GetPoints()).ToList();
                         for (int i = 0; i < playerNum; i++) {
                             script.AddPlayer(playerPoints[i].script.GetComponent<PlayerControllerTestScript>().character);
-                            Destroy(playerPoints[i].gameObject);
+                            Destroy(playerPoints[i].script.gameObject);
                         }
 
                         script.ShowPlayers();
