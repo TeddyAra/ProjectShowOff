@@ -10,7 +10,12 @@ public class StartManager : MonoBehaviour {
 
     [SerializeField] Animator sceneTransition; 
 
-    private bool canLoadScene = true; 
+    private bool canLoadScene = true;
+
+    private void Start() {
+        UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI = false;
+        UnityEngine.Rendering.DebugManager.instance.displayRuntimeUI = false;
+    }
 
     void Update() {
         for (int i = 0; i < Gamepad.all.Count; i++) {

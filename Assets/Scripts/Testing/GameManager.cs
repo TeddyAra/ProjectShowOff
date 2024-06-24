@@ -51,7 +51,8 @@ public class GameManager : MonoBehaviour {
 
         checkpoint.position = checkpoints[0];
 
-  
+        UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI = false;
+        UnityEngine.Rendering.DebugManager.instance.displayRuntimeUI = false;
     }
 
     private IEnumerator GetPlayerNum() {
