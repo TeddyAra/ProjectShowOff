@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using TMPro;
 using Unity.Mathematics;
 using Unity.VisualScripting;
@@ -232,8 +233,30 @@ public class PlayerControllerTestScript : MonoBehaviour {
     private void Update() {
         if (isStarting) {
             if (gamepad != null) 
-                if (gamepad.buttonSouth.wasPressedThisFrame) jump = true;
-            else if (Input.GetKeyDown(KeyCode.Space)) jump = true;
+                if (gamepad.buttonSouth.wasPressedThisFrame) {
+                    jump = true;
+                    switch (character)
+                    {
+                        case Character.Catfire:
+                            sfxManager.Play("catfireJump"); 
+                            break; 
+                        case Character.Catnap:
+                            sfxManager.Play("catnapJump"); 
+                            break; 
+                        case Character.Pinguino:
+                            sfxManager.Play("pinguinoJump"); 
+                            break; 
+                        case Character.Stinkozila:
+                            sfxManager.Play("stinkozilaJump"); 
+                            break; 
+                        case Character.Iceage:
+                            sfxManager.Play("iceageJump"); 
+                            break; 
+                    }
+                }
+            else if (Input.GetKeyDown(KeyCode.Space)) {
+                    jump = true;
+            }
             return;
         }
 
@@ -452,6 +475,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
                 break; 
             case StunState.Slept: 
                 sleepVFX.SetActive(true); 
+                sfxManager.Play("sleeping"); 
                 break; 
             case StunState.Burnt: 
                 burnVFX.SetActive(true);
@@ -586,6 +610,8 @@ public class PlayerControllerTestScript : MonoBehaviour {
         if (other.gameObject.CompareTag("WindDraft") && !windDraft) {
             playerSpeed = draftSpeed;
             windDraft = true;
+
+            sfxManager.Play("SpeedBoost"); 
 
             switch (character)
             {

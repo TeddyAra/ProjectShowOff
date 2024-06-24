@@ -95,6 +95,11 @@ MonoBehaviour:
     volume: 1
     pitch: 1
     source: {fileID: 0}
+  - name: sleeping
+    clip: {fileID: 8300000, guid: 9af8fb4e6d86c5e4cbbb5fb1f5877dff, type: 3}
+    volume: 0.21
+    pitch: 1
+    source: {fileID: 0}
   - name: JumpLanding
     clip: {fileID: 8300000, guid: f4258fac36938464cb9af7229fa65990, type: 3}
     volume: 1
