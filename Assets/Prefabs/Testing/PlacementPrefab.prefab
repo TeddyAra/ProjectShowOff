@@ -684,7 +684,9 @@ MonoBehaviour:
   gameSceneNames:
   - Level1
   - Level2
-  maxRounds: 3
+  maxRounds: 1
+  podiumPrefab: {fileID: 9103268384323919978, guid: 8835ca4b93d7251498b49eefeca6d04d,
+    type: 3}
 --- !u!1 &746879266882447038
 GameObject:
   m_ObjectHideFlags: 0

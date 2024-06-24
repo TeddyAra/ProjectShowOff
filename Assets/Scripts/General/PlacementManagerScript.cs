@@ -37,6 +37,8 @@ public class PlacementManagerScript : MonoBehaviour {
     [SerializeField] private string[] gameSceneNames;
     [SerializeField] private int maxRounds;
 
+    [SerializeField] private GameObject podiumPrefab;
+
     private float waitTimer;
     private int playerNum;
     private Gamepad current;
@@ -109,11 +111,20 @@ public class PlacementManagerScript : MonoBehaviour {
                         GameObject camera = FindObjectOfType<Camera>().gameObject;
                         GameObject sfxManager = FindObjectOfType<SFXManager>().gameObject;
 
-                        foreach (PlayerControllerTestScript p in players) Destroy(p.gameObject);
                         Destroy(camera);
                         Destroy(sfxManager);
 
-                        SceneManager.LoadScene("CharacterSelectorScene");
+                        SceneManager.LoadScene("PodiumScene");
+                        PodiumScript script = Instantiate(podiumPrefab).GetComponent<PodiumScript>();
+                        DontDestroyOnLoad(script.gameObject);
+
+                        playerPoints = playerPoints.GetRange(0, playerNum).OrderBy(x => -x.script.GetPoints()).ToList();
+                        for (int i = 0; i < playerNum; i++) {
+                            script.AddPlayer(players[i].character);
+                            Destroy(players[i].gameObject);
+                        }
+
+                        script.ShowPlayers();
                         Destroy(gameObject);
                     } else {
                         background.SetActive(false);
