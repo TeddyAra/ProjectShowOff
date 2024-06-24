@@ -203,8 +203,10 @@ public class PlayerControllerTestScript : MonoBehaviour {
         Burnt
     }
 
-    public StunState currentStunState; 
+    public StunState currentStunState;
 
+    [SerializeField] private GameObject bubble;
+    [SerializeField] private ParticleSystem bubbleExplode;
     [SerializeField] private GameObject sleepVFX;
     [SerializeField] private GameObject freezeVFX;
     [SerializeField] private GameObject burnVFX; 
@@ -295,7 +297,6 @@ public class PlayerControllerTestScript : MonoBehaviour {
         }
 
         if (jump && isStarting && !jumping) {
-            Debug.Log("Jump!");
             StartCoroutine(Jump());
             jump = false;
         }
@@ -529,6 +530,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
                 rb.velocity = Vector3.zero;
                 col.excludeLayers = playerLayer;
                 rb.useGravity = false;
+                bubble.SetActive(true);
                 break;
 
             // The player reached a checkpoint
@@ -538,8 +540,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
                     onCheckpoint?.Invoke();
                     isColliding = true;
                     powerupScript.GivePoints(checkpointPoints);
-                    switch (character)
-                    {
+                    switch (character) {
                         case Character.Catfire:
                             sfxManager.Play("catfireYeah");
                             break;
@@ -690,6 +691,11 @@ public class PlayerControllerTestScript : MonoBehaviour {
             // Make the player invincible
             invincibilityTimer = invincibilityTime * 60;
             invincible = true;
+
+            if (bubble.activeSelf) {
+                bubble.SetActive(false);
+                bubbleExplode.Play();
+            }
         }
     }
 
