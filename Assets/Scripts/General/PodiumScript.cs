@@ -22,6 +22,11 @@ public class PodiumScript : MonoBehaviour {
     private bool instantiated;
     private bool done;
 
+    private void Start() {
+        UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI = false;
+        UnityEngine.Rendering.DebugManager.instance.displayRuntimeUI = false;
+    }
+
     private void Update() {
         if (!done) return;
 
