@@ -13,6 +13,7 @@ public class StartManager : MonoBehaviour {
     private bool canLoadScene = true;
 
     private void Start() {
+        Cursor.visible = false;
         UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI = false;
         UnityEngine.Rendering.DebugManager.instance.displayRuntimeUI = false;
     }
