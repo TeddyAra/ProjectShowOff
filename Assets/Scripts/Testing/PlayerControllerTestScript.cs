@@ -540,6 +540,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
                     onCheckpoint?.Invoke();
                     isColliding = true;
                     powerupScript.GivePoints(checkpointPoints);
+                    sfxManager.Play("bubblePop"); 
                     switch (character) {
                         case Character.Catfire:
                             sfxManager.Play("catfireYeah");

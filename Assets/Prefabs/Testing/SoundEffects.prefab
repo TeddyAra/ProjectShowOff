@@ -122,8 +122,8 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: VictorySound
     clip: {fileID: 8300000, guid: e9d193c03cd20c1438a62f14b002ac86, type: 3}
-    volume: 0.81
-    pitch: 1
+    volume: 0.791
+    pitch: 1.27
     source: {fileID: 0}
   - name: catfireJump
     clip: {fileID: 8300000, guid: d28c23514d8d1154dba33519c77cdc1e, type: 3}
@@ -322,11 +322,16 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: PowerupPickup
     clip: {fileID: 8300000, guid: ef888eb3c3cdc1b41be1121498f4fa37, type: 3}
-    volume: 0.21
+    volume: 0.288
     pitch: 1
     source: {fileID: 0}
   - name: pinguinoYippee
     clip: {fileID: 8300000, guid: 1533f60ac245bc7409ef61b80c92ffa0, type: 3}
+    volume: 0.202
+    pitch: 1
+    source: {fileID: 0}
+  - name: bubblePop
+    clip: {fileID: 8300000, guid: 365070e366908f748971a8687eaf6853, type: 3}
     volume: 0.21
     pitch: 1
     source: {fileID: 0}
