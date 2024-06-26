@@ -16,6 +16,24 @@ public class GeneralTestScript : MonoBehaviour {
             Respawn();
         }
 
+        if (Input.GetKeyDown(KeyCode.M)) {
+            PlayerControllerTestScript[] players = FindObjectsOfType<PlayerControllerTestScript>();
+            GameObject camera = FindObjectOfType<Camera>().gameObject;
+            GameObject sfxManager = FindObjectOfType<SFXManager>().gameObject;
+
+            Destroy(camera);
+            Destroy(sfxManager);
+
+            SceneManager.LoadScene("StartScreen");
+
+            foreach (PlayerControllerTestScript script in players) {
+                Destroy(script.gameObject);
+            }
+
+            GameObject placementManager = GameObject.FindObjectOfType<PlacementManagerScript>().gameObject;
+            Destroy(placementManager);
+        }
+
         if (!resetWithController) return;
 
         if (gamepad != null && gamepad.buttonNorth.wasPressedThisFrame) {

@@ -103,7 +103,6 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
     [SerializeField] private float spinSpeed;
 
-
     // ----------------------------------------------------------------------------------
 
     // Movement variables
@@ -554,6 +553,10 @@ public class PlayerControllerTestScript : MonoBehaviour {
                 col.excludeLayers = playerLayer;
                 rb.useGravity = false;
                 bubble.SetActive(true);
+
+                ignoreInput = false;
+                reversed = false;
+                powerupScript.RemovePowerup();
                 break;
 
             // The player reached a checkpoint
@@ -612,8 +615,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
 
             sfxManager.Play("SpeedBoost"); 
 
-            switch (character)
-            {
+            switch (character) {
                 case Character.Catfire:
                     sfxManager.Play("catfireSpeedboost"); 
                     break; 
@@ -655,6 +657,7 @@ public class PlayerControllerTestScript : MonoBehaviour {
         }
         yield return new WaitForSeconds(0.5f);
     }
+
     IEnumerator ResetWindraft(float resetTime) {
         yield return new WaitForSeconds(resetTime);
         ChangePlayerSpeed(baseSpeed);
@@ -729,10 +732,11 @@ public class PlayerControllerTestScript : MonoBehaviour {
         Vector3 spawnPoint = GameObject.FindGameObjectWithTag("SpawnPoint").transform.position + Vector3.left * playerDistance * playerNum;//positions.FindIndex(x => x == this); 
         transform.position = spawnPoint;
         isFacingRight = true;
-        if (characterVisualBody.transform.rotation.y == 180) characterVisualBody.transform.Rotate(Vector3.up, 180);
+        characterVisualBody.transform.rotation = Quaternion.identity;
         ignoreInput = false;
         finished = false;
         isStarting = true;
+        bubble.SetActive(false);
     }
 
     public void AddForce(Vector3 direction, float force) {

@@ -320,6 +320,11 @@ public class PowerupTestScript : MonoBehaviour {
         abilityBubble.SetActive(false);
     }
 
+    public void RemovePowerup() {
+        currentPowerup = Powerup.None;
+        abilityBubble.SetActive(false);
+    }
+
     private IEnumerator Fireball() {
         playerControllerScript.ChangePlayerSpeed(fireballMovementSpeed);
         float timer = fireballTime;

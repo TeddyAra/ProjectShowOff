@@ -231,7 +231,7 @@ public class PlayerManagerScript : MonoBehaviour {
             if (!usingKeyboard) {
                 for (int i = 0; i < gamepads.Count; i++) {
                     KeyValuePair<Gamepad, bool> gamepad = gamepads.ElementAt(i);
-                    if (!gamepad.Value) return;
+                    if (!gamepad.Value) continue;
 
                     // If the controller has a character selected
                     int index = GetCharacterPicker(i);
@@ -292,10 +292,6 @@ public class PlayerManagerScript : MonoBehaviour {
         }
 
         if (current == null) {
-            /*if (Gamepad.current.buttonSouth.isPressed) {
-                current = Gamepad.current;
-            }*/
-
             for (int i = 0; i < gamepads.Count; i++) {
                 if (gamepads.ElementAt(i).Key.buttonSouth.isPressed) {
                     current = gamepads.ElementAt(i).Key;
@@ -320,7 +316,6 @@ public class PlayerManagerScript : MonoBehaviour {
                     audioSource.PlayOneShot(iceageYippee); 
 
                     StartCoroutine(LoadLevelDelay()); 
-                    //SceneManager.LoadScene(gameSceneName);
                     done = true;
                     return;
                 }

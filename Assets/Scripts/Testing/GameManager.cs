@@ -143,10 +143,17 @@ public class GameManager : MonoBehaviour {
         if (playerCount == 0) {
             CameraTestScript camera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraTestScript>();
             camera.finished = true;
+            StartCoroutine(CountDown());
         }
 
         playerCount++;
         if (playerCount >= playerNum - spawnNum) StartCoroutine(Finish());
+    }
+
+    private IEnumerator CountDown() {
+        yield return new WaitForSeconds(5.0f);
+        playerCount = 0;
+        StartCoroutine(Finish());
     }
 
     IEnumerator Finish() {

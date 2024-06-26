@@ -58,6 +58,10 @@ public class ProgressBarScript : MonoBehaviour {
 
         for (int i = 0; i < playerPositions.Count; i++) {
             var position = playerPositions.ElementAt(i);
+            if (position.Value.position.x < start - 10) {
+                position.Key.gameObject.SetActive(false);
+                continue;
+            }
             float distance = Mathf.Clamp((position.Value.position.x - start) / totalDistance, 0, 1) * totalLength;
             position.Key.anchoredPosition = new Vector2(-totalLength / 2 + distance, position.Key.anchoredPosition.y);
 
